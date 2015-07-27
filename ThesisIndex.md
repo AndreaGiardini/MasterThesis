@@ -2,21 +2,34 @@
 Title:
 
 Managing package drifts and guaranteeing system consistency in
-distributed computing environments : using full-text-search engines and
+distributed computing environments : using full-text search engines and
 continuous integration to ensure 
 
 ----
 
 Abstract:
 
-Thanks to the Agile approach, managing large number of machines has become
+Thanks to the Agile approach, managing a large number of machines has become
 easier than ever: new technologies like Puppet allow service managers to
-specify the server configurations in a text file and get it applied to the
+specify the server configuration in files and get it applied to the
 machine in a timely manner. Moreover, since most of the virtual machines are
-created using OpenStack, it's easy to replicate the configuration on multiple
+created using OpenStack, it is easy to replicate the configuration on multiple
 servers or rebuild a broken machine in a completely automated way.
 
+The downside of this approach is that the service manager doesn't know
+exactly how machines are configured and relies on the software to keep all the
+configuration aligned and syncronized. Any intervention, package upgrade and
+software configuration is managed by the configuration management utility.
 
+At CERN the number of servers has grown dramatically in the last years and this
+leaded to a situation quite common in big datacenters and usually difficult
+to address: configuration and package drifting. In fact, every time an upgrade
+is released, it is not easy to detect if all the machines updated their
+configuration correctly and why a misconfiguration happened.
+
+This thesis analyses the causes of the problem, trying to address it using
+a set of open-source softwares like ElasticSearch and Jenkins in combination
+with the development of a custom solution called "Package Inventory". 
 
 ----
 
