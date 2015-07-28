@@ -3,7 +3,7 @@ Title:
 
 Managing package drifts and guaranteeing system consistency in
 distributed computing environments : using full-text search engines and
-continuous integration to ensure 
+continuous integration to ensure servers configuration.
 
 ----
 
@@ -11,7 +11,7 @@ Abstract:
 
 Thanks to the Agile approach, managing a large number of machines has become
 easier than ever: new technologies like Puppet allow service managers to
-specify the server configuration in files and get it applied to the
+specify the server configuration in code and get it applied to the
 machine in a timely manner. Moreover, since most of the virtual machines are
 created using OpenStack, it is easy to replicate the configuration on multiple
 servers or rebuild a broken machine in a completely automated way.
@@ -29,7 +29,7 @@ configuration correctly and why a misconfiguration happened.
 
 This thesis analyses the causes of the problem, trying to address it using
 a set of open-source softwares like ElasticSearch and Jenkins in combination
-with the development of a custom solution called "Package Inventory". 
+with the development of a custom solution called "Package Inventory".
 
 ----
 
