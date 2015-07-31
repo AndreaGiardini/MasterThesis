@@ -75,7 +75,6 @@ Index:
         * Multiple service managers
         * Deployment interval
         * Configuration and package drifts
-        * High number of machines
 
 * Package Inventory
     * Project description
