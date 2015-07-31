@@ -9,12 +9,12 @@ continuous integration to ensure servers configuration.
 
 Abstract:
 
-Thanks to the Agile approach, managing a large number of machines has become
+Thanks to the Agile methodology, managing a large number of machines has become
 easier than ever: new technologies like Puppet allow service managers to
 specify the server configuration in code and get it applied to the
 machine in a timely manner. Moreover, since most of the virtual machines are
-created using OpenStack, it is easy to replicate the configuration on multiple
-servers or rebuild a broken machine in a completely automated way.
+created using OpenStack, it is easy to create machines on the fly and use
+Puppet to configure them in a completely automated way.
 
 The downside of this approach is that the service manager doesn't know
 exactly how machines are configured and relies on the software to keep all the
@@ -111,4 +111,4 @@ Index:
     * Future plans
         * Package Inventory
         * Continuous Integration
-    
+
