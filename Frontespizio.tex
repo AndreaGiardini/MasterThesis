@@ -1,0 +1,91 @@
+%Il seguente frontespizio è inteso da usare con le seguenti opzioni nel preambolo:
+% \documentclass[titlepage,twoside]{scrreprt}
+% \usepackage[...]{classicthesis}
+%
+%NOTA BENE: credo che l'opzione "twoside" di scrreprt non sia necessaria, perché se non messa dovrebbe
+%			impaginare tutto con rilegatura (e margine maggiore) a sinistra. Nel dubbio, controllate.
+%
+%Per utilizzare il frontespizio, copiare questo file nella stessa directory del
+%file principale da cui compilate la tesi e in quest'ultimo copiare dopo \begin{document}:
+% \input{Frontespizio}
+%
+%Quindi, modificare i successivi parametri a proprio piacimento
+
+%Il titolo della tesi
+\newcommand{\myTitle}{Codifica di immagini RGB-D mediante caratteristiche locali e salienza}
+%L'autore della tesi
+\newcommand{\myAuthor}{Simone Laierno}
+%La scuola di appartenenza (meglio se tutto in maiuscolo)
+\newcommand{\mySchool}{SCUOLA DI INGEGNERIA E ARCHITETTURA}
+%Il corso di laurea
+\newcommand{\myCourse}{Ingegneria Informatica}
+%La materia in cui si svolge la tesi
+\newcommand{\mySubject}{Computer Vision and Image Processing M}
+%Il relatore
+\newcommand{\myCoordinator}{Prof. Luigi Di Stefano}
+%Il correlatore, se presente. Se non è presente e si decommenta \advisorfalse, 
+si può commentare o cancellare la riga seguente
+\newcommand{\myAdvisor}{Dr. Alioscia Petrelli}
+%L'anno accademico
+\newcommand{\myYear}{2014--2015}
+%La sessione in cui ci si laureerà
+\newcommand{\session}{II}
+
+\newif\ifmaster
+\mastertrue %commentare se è un corso di laurea triennale
+%\masterfalse %commentare se è un corso di laurea magistrale
+
+\newif\ifadvisor
+%\advisortrue %commentare se non è presente un correlatore
+\advisorfalse %commentare se è presente un correlatore
+
+\ifmaster
+	\newcommand{\degreeIn}{Corso di Laurea Magistrale in}
+	\newcommand{\thesisIn}{Tesi di Laurea Magistrale in}
+\else
+	\newcommand{\degreeIn}{Corso di Laurea in}
+	\newcommand{\thesisIn}{Tesi di Laurea in}
+\fi
+
+\begin{titlepage}
+\areaset[50pt]{390pt}{598pt}
+\begin{center}
+{{\Large{\textsc{Alma Mater Studiorum $\cdot$ Universit\`a di
+Bologna}}}} \rule[0.1cm]{390pt}{0.1mm}
+\rule[0.5cm]{390pt}{0.6mm}
+{\small{\sc \mySchool \\
+\degreeIn\ \myCourse }}
+\end{center}
+\vspace{15mm}
+\begin{center}
+\linespread{1.2}
+\LARGE{\textsc{\myTitle}}
+\\
+\end{center}
+\begin{center}
+\vspace{19mm}
+{\large{\sc \thesisIn \\ \mySubject}}
+\end{center}
+\vspace{40mm}
+\par
+\noindent
+\begin{minipage}[t]{0.47\textwidth}
+{\large{Relatore:\\
+\sc \myCoordinator}}
+\ifadvisor
+	\vskip 8pt
+	{\large{Correlatore:}\\
+	{\sc \myAdvisor}}
+\fi
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}\raggedleft
+{\large{Presentata da:\\
+\sc \myAuthor}}
+\end{minipage}
+\vspace{20mm}
+\begin{center}
+{\large{\sc \session\ sessione\\%inserire il numero della sessione in cui ci si laurea
+Anno Accademico \myYear}}%inserire l'anno accademico a cui si è iscritti
+\end{center}
+\end{titlepage}
