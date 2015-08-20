@@ -1,73 +1,76 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 12pt: grandezza carattere
-% a4paper: formato a4
-% openright: apre i capitoli a destra
-% twoside: serve per fare un documento fronteretro
-% report: stile tesi (oppure book)
+% 12pt: Font size
+% a4paper: Paper a4
+% openright: Chapter opening on the right
+% twoside: Double side document
+% report: Thesis style
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[12pt,a4paper,openright,twoside]{report}
-% libreria per scrivere in inglese
+% Library to write in english
 \usepackage[english]{babel}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% libreria per accettare i caratteri digitati da tastiera come è à
-% si può usare anche \usepackage[T1]{fontenc} però con questa libreria
-% il tempo di compilazione aumenta
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Library to accept accented characters
 \usepackage[latin1]{inputenc}
-% Libreria per impostare il documento
+% Document settings and layout
 \usepackage{fancyhdr}
-% Indentazione all'inizio dei capitoli
+% Indentation at chapter's beginning
 \usepackage{indentfirst}
-% Libreria per mostrare le etichette
+% Show labels
 %\usepackage{showkeys}
-% Libreria per inserire grafici
+% Library to insert graphs
 \usepackage{graphicx}
-% Libreria per utilizzare font particolari ad esempio \textsc{}
+% Use of weird chars like: \textsc{}
 \usepackage{newlfont}
-% Librerie matematiche
+% Library for math
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{latexsym}
 \usepackage{amsthm}
 % Import external files
 \usepackage{import}
-% Impostano i margini
+% Margins
 \oddsidemargin=30pt \evensidemargin=20pt
 % Sillabazione
 \hyphenation{sil-la-ba-zio-ne pa-ren-te-si}
-% Comandi per l'impostazione della pagina (fancyhdr)
+% Page layout
 \pagestyle{fancy}\addtolength{\headwidth}{20pt}
 \renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection \ #1}{}}
 \rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
 \cfoot{}
-% Interlinea
+% Linespread
 \linespread{1.3}
+
+%\documentclass[titlepage,twoside]{scrreprt}
+%\usepackage{classicthesis}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-    % Pagina dedica
-    \begin{titlepage}
-        % No page number
-        \thispagestyle{empty}
-        % Set top margin to 6.5cm
-        \topmargin=6.5cm
-        % Left-side writing
-        \raggedleft
-        % Bigger font
-        \large
-        % Italic
-        \em
-        Questa \`e la \textsc{Dedica}:\\
-        ognuno pu\`o scrivere quello che vuole, \\
-        anche nulla \ldots
-        % New page
-        \newpage
-        % Do not enumerate last page
-        \clearpage{\pagestyle{empty}\cleardoublepage}
-    \end{titlepage}
+
+%\input{Frontespizio.tex}
+
+
+% Dedication page
+\begin{titlepage}
+    % No page number
+    \thispagestyle{empty}
+    % Set top margin to 6.5cm
+    \topmargin=6.5cm
+    % Left-side writing
+    \raggedleft
+    % Bigger font
+    \large
+    % Italic
+    \em
+    Questa \`e la \textsc{Dedica}:\\
+    ognuno pu\`o scrivere quello che vuole, \\
+    anche nulla \ldots
+    % New page
+    \newpage
+    % Do not enumerate last page
+    \clearpage{\pagestyle{empty}\cleardoublepage}
+\end{titlepage}
 
 % Roman numbers
 \pagenumbering{roman}
