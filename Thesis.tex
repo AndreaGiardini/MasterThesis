@@ -114,9 +114,9 @@
 % Create index
 \tableofcontents
 % Set head of the page
-\rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
-\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries
-INDICE}}
+%\rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries
+%INDICE}}
 % Do not numerate page
 \clearpage{\pagestyle{empty}\cleardoublepage}
 
@@ -133,6 +133,15 @@ INDICE}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Introduction}
+
+%\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries\rightmark}}
+
+\fancyfoot{}
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+
+\pagenumbering{arabic}
 
 \import{Introduction/}{Introduction.tex}
 \import{Introduction/}{AgileMethodologies.tex}
@@ -155,17 +164,42 @@ INDICE}}
 \import{ConfigurationManagement/}{ConfigurationChangeProcess.tex}
 \import{ConfigurationManagement/}{Problems.tex}
 
-\chapter*{Conclusioni}
+\chapter{Package Inventory}
 
-\import{Examples/}{Conclusioni.tex}
+\import{PackageInventory/}{PackageInventory.tex}
+\import{PackageInventory/}{ProjectDescription.tex}
+\import{PackageInventory/}{MetricStructure.tex}
+\import{PackageInventory/}{StoreMetricsWithElasticSearch.tex}
+\import{PackageInventory/}{Reporter.tex}
+\import{PackageInventory/}{Cli.tex}
+\import{PackageInventory/}{PackagingWithKoji.tex}
+\import{PackageInventory/}{Deployment.tex}
+\import{PackageInventory/}{Results.tex}
 
-\chapter{Prima Appendice}
+\chapter{Continuous Integration with Jenkins}
 
-\import{Examples/}{PrimaAppendice.tex}
+\import{ContinuousIntegrationWithJenkins/}{ContinuousIntegrationWithJenkins.tex}
+\import{ContinuousIntegrationWithJenkins/}{AimOfTheProject.tex}
+\import{ContinuousIntegrationWithJenkins/}{CurrentStatusAndProblems.tex}
+\import{ContinuousIntegrationWithJenkins/}{WorkflowsReEngineering.tex}
+\import{ContinuousIntegrationWithJenkins/}{CustomizableTesting.tex}
 
-\chapter{Seconda Appendice}
+\chapter{Conclusions}
 
-\import{Examples/}{SecondaAppendice.tex}
+\import{Conclusions/}{Conclusions.tex}
+\import{Conclusions/}{CurrentStatus.tex}
+\import{Conclusions/}{PerformanceReport.tex}
+\import{Conclusions/}{FuturePlans.tex}
+
+%\chapter*{Conclusioni}
+
+%\import{Examples/}{Conclusioni.tex}
+
+%\chapter{Prima Appendice}
+%\import{Examples/}{PrimaAppendice.tex}
+
+%\chapter{Seconda Appendice}
+%\import{Examples/}{SecondaAppendice.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
