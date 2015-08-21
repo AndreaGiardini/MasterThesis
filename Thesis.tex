@@ -107,18 +107,10 @@
 \pagenumbering{roman}
 
 % Introduction (non-numerated chapter)
-\chapter*{Introduzione}
+\chapter*{Aim of the thesis}
 
-% Page head
-\rhead[\fancyplain{}{\bfseries
-INTRODUZIONE}]{\fancyplain{}{\bfseries\thepage}}
-\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries
-INTRODUZIONE}}
-% Add introduction to the index
-\addcontentsline{toc}{chapter}{Introduzione}
-Questa \`e l'introduzione.
-% Do not enumerate last page
-\clearpage{\pagestyle{empty}\cleardoublepage}
+\import{AimOfTheThesis/}{AimOfTheThesis.tex}
+
 % Create index
 \tableofcontents
 % Set head of the page
@@ -127,21 +119,41 @@ Questa \`e l'introduzione.
 INDICE}}
 % Do not numerate page
 \clearpage{\pagestyle{empty}\cleardoublepage}
+
 % List of figures (Useful?)
-\listoffigures
+%\listoffigures
 % Do not numerate page
-\clearpage{\pagestyle{empty}\cleardoublepage}
+%\clearpage{\pagestyle{empty}\cleardoublepage}
 % List of tables (Useful?)
-\listoftables
+%\listoftables
 % Do not numerate page
-\clearpage{\pagestyle{empty}\cleardoublepage}
+%\clearpage{\pagestyle{empty}\cleardoublepage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{First Chapter}
+\chapter{Introduction}
 
-\import{Examples/}{Capitolo1.tex}
+\import{Introduction/}{Introduction.tex}
+\import{Introduction/}{AgileMethodologies.tex}
+\import{Introduction/}{InfrastructureDrifts.tex}
+
+\chapter{Computing at CERN}
+
+\import{ComputingAtCERN/}{ComputingAtCERN.tex}
+\import{ComputingAtCERN/}{Datacenters.tex}
+\import{ComputingAtCERN/}{CloudComputing.tex}
+\import{ComputingAtCERN/}{Monitoring.tex}
+\import{ComputingAtCERN/}{ConfigurationManagement.tex}
+
+\chapter{Configuration Management}
+
+\import{ConfigurationManagement/}{ConfigurationManagement.tex}
+\import{ConfigurationManagement/}{CurrentInfrastructure.tex}
+\import{ConfigurationManagement/}{ModuleHostgroupsAndEnvironments.tex}
+\import{ConfigurationManagement/}{PuppetRun.tex}
+\import{ConfigurationManagement/}{ConfigurationChangeProcess.tex}
+\import{ConfigurationManagement/}{Problems.tex}
 
 \chapter*{Conclusioni}
 
