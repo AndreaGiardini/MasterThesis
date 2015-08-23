@@ -26,6 +26,9 @@
 \usepackage{amsthm}
 % Import external files
 \usepackage{import}
+% Fix table position
+\usepackage{float}
+\restylefloat{table}
 % Margins
 \oddsidemargin=30pt \evensidemargin=20pt
 % Sillabazione
@@ -39,6 +42,7 @@
 % Linespread
 \linespread{1.3}
 
+\setlength{\parskip}{1em}
 \textwidth=450pt\oddsidemargin=0pt
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,7 +154,7 @@
 \chapter{Computing at CERN}
 
 \import{ComputingAtCERN/}{ComputingAtCERN.tex}
-\import{ComputingAtCERN/}{Datacenters.tex}
+\import{ComputingAtCERN/}{Datacentres.tex}
 \import{ComputingAtCERN/}{CloudComputing.tex}
 \import{ComputingAtCERN/}{Monitoring.tex}
 \import{ComputingAtCERN/}{ConfigurationManagement.tex}
