@@ -1,6 +1,51 @@
 \section{Monitoring}
 
-\subsection{ElasticSearch}
+The infrastructure is monitored by a custom monitoring system which became
+more and more important in the last years due to the growing number of
+machines. The machines report their status to a central monitoring
+instance, which stores metrics and statistics for all the machines. The
+system provides a set of default metrics for CPU, memory and storage but
+the user is also able to define custom sensors to monitor their machines.
+Service managers are able to create custom dashboards and graphs based on
+those metrics.
+
+The previous monitoring system, based entirely on Lemon, has been
+partially replaced to use new technologies like Elasticsearch, Kibana and
+Flume. 
+
+\subsection{Elasticsearch}
+
+Elasticsearch is a search engine based on Apache Lucene. It is developed
+in Java and it provides a full-text search engine with a RESTFul web
+interface and a schema-free JSON documents. Indices can be divided into
+shards and every shard can have one or more replicas; each node hosts one
+or more shards and a coordinator redirects the query operations to the
+correct one. Moreover Elasticsearch provides some functionalities for
+rebalancing and routing: even if one or more node goes down it is able to
+reroute the requests to the replica shard and, at the same time, find
+a strategy to rebalance the pool copying indexes between different
+hosts.
+
+In the last years Elasticsearch has become more and more popular in the
+opensource world becoming in 2015 the second most popular search engine
+after Apache Solr.
+
+%EXPAND
+
 \subsection{Kibana}
+
+Kibana is a open-source tool to visualize and graph the informations
+stored in a Elasticsearch database. It allows the user to organize the
+documents in a graphical way using custom graphs and dashboards. 
+
+%EXPAND
+
 \subsection{Flume}
+
+Flume is a distributed and reliable service for collecting and aggregating
+large amounts of data. It processes and organizes the metrics sent by
+lemon before sending them to Elasticsearch. Moreover it provides an
+additional layer of redundancy: if the central Elasticsearch instance is
+not available or under maintenance Flume can store metrics up to 24 hours,
+in order not to lose data in case of downtime.
 
