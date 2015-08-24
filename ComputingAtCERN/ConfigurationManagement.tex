@@ -1,8 +1,55 @@
 \section{Configuration Management}
 
+Due to the adoption of OpenStack it was necessary to find a way to manage
+and configure machines in an automated way: since it was not possible
+anymore to configure all the machines manually CERN needed a solution to
+set up new machines automatically. The Configuration Team provides a set
+of tools and services that allow users to specify which tools and software
+they need on their servers and get them configured in minutes.
+
 \subsection{Puppet}
+
+Puppet is an open-source configuration management utility that allows
+service managers to describe the system configuration of their machines
+using his own declarative language. It works with Unix-like and Windows
+machines.
+
+The user describes the status of the machine and his resources in a file
+called "Puppet manifest", using Puppet's declarative language or Ruby DSL.
+Before applying the catalog to the machine the catalog must be compiled
+using the system's informations: Facter retrieves from the server all the
+informations needed by Puppet to compile the catalog. Puppet compiles the
+catalog using the informations provided by Facter to create
+a system-specific manifest that will be applied against the target system.
+
+Puppet describes the status of the system using a custom declarative
+language which can be applied directly on the system or distributed to the
+clients using a client/server paradigm. Service managers can specify their
+configuration without the need to write system-specific commands, since
+the description they provide using the Puppet manifest is operating system
+independent.
+
 \subsection{Foreman}
+
+Foreman is a tool to manage the lifecycle and the provisioning of
+machines. It provides an easy to use web interface to browse puppet
+reports and manage machine's settings.
+
+From Foreman the user is able to create and manage new machines assigning
+them to a specified hostgroup/environment. When Puppet runs on a hosts it
+queries Foreman's ENC to ask informations about the machine itself and
+configures it accordingly.
+
 \subsection{Git}
+
+Git is an open-source revision control system with support for distributed
+non-linear workflows. Every Git working directory is a complete full
+repository with a complete history, independent of the network access.
+
+In the latest years his popularity grew dramatically, mostly due to his
+extreme elasticity, compatibility with existing protocols and support for
+non-linear development.
+
 \subsection{Jenkins}
 \subsection{Koji}
 \subsection{Jens}
