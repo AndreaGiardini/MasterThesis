@@ -1,1 +1,81 @@
-\section{Module Hostgroups and Environments}
+\section{Modules Hostgroups and Environments}
+
+The Puppet ecosystem at CERN is based on three different components that
+we will describe in this section: Module, Hostgroups and Environments.
+
+It's important to keep in mind that all those components are stored in
+separate Git reposories in order to keep track of code changes and make
+the configuration change process easy and trackable.
+
+Every repository has at least two branches: master and qa. The code in
+'master' will target all the machines in production, while the code in
+'qa' will target all the QA machines, that are used to test the code
+changes before merging it into production.
+
+\subsection{Modules}
+
+Puppet modules are used to configure a single service/software on a server
+and they can be reused across different hostgroups. They provide several
+options to customize the installation.
+
+\subsection{Hostgroups}
+
+At CERN we define Hostgroups as a group of servers that are part of the
+same service. They contain the puppet code to configure and run a set of
+machines, using modules to configure the software.
+
+%EXPAND
+
+\subsection{Environments}
+
+Environments are collections of modules and hostgroups at different
+development levels, based on their git history. They are defined in YAML
+files living in a Git repository, Jens uses those files to create the
+custom environments that are served to the puppet masters.
+
+There are two golden environments:
+
+\begin{itemize}
+    \item 'production' - modules and hostgroup are cloned from the master branch of
+their git repositories
+    \item 'qa' - modules and hostgroups are cloned from the qa branch of their git
+repositories
+\end{itemize}
+
+Moreover there are a set of custom defined environments mainly used for
+testing purpose: they allow service managers to override some modules and
+specify a different branch from the default one.
+
+Those environments can be of two different types:
+
+\begin{itemize} 
+    \item Dynamic environments - Service managers can specify a default branch for
+hostgroup and modules (usually master or qa) and override others. For
+example:
+
+\begin{lstlisting}[language=bash, frame=single]
+default: qa
+notifications: bob@cern.ch
+overrides:
+    modules:
+        sssd: ai456
+\end{lstlisting}
+
+    \item Static environments (Snapshots) - These environments are completely static,
+every module and hostgroup points to a specific git commit: the
+configuration won't be updated without a manual intervention on the
+environment file. For example:
+
+\begin{lstlisting}[language=bash, frame=single]
+notifications: bob@example.org
+overrides:
+    common:
+        hieradata: commit/fb96070c9c77cc442ac60ba273768f547d376c17
+        site: commit/fb96070c9c77cc442ac60ba273768f547d376c17
+    hostgroups:
+        adcmon: commit/8bf3ca9fe39a6f354dfc70377205ed806d6ae540
+    [...]
+\end{lstlisting}
+\end{itemize}
+
+
