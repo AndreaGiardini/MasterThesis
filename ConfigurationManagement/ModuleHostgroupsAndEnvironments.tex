@@ -1,10 +1,11 @@
 \section{Modules Hostgroups and Environments}
 
-The Puppet ecosystem at CERN is based on three different components that
-we will describe in this section: Module, Hostgroups and Environments.
+The Puppet infrastructure at CERN is based on three different components
+that we will describe in this section: Module, Hostgroups and
+Environments.
 
 It's important to keep in mind that all those components are stored in
-separate Git reposories in order to keep track of code changes and make
+separate Git repositories in order to keep track of code changes and make
 the configuration change process easy and trackable.
 
 Every repository has at least two branches: master and qa. The code in
@@ -15,16 +16,20 @@ changes before merging it into production.
 \subsection{Modules}
 
 Puppet modules are used to configure a single service/software on a server
-and they can be reused across different hostgroups. They provide several
-options to customize the installation.
+and they can be reused across different hostgroups. Manifests can be seen
+as re-usable puppet code, they are sort of libraries in the puppet world.
+Each installation can be customized in the puppet manifest using tunable
+parameters.
 
 \subsection{Hostgroups}
 
-At CERN we define Hostgroups as a group of servers that are part of the
-same service. They contain the puppet code to configure and run a set of
+At CERN we define Hostgroups a group of servers that are part of the same
+service. They contain the puppet code to configure and run a set of
 machines, using modules to configure the software.
 
-%EXPAND
+It's also possible to define sub-hostgroup, to split the service in one or
+more sub-services.
+
 
 \subsection{Environments}
 
