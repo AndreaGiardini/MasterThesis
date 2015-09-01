@@ -25,11 +25,39 @@ parameters.
 
 At CERN we define Hostgroups a group of servers that are part of the same
 service. They contain the puppet code to configure and run a set of
-machines, using modules to configure the software.
+machines, using modules to configure the software. Usually a group of
+nodes has the same hostgroup if:
 
-It's also possible to define sub-hostgroup, to split the service in one or
-more sub-services.
+\begin{itemize}
 
+\item The nodes are all part of the same service
+
+\item The nodes have some configuration in common
+
+\item The nodes are managed by the same group of people
+
+\end{itemize}
+
+It's also possible to define sub-hostgroup, to divide the functionalities
+of the nodes within the service. Since the hostgroup structure is
+hierarchical a node in a sub-hostgroup inherits the setting from all this
+parets. For example: 
+
+\begin{table}[H]
+    \begin{center}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Hostgroup} & \textbf{Purpose} \\
+        \hline
+        webstuff & is the top-level hostgroup for the WebStuff service \\
+        \hline
+        webstuff/production & is the hostgrup containing the nodes of the production instance \\
+        \hline
+        webstuff/production/balance & are the Apache balancer nodes in front of the production service \\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{table}
 
 \subsection{Environments}
 
