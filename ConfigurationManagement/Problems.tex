@@ -1,5 +1,29 @@
 \section{Problems}
 
 \subsection{Multiple service managers}
+
+The current Puppet setup is not a traditional one since at CERN there are
+several service managers maintaining different infrastructures but using
+the same modules. Since most of the modules are shared across multiple
+services we need to make sure that every change to those modules doesn't
+affect others people using the same code.
+
 \subsection{Deployment interval}
+
+
+
 \subsection{Configuration and package drifts}
+
+Managing such a large number of machines has his drawbacks in terms of
+management. Even with the use of Puppet, MCollective and other tools to
+manage large number of machines it is not easy to keep track of the status
+of all of them.
+
+It happens in fact that some machines are found in a state they are not
+supposed to be, usually because there are other failures that prevent
+Puppet from doing his job. This can have different causes that, most of
+the time, require manual intervention.
+
+What is difficult to do is spot those machines among all the others due to
+the large number.
+
