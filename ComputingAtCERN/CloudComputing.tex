@@ -2,7 +2,7 @@
 
 In the last years the number of resources needed by CERN grew
 dramatically: more and more computing power was needed and the traditional
-approach used to manage physical machines was not scalable anymore.
+approach, used to manage physical machines, was not scalable anymore.
 Deploying a machine was taking days due to the physical installation and
 the retirement of old machines was as well a complex process, usually
 involving downtimes and problems for the final users.
@@ -16,12 +16,14 @@ collaboration with the development team of those two projects.
 \subsection{OpenStack}
 
 OpenStack is a free and open-source cloud-computing software platform.
-It's composed by a set of different projects working together using common
+It's composed by a set of different projects working together using
 RESTFul APIs: each project has a single function ( e.s. storage,
 computing, networking, etc. ) and, through a single endpoint, the user is
 able to instantiate virtual machines coordinating all of them.
 
-%EXPAND
+Users are able to instantiate, delete, resize and edit virtual machines in
+real-time: this makes the development cycle faster and shortens the
+testing time.
 
 \subsection{KVM}
 
@@ -29,5 +31,3 @@ KVM (Kernel-based Virtual Machine) is a virtualization infrastructure for
 the Linux kernel that turns it into a hypervisor. It requires a processor
 with hardware virtualization extension and it supports a wide range of
 operating systems.
-
-%EXPAND
