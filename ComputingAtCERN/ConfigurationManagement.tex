@@ -2,7 +2,7 @@
 
 Due to the adoption of OpenStack it was necessary to find a way to manage
 and configure machines in an automated way: since it was not possible
-anymore to configure all the machines manually CERN needed a solution to
+anymore to configure all the machines manually, CERN needed a solution to
 set up new machines automatically. The Configuration Team provides a set
 of tools and services that allow users to specify which tools and software
 they need on their servers and get them configured in minutes.
@@ -57,24 +57,57 @@ it's a server-based system running in a servlet container. It's
 integration with most of the revision control systems and the multitude of
 available plugins made its popularity grow year by year.
 
-%EXPAND
+It is currently used by several open-source project to run unit and
+functional tests on code written by contributors.
 
 \subsection{Koji}
 
 Koji is an RPM-based build system, it provides a flexible, secure and
-reproducible way to build software.
+reproducible way to build software. In combination with Git it provides
+a fast way to package and distribute software.
 
-%EXPAND
+When a developer is ready to release a new version of his software he can
+use Koji to build it and tag it to the correct repository. In this way at
+the next distro-sync all the machines will receive the updates.
 
 \subsection{Jens}
 
 Jens is a python-toolkit developed at CERN to generate puppet environments
-dynamically, based on some input metadata.
-
-%EXPAND
+dynamically, based on some input metadata. It is used to give service
+managers the elasticity they need to configure their services while
+dealing with shared modules.
 
 \subsection{Rundeck}
-\subsection{Mcollective}
+
+Rundeck is used to automate operations and repetitive actions: it allows
+the user to define a workflow and a series of actions to do. Those
+workflows can be sheduled or triggered. In particular Rundeck became more
+and more popular in the DevOps ecosystem due to the possibility to easily
+integrate him with other components and software, making easy for final
+users to define autonomously new workflows and procedures.
+
+\subsection{MCollective}
+
+MCollective is a framework for server orchestration: it allows user to run
+actions on a multitude of hosts 
+
 \subsection{Roger}
+
+It manages two important pieces of machine state. Whether you want alarms
+switched on (or, more accurately, whether you want alarms to be masked),
+and what the current state of the machine is. Optionally you can then use
+those state transitions to take actions, such as to remove a machine
+from a load balancer.
+
 \subsection{TBag}
+
+Due to the shared modules and code we had to find a solution to provide
+secrets (like password, certificates and keytab files) in a secure way.
+Since it many people have access to the repositories it is not secure to
+store secrets in there.
+
+To solve this problem we developed TBag (Trusted Bag) a service that
+allows users to define secrets at host/hostgroup level. The secrets can be
+retrieved only by the specified host using a custom class in the puppet
+manifest. The hosts
 
