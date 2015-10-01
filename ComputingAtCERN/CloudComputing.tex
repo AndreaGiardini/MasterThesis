@@ -3,15 +3,15 @@
 In the last years the number of resources needed by CERN grew
 dramatically: more and more computing power was needed and the traditional
 approach, used to manage physical machines, was not scalable anymore.
-Deploying a machine was taking days due to the physical installation and
+Deploying a machine was taking days due to the physical installation, and
 the retirement of old machines was as well a complex process, usually
 involving downtimes and problems for the final users.
 
-After some discussions, in 2012 CERN started to migrate its physical
-infrastructure to a virtualization-based one: most of the machines are now
-virtualized using OpenStack and KVM. During the last years CERN became
-a big contributor in the open-source environment due to his active
-collaboration with the development team of those two projects.
+In 2012 CERN started to migrate its physical infrastructure to
+a virtualization-based one: most of the machines are now virtualized using
+OpenStack and KVM. During the last years CERN became a big contributor in
+the open-source environment due to his active collaboration with the
+development team of those two projects.
 
 \subsection{OpenStack}
 
@@ -31,3 +31,7 @@ KVM (Kernel-based Virtual Machine) is a virtualization infrastructure for
 the Linux kernel that turns it into a hypervisor. It requires a processor
 with hardware virtualization extension and it supports a wide range of
 operating systems.
+
+Using KVM it is possible to run multiple virtual machines on the same host
+running an unmodified version of Linux or Windows. The kernel exposes to
+each virtual machines a complete set of virtualized hardware.

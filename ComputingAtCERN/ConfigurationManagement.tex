@@ -4,15 +4,14 @@ Due to the adoption of OpenStack it was necessary to find a way to manage
 and configure machines in an automated way: since it was not possible
 anymore to configure all the machines manually, CERN needed a solution to
 set up new machines automatically. The Configuration Team provides a set
-of tools and services that allow users to specify which tools and software
-they need on their servers and get them configured in minutes.
+of tools and services that allow users to specify which softwares they
+need on their servers and get them configured in minutes.
 
 \subsection{Puppet}
 
 Puppet is an open-source configuration management utility that allows
-service managers to describe the system configuration of their machines
-using his own declarative language. It works with Unix-like and Windows
-machines.
+service managers to describe the configuration of their machines using his
+own declarative language. It works with Unix-like and Windows machines.
 
 The user describes the status of the machine and his resources in a file
 called "Puppet manifest", using Puppet's declarative language or Ruby DSL.
@@ -37,8 +36,8 @@ reports and manage machine's settings.
 
 From Foreman the user is able to create and manage new machines assigning
 them to a specified hostgroup/environment. When Puppet runs on a hosts it
-queries Foreman's ENC to ask informations about the machine itself and
-configures it accordingly.
+queries Foreman's ENC to ask informations about the machine and configures
+it accordingly, compiling the Puppet code stored in Git.
 
 \subsection{Git}
 
@@ -64,7 +63,7 @@ functional tests on code written by contributors.
 
 Koji is an RPM-based build system; it provides a flexible, secure and
 reproducible way to build software. In combination with Git it provides
-a fast way to package and distribute software.
+a fast way to package and distribute software across the servers.
 
 When a developer is ready to release a new version of his software he can
 use Koji to build it and tag it to the correct repository. In this way at
@@ -80,23 +79,29 @@ dealing with shared modules.
 \subsection{Rundeck}
 
 Rundeck is used to automate operations and repetitive actions: it allows
-the user to define a workflow and a series of actions to do. Those
-workflows can be sheduled or triggered. In particular Rundeck became more
-and more popular in the DevOps ecosystem due to the possibility to easily
-integrate him with other components and software, making easy for final
-users to define autonomously new workflows and procedures.
+users to define a workflow and a series of actions to do. Those workflows
+can be scheduled or triggered by actions. In particular Rundeck became
+more and more popular in the DevOps ecosystem due to the possibility to
+easily integrate him with other components and software, making easy for
+final users to define autonomously new workflows and procedures.
+
+Tracking failures and reacting to them is one of the best features of
+Rundeck: in fact it is possible to define behaviours in case of job
+failures and instruct Rundeck to react to different kind of problems. We
+can specify some actions to roll-back a change, send a notification, or
+simply retry the job after an interval, depending on the use-case. 
 
 \subsection{MCollective}
 
 MCollective is a framework for server orchestration: it allows user to run
 actions on a multitude of hosts. It is used extensively when it is
 necessary to deal with several machines at the same time: trigger
-a command on multiple servers, get the status of a package or a service,
-etc..
+a command on multiple servers, get the status of a package or a service
+across a cluster, etc..
 
 It is well integrated with Puppet and Foreman, allowing us to trigger
 actions on a specified hostgroup/environment directly from the command
-line.
+line just specifying the parameters of the servers we want to query.
 
 \subsection{Roger}
 
@@ -108,10 +113,10 @@ from a load balancer.
 
 \subsection{TBag}
 
-Due to the shared modules and code we had to find a solution to provide
-secrets (like password, certificates and keytab files) in a secure way.
-Since it many people have access to the repositories it is not secure to
-store secrets in there.
+Due to the fact that service managers share Puppet modules and code, we
+had to find a solution to provide secrets to hosts (like password,
+certificates and keytab files) in a secure way. Since many people have
+access to the repositories, it is not secure to store secrets in there.
 
 To solve this problem we developed TBag (Trusted Bag) a service that
 allows users to define secrets at host/hostgroup level. The secrets can be

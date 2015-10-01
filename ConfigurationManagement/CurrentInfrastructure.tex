@@ -5,6 +5,8 @@ the Configuration Team.
 
 \subsection{Puppet Masters}
 
+% UPDATE numbers and split batch from interactive
+
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ConfigurationManagement/Infrastructure_pm.jpg}
 \end{figure}
@@ -19,9 +21,9 @@ pool has approximately 40 machines with 4-cores and 8GB of memory.
 Each pool is split in two clusters: the interactive cluster and the batch
 cluster. The interactive cluster is smaller (usually around three
 machines) and takes care of all the puppet run triggered using the command
-line; most of the testing runs are compiled with thin one. The batch
+line; most of the testing runs are compiled with this one. The batch
 cluster instead compiles all the runs that are triggered in the background
-by the puppet daemons. When a machine is spawned using Openstack it is
+by the puppet daemon. When a machine is spawned using Openstack it is
 assigned randomly to one of the two pools and stays there for the whole
 lifecycle.
 
