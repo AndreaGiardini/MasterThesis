@@ -1,7 +1,20 @@
 \section{Infrastructure Drifts}
 
+We define as Infrastructure Drift the tendency of one or more machine to
+have a different configuration compared with the majority of the cluster.
+This behaviour, if not detected, might lead to dangerous and unpredictable
+behaviours.
+
+A drift can have different causes and it is not always easy to detect and
+address, usually a manual intervention in required to solve the problem.
+During the internship multiple causes have been detected, their causes are
+discussed in the following sections.
 
 \subsection{Package Drifts}
 
+A package drift happens when a machine in a cluster has different packages
+compared to another, or a different version of the installed packages.
+When this happens the risk is to have a cluster serving requests with two
+different versions of the same software.
 
 \subsection{Configuration Drifts}

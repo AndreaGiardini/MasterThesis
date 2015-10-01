@@ -62,7 +62,7 @@ functional tests on code written by contributors.
 
 \subsection{Koji}
 
-Koji is an RPM-based build system, it provides a flexible, secure and
+Koji is an RPM-based build system; it provides a flexible, secure and
 reproducible way to build software. In combination with Git it provides
 a fast way to package and distribute software.
 
@@ -89,7 +89,14 @@ users to define autonomously new workflows and procedures.
 \subsection{MCollective}
 
 MCollective is a framework for server orchestration: it allows user to run
-actions on a multitude of hosts 
+actions on a multitude of hosts. It is used extensively when it is
+necessary to deal with several machines at the same time: trigger
+a command on multiple servers, get the status of a package or a service,
+etc..
+
+It is well integrated with Puppet and Foreman, allowing us to trigger
+actions on a specified hostgroup/environment directly from the command
+line.
 
 \subsection{Roger}
 
@@ -109,5 +116,5 @@ store secrets in there.
 To solve this problem we developed TBag (Trusted Bag) a service that
 allows users to define secrets at host/hostgroup level. The secrets can be
 retrieved only by the specified host using a custom class in the puppet
-manifest. The hosts
+manifest.
 
