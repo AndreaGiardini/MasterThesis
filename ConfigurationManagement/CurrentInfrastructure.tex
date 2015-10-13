@@ -33,12 +33,43 @@ next sections.
 
 \subsection{Foreman}
 
+Foreman manages the lifecycle of the machines, giving to the service
+managers an overview of their servers using a web interface. It contains
+the correspondences between a server and its hostgroup/environment, it
+allows to browse Puppet report and also manage physical machines.
+
+As we can see from the image Foreman is split in four different services,
+all using the same database instance; all the traffic is redirected to the
+correct service using load balancers. Depending on the port, the balancers
+redirect the traffic to the correct servers.
+
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ConfigurationManagement/Infrastructure_judy.jpg}
 \end{figure}
+
+The ENC service of Foreman gives to the Puppet masters the correspondence
+between a machine name and the hostgroup/environment it is assigned to.
 
 \subsection{Jens and PuppetDb}
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ConfigurationManagement/Infrastructure_jens_pdb.jpg}
 \end{figure}
+
+In the image above it is described the current configuration of PuppetDb
+and Jens. Starting from the left, we can see that Jens periodically polls
+the Git repositories to get the changes in the modules, hostgroups and
+environments.
+
+Jens consequentially populates the Puppet tree accordingly to the
+configuration specified in those files and shares it on a network mounted
+NFS volume. Every Puppet pool mount an NFS share, so there are two
+different shares, one per pool, and two different Jens instances
+populating the tree. All the puppet master read the configuration from the
+NFS volume of their pool and compile the catalogs accordingly.
+
+PuppetDb instead stores all the Puppet reports and facts from the hosts
+and makes them available in a database-like fashion. The result is an
+inventory of metadata about every host in the infrastructure; this
+inventory is queryable by users and by Puppet itself to retrieve
+informations at compilation time.

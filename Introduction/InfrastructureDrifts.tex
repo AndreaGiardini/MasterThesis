@@ -18,3 +18,15 @@ When this happens the risk is to have a cluster serving requests with two
 different versions of the same software.
 
 \subsection{Configuration Drifts}
+
+Configuration Drift happens when the configuration of servers becomes more
+and more different as times goes on. Machine updates, manual updates,
+local patches can compromise the configuration of a running system and
+make it differ from what it should be. Tools like Puppet make sure than
+a machine is created with a given configuration but during the server
+lifecycle it will always tend to drift from the original configuration.
+
+Service managers usually try to prevent this behaviour using two different
+actions: running a configuration management system and doing it frequently
+to keep machines updated. Otherwise they rebuild machines periodically, in
+this way a machine is rebuilt before it can deviate from the mainline.
