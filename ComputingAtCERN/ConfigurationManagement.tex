@@ -2,21 +2,21 @@
 
 Due to the adoption of OpenStack it was necessary to find a way to manage
 and configure machines in an automated way: since it was not possible
-anymore to configure all the machines manually, CERN needed a solution to
-set up new machines automatically. The Configuration Team provides a set
-of tools and services that allow users to specify which softwares they
-need on their servers and get them configured in minutes.
+anymore to configure them manually, CERN needed a solution to set up new
+machines automatically. The Configuration Team provides a set of tools and
+services that allow users to specify which softwares they need on their
+servers and get them configured in minutes.
 
 \subsection{Puppet}
 
 Puppet is an open-source configuration management utility that allows
-service managers to describe the configuration of their machines using his
-own declarative language. It works with Unix-like and Windows machines.
+service managers to describe the configuration of their machines using its
+own declarative language. It supports Unix-like and Windows machines.
 
 The user describes the status of the machine and his resources in a file
 called "Puppet manifest", using Puppet's declarative language or Ruby DSL.
-Before applying the catalog to the machine the catalog must be compiled
-using the system's informations: Facter retrieves from the server all the
+Before applying the catalog to the machine it must be compiled using the
+system's informations: Facter retrieves from the server all the
 informations needed by Puppet to compile the catalog. Puppet compiles the
 catalog using the informations provided by Facter to create
 a system-specific manifest that will be applied against the target system.
@@ -31,7 +31,7 @@ independent.
 \subsection{Foreman}
 
 Foreman is a tool to manage the lifecycle and the provisioning of
-machines. It provides an easy to use web interface to browse puppet
+machines. It provides an easy to use web interface to browse Puppet
 reports and manage machine's settings.
 
 From Foreman the user is able to create and manage new machines assigning
@@ -42,8 +42,8 @@ it accordingly, compiling the Puppet code stored in Git.
 \subsection{Git}
 
 Git is an open-source revision control system with support for distributed
-non-linear workflows. Every Git working directory is a complete full
-repository with a complete history, independent of the network access.
+non-linear workflows. Every Git working directory is a complete repository
+with full history, independent of the network access.
 
 In the latest years his popularity grew dramatically, mostly due to his
 extreme elasticity, compatibility with existing protocols and support for
@@ -66,8 +66,8 @@ reproducible way to build software. In combination with Git it provides
 a fast way to package and distribute software across the servers.
 
 When a developer is ready to release a new version of his software he can
-use Koji to build it and tag it to the correct repository. In this way at
-the next distro-sync all the machines will receive the updates.
+use Koji to build and tag it to the correct repository. In this way at the
+next distro-sync all the machines will receive the updates.
 
 \subsection{Jens}
 
@@ -76,20 +76,22 @@ dynamically, based on some input metadata. It is used to give service
 managers the elasticity they need to configure their services while
 dealing with shared modules.
 
+% TODO add how it works and what it parses
+
 \subsection{Rundeck}
 
-Rundeck is used to automate operations and repetitive actions: it allows
-users to define a workflow and a series of actions to do. Those workflows
-can be scheduled or triggered by actions. In particular Rundeck became
-more and more popular in the DevOps ecosystem due to the possibility to
-easily integrate him with other components and software, making easy for
-final users to define autonomously new workflows and procedures.
+Rundeck automates operations and repetitive actions: it allows users to
+define a workflow and a series of actions to do. Those workflows can be
+scheduled or triggered by actions. In particular Rundeck became more and
+more popular in the DevOps ecosystem due to the possibility to easily
+integrate him with other components and software, making easy for final
+users to define autonomously new workflows and procedures.
 
 Tracking failures and reacting to them is one of the best features of
-Rundeck: in fact it is possible to define behaviours in case of job
-failures and instruct Rundeck to react to different kind of problems. We
-can specify some actions to roll-back a change, send a notification, or
-simply retry the job after an interval, depending on the use-case. 
+Rundeck: it is possible to define behaviours in case of job failures and
+instruct Rundeck to react to different kind of problems. We can specify
+some actions to roll-back a change, send a notification, or simply retry
+the job after an interval, depending on the use-case. 
 
 \subsection{MCollective}
 
@@ -100,26 +102,27 @@ a command on multiple servers, get the status of a package or a service
 across a cluster, etc..
 
 It is well integrated with Puppet and Foreman, allowing us to trigger
-actions on a specified hostgroup/environment directly from the command
+actions on specified hostgroups/environments directly from the command
 line just specifying the parameters of the servers we want to query.
 
 \subsection{Roger}
 
-It manages two important pieces of machine state. Whether you want alarms
-switched on (or, more accurately, whether you want alarms to be masked),
-and what the current state of the machine is. Optionally you can then use
-those state transitions to take actions, such as to remove a machine
-from a load balancer.
+Roger manages two important pieces of machine state. Whether you want
+alarms switched on (or, more accurately, whether you want alarms to be
+masked), and what the current state of the machine is. Optionally you can
+then use those state transitions to take actions, such as to remove
+a machine from a load balancer.
 
 \subsection{TBag}
 
 Due to the fact that service managers share Puppet modules and code, we
 had to find a solution to provide secrets to hosts (like password,
-certificates and keytab files) in a secure way. Since many people have
-access to the repositories, it is not secure to store secrets in there.
+certificates and keytab files): since many people have access to the
+repositories, it is not secure to store secrets in there.
 
 To solve this problem we developed TBag (Trusted Bag) a service that
 allows users to define secrets at host/hostgroup level. The secrets can be
 retrieved only by the specified host using a custom class in the puppet
-manifest.
+manifest. 
 
+% TODO write how users can define secrets

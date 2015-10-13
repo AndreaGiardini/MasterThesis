@@ -1,10 +1,10 @@
 \section{Configuration Change Process}
 
-Since the deployment of the puppet infrastructure it was clear that a precise
-and well defined strategy for code changes was needed. Since shared modules are
-used my multiple service managers for different type of use cases, every time
-a module needs to be changed we need to be sure that it won't break any
-service.
+Since the deployment of the Puppet infrastructure it was clear that
+a precise and well defined strategy for code changes was needed. Shared
+modules are used my multiple service managers for different type of use
+cases and every time a module needs to be changed we need to be sure that
+it won't break any service.
 
 For this reason we have a defined procedure to modify shared modules:
 
@@ -12,9 +12,10 @@ For this reason we have a defined procedure to modify shared modules:
 
 \item Branch the module to be modified
 
-The first thing to do it clone the module repository, create a custom branch
-and apply the changes that we would like to include in production. In this way
-the change can be reviewed and tested before being merged to qa or master.
+The first thing to do is clone the module repository, create a custom
+branch and apply the changes that we would like to include in production.
+In this way the change can be reviewed and tested before being merged to
+qa or master.
 
 \item Build a test machine using a custom environment
 
@@ -34,7 +35,7 @@ those paramenters to trigger a series of automated tests
 After Jenkins runs all the tests, if all of them are successful, it
 automatically merges the custom branch into qa, deploying the change in all the
 testing machines. At this point service managers have one week to test the
-change and make sure that everything is ok.
+change in their qa machines and make sure that everything is ok.
 
 If the change breaks their systems they can block it using Jira and ask the
 user to fix the problem before deploying it or the ticket will be rejected.

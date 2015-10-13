@@ -3,11 +3,11 @@
 We call Infrastructure Drift the tendency of one or more machines to have
 a different configuration compared with the majority of the cluster. This
 behaviour, if not detected, might lead to dangerous and unpredictable
-behaviours.
+situations.
 
 A drift can have different causes and it is not always easy to detect and
-address, usually a manual intervention in required to solve the problem.
-During the internship multiple causes have been detected, their causes are
+address, usually a manual intervention is required to solve the problem.
+During the internship multiple causes have been detected, they are
 discussed in the following sections.
 
 \subsection{Package Drifts}
@@ -23,8 +23,8 @@ Configuration Drift happens when the configuration of servers becomes more
 and more different as times goes on. Machine updates, manual updates,
 local patches can compromise the configuration of a running system and
 make it differ from what it should be. Tools like Puppet make sure than
-a machine is created with a given configuration but during the server
-lifecycle it will always tend to drift from the original configuration.
+a machine is created with a given configuration but during its lifecycle,
+the server it will always tend to drift from the original configuration.
 
 Service managers usually try to prevent this behaviour using two different
 actions: running a configuration management system and doing it frequently

@@ -1,17 +1,17 @@
-\section{Modules Hostgroups and Environments}
+\section{Modules, Hostgroups and Environments}
 
 The Puppet infrastructure at CERN is based on three different components
-that we will describe in this section: Module, Hostgroups and
+that we will describe in this section: Modules, Hostgroups and
 Environments.
 
-It's important to keep in mind that all those components are stored in
+It is important to keep in mind that all those components are stored in
 separate Git repositories in order to keep track of code changes and make
 the configuration change process easy and trackable.
 
 Every repository has at least two branches: master and qa. The code in
 'master' will target all the machines in production, while the code in
 'qa' will target all the QA machines, that are used to test the code
-changes before merging it into production.
+changes before merging them into production.
 
 \subsection{Modules}
 
@@ -21,10 +21,12 @@ as re-usable puppet code, they are sort of libraries in the puppet world.
 Each installation can be customized in the puppet manifest using tunable
 parameters.
 
+% TODO expand with base modules, Github import and plugin sync
+
 \subsection{Hostgroups}
 
-At CERN we define Hostgroups a group of servers that are part of the same
-service. They contain the puppet code to configure and run a set of
+At CERN we define hostgroups a group of servers that are part of the same
+service. They contain the Puppet code to configure and run a set of
 machines, using modules to configure the software. Usually a group of
 nodes has the same hostgroup if:
 
@@ -38,10 +40,10 @@ nodes has the same hostgroup if:
 
 \end{itemize}
 
-It's also possible to define sub-hostgroup, to divide the functionalities
-of the nodes within the service. Since the hostgroup structure is
-hierarchical a node in a sub-hostgroup inherits the setting from all this
-parets. For example: 
+It is also possible to define sub-hostgroups, to divide the
+functionalities of the nodes within the service. Since the hostgroup
+structure is hierarchical a node in a sub-hostgroup inherits the settings
+from all this parents. For example: 
 
 \begin{table}[H]
     \begin{center}
@@ -62,8 +64,8 @@ parets. For example:
 \subsection{Environments}
 
 Environments are collections of modules and hostgroups at different
-development levels, based on their git history. They are defined in YAML
-files living in a Git repository, Jens uses those files to create the
+development levels, based on their git history; they are defined in YAML
+files living in a Git repository. Jens uses those files to create the
 custom environments that are served to the puppet masters.
 
 There are two golden environments:
@@ -79,7 +81,7 @@ Moreover there are a set of custom defined environments mainly used for
 testing purpose: they allow service managers to override some modules and
 specify a different branch from the default one.
 
-Those environments can be of two different types:
+There are two different types of environments:
 
 \begin{itemize} 
     \item Dynamic environments - Service managers can specify a default branch for
@@ -110,5 +112,3 @@ overrides:
     [...]
 \end{lstlisting}
 \end{itemize}
-
-

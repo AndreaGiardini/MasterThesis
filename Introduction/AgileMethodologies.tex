@@ -7,7 +7,8 @@ the traditional approach that instead use to follow a sequential process.
 
 In the Scrum method of Agile software development work is defined during
 intervals called Sprints; a Sprint used to be 30 days long, but usually
-teams prefer shorter sprints of two weeks.
+teams prefer shorter sprints of two weeks to better manage the tasks in
+the backlog.
 
 A Sprint starts with a Sprint planning meeting: during this meeting the team
 analyses the backlog and decides which tasks have highest priority in the
@@ -17,13 +18,14 @@ end of the Sprint there is a Sprint review meeting in which the team shows the
 work done and analyses how to improve the next Sprint.
 
 Using this regular cadences of work it is easy to understand how planning
-software development is way easier with an Agile approach. Also reacting to
-unforeseen events or changing requirements is easier than with the waterfall
-approach. For this reason Agile development is also called "iterative" or
-"incremental".
+software development is way easier with an Agile approach. In particular,
+reacting to unforeseen events or changing requirements is easier than with
+the waterfall approach. For this reason Agile development is also called
+"iterative" or "incremental".
 
-In the following sections we will analyse a set of techniques which are used in
-Agile development to increase the productivity of the team.
+In the following sections we will analyse a set of techniques which are
+used in Agile software development to increase the productivity of the
+team.
 
 \subsection{Continuous integration}
 
@@ -31,13 +33,14 @@ Continuous Integration is the practise, in software engineering, to merge
 the developers work into the main project as soon as the task assigned is
 completed. The aim of this approach is to prevent possible integration
 problems: doing small changes often makes easy to track down problems and
-avoids error when merging to the mainline.
+avoid errors when merging to the mainline.
 
 This method is used most of the time in combination with automated unit tests:
-after modifying the code the developer runs the unit tests to check that his
-change has not compromised somebody else functionality. It is fundamental to
-write tests for every new function in order to cover all the use cases and
-detect anomalies before deployment.
+after modifying the code the developer runs the unit tests to check that
+his change has not compromised somebody else functionality. Due to the
+role of unit tests in this technique, it is fundamental to write tests for
+every new function in order to cover all the use cases and detect
+anomalies before deployment.
 
 Later were also introduced build servers to run unit tests after every commit
 or merge request; in some cases build servers can also run static code analysis
@@ -66,3 +69,11 @@ wait to go live.
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Introduction/Continuous_Delivery_Continuous_Deployment.jpg}
 \end{figure}
+
+The infrastructure requirements for continuous deployment are higher than
+the previous ones because we should be able to deploy automatically after
+a working change and rollback in case of problems. Any change is tested
+with automatic tests and if the tests fail the deployment should abort. On
+the other hand, if the version deployed is broken, because the tests did
+not detect the problem, then the team needs to be able to roll back and
+fix the problem.
