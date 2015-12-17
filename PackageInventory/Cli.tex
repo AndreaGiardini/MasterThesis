@@ -1,5 +1,27 @@
 \section{Cli}
 
+A Cli is provided to query the status of packages and hosts from the
+user's machines. It uses PuppetDB and the Elasticsearch cluster to return
+the results to the user.
+
 \subsection{Functions}
+
+\subsubsection{Compare two or more hosts or machines}
+
+PackageInventory allows us to compare two or more machines. We are able to 
+query PuppetDB to get a list of hosts or we can specify the host names. For 
+example, if we want to compare all the hosts on a specific hostgroup:
+
+\begin{lstlisting}[frame=single]
+\$ pkginv -H \'bi/batch/gridworker/aishare/share\' -e production compare
+
+Processing hosts with:
+
+     - Hostgroup: bi/batch/gridworker/aishare/share
+     - Environment: production
+\end{lstlisting}
+
+
+
 \subsection{Querying ElasticSearch}
 \subsection{Optimizations for large-scale queries}

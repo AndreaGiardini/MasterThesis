@@ -1,0 +1,65 @@
+\section{Infrastructure Overview}
+
+Jenkins is one of the most popular Continuous Integration tools in the
+open-source environment: it is used by companies to achieve different goals,
+due to his highly-customizable nature. Moreover it is officially supported by
+the configuration team so it looks like a good system to base our CI.
+
+The idea is to keep Jenkins as light as possible: we will try to avoid to
+create heavy jobs, that are difficult to debug in case of problems. Instead we
+want to modularize our installation as much as possible creating small jobs,
+linked with each other.
+
+Moreover, we want to avoid to use the Jenkins interface, delegating most part
+of the logic to scripts. Every Jenkins job needs to be small and the only
+action that it has to do is trigger an external script, maintained in a Git
+repository. At the beginning of each job, the Git repository
+\textit{aici-servant-scripts} is cloned and the corresponding script is
+triggered with the job's parameters.
+
+Small jobs are then aggregated using the MultiJob plugin, which allows us to
+chain more jobs together, passing parameters from one to the other.
+
+The user is able to specify the parameters and the tests for his job inside the
+same Git repository containing the puppet module, as it is described in the
+section \textit{Customizable Testing}.
+
+\subsection{Jobs description}
+
+In this section we will describe all the jobs involved in the processing of
+a CRM.
+
+\subsubsection{Create-env - Create Environment}
+
+This jobs accepts these parameters:
+
+\begin{itemize}
+  \item MODULE - Name of the module
+  \item MERGETO - Branch of the module to merge to (destination\_branch)
+  \item BRANCH - Branch of the module that contains the change (source\_branch)
+  \item JIRA\_TICKET - The Jira ticket that keeps track of the CRM
+\end{itemize}
+
+When the job is triggered it creates a dynamic environment that will be
+used to test the module. The \textit{MERGETO} variable represents the
+default branch and the \textit{BRANCH} variable is used as override of the
+\textit{MODULE}. The custom environment is created using a tool called
+\textit{ai-create-environment} and it is pushed to the
+\textit{it-puppet-environments} repository. After pushing to the
+repository, the script queries Foreman to make sure that the environment
+has been created and that it is available before proceeding. Once the
+environment is available the job finishes, returning the name of the
+custom environment. Those environments have a name that concatenates
+\textit{aici}, the name of the module and a random UUID.
+
+\subsubsection{Create-Verify - Builds a machine and tests it}
+
+This job accepts these parameters:
+
+\begin{itemize}
+  \item ENVIRONMENT - Dynamic environment created by the \textit{create-env} job
+  \item MODULE - Name of the module
+  \item OS - Specifies on which operating system we want to run the tests
+\end{itemize}
+
+

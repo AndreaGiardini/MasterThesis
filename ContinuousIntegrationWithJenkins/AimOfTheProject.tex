@@ -1,1 +1,26 @@
 \section{Aim of the project}
+
+The CRM process described in the previous sections works well for our
+needs but it has one major flaw: it is not automated and it is easy to do
+mistakes. In particular merging different branches and keeping the Jira
+ticket in sync with the status of the deployment updating the ticket
+accordingly are usually source of problems. In the past we have seen
+merges between wrong branches, or outdated tickets which are not following
+the status of the repository anymore.
+
+Automating the CRM process also with automated tests would be a great
+improvement for the release of new features. The aim is to move all the
+operations that were done manually before to an automated task, taking
+care of all the operations.
+
+Moreover, it would be nice to include automated tests customized by the
+module maintainer on different operating systems. The tests needs to be
+triggered from inside and outside the machine that needs to be tested. The
+user should be able to specify how the machine to test needs to be built.
+
+The system needs to be well integrated with all the different parts of the
+system like Git, Jira and Gitlab using API.
+
+The second part of this thesis will focus on all these aspects: we will
+see how we managed to make all this possible using Jenkins, a Continous
+Integration tool.
