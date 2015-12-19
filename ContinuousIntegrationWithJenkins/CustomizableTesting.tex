@@ -1,6 +1,19 @@
 \section{Customizable Testing}
 
-\subsection{Machine manifests}
-\subsection{Module dependency}
-\subsection{Internal/External machine testing}
-\subsection{Testing mode (Rebuild/Env change)}
+As we said in the previous sections, the idea is to have a set of tests
+customizable for every Puppet module. In order to do this a new folder has
+been introduced in \textit{code/manifests/tests}.
+
+This folder contains all the tests and the configuration files that the
+user can modify to customize his experience.
+
+This folder, after his initialization, contains four files:
+
+\begin{itemize}
+  \item \textit{check.pp} - Contains the Puppet manifest of the machine that we want to test
+  \item \textit{run\_tests.sh} - A scripts to trigger tests inside the machine
+  \item \textit{run\_tests\_external.sh} - A script to trigger tests outside the machine
+  \item \textit{config.sh} - Contains some variables to customize the testing
+\end{itemize}
+
+

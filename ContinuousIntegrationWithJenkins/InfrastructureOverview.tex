@@ -62,4 +62,65 @@ This job accepts these parameters:
   \item OS - Specifies on which operating system we want to run the tests
 \end{itemize}
 
+This is a MultiConfiguration job, it means that every time this job is
+triggered it will run multiple times with different parameters. In our
+case the \textit{ENVIRONMENT} and the \textit{MODULE} variables are passed
+to job, while \textit{OS} can assume three different values:
+\textit{SLC5}, \textit{SLC6} and \textit{CC7}. The aim is to test our code
+on the different architectures: the ones supported by the Computer
+Center.
 
+This job builds a virtual machine of the operating system specified in the
+variable \textit{OS} and runs the tests. In order to speed-up the building
+process, it has been agreed to keep three separate pools of machines ready
+to be used, one for each operating system. Each pool contains a set of
+machines ready to be used for the tests, they are built in advance to make
+the testing process faster and avoid errors during the creation of the
+machine.
+
+When the job is triggered:
+
+\begin{itemize}
+  \item A machine is picked from the appropriate pool
+  \item The machine is moved to the appropriate hostgroup / environment
+  \item The job waits for the machine to be built
+  \item The job runs the tests and verifies status of the machine
+\end{itemize}
+
+This job can be customized by the module maintainer using the
+configuration file described in the following section. The job is
+successful only if all the tests specified are successful.
+
+\subsubsection{Build-Spare - Fills the pools of spare machines}
+
+This job accepts these parameters:
+
+\begin{itemize}
+  \item OS - Specifies which pool needs to be checked
+\end{itemize}
+
+This job is a MultiConfiguration job. Every time is triggered a script
+checks the status of each pool and creates the corresponding machines if
+it is not full. It is necessary to run this job to create new machines for
+the tests, since after each testing the machine is destroyed.
+
+\subsubsection{Destroy-Vm - Destroys the specified virtual machine}
+
+This job accepts these parameters:
+
+\begin{itemize}
+  \item VM\_DESTROY\_NAME - Name of the machines to be deleted
+\end{itemize}
+
+Provided a list of machines to be deleted, this job removes all of them
+from the system.
+
+\subsubsection{Delete-Environment - Removes the specified environment}
+
+This job accepts these parameters:
+
+\begin{itemize}
+  \item ENVIRONMENT - Environment to be destroyed
+\end{itemize}
+
+Given the environment to be deleted, it deletes it from the system.
