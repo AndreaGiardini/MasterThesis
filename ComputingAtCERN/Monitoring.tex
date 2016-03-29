@@ -36,7 +36,13 @@ Kibana is a open-source tool to visualize and graph the informations
 stored in a Elasticsearch database. It allows the user to organize the
 documents in a graphical way using custom graphs and dashboards.
 
-%EXPAND
+We used Kibana extensively to graph and monitor the performance for the
+most of our clusters. In particular we found it really useful whenever we
+had incidents in our services: correlating metrics and graphs in the right
+way makes possible to highlight when the incident started and how it
+escalated. Finding the causes of the incidents got easier as well, since
+using graphs plotting different metrics it is easier to correlate
+different aspects of the same cluster.
 
 \subsection{Flume}
 
@@ -48,5 +54,4 @@ not available or under maintenance, Flume can store metrics up to 24
 hours, in order not to lose data in case of downtime.
 
 Flume is also capable of reprocessing the log entries to make them
-compatible with the defined metric schema. Even if softwares usually do
-not have the same layout, Flume can create a unique metric schema.
+compatible with the defined metric schema.

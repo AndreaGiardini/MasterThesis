@@ -7,8 +7,8 @@ situations.
 
 A drift can have different causes and it is not always easy to detect and
 address, usually a manual intervention is required to solve the problem.
-During the internship multiple causes have been detected, they are
-discussed in the following sections.
+It is possible to define two different categories of Infrastructure
+Drifts: Package and Configuration Drifts.
 
 \subsection{Package Drifts}
 
@@ -17,10 +17,15 @@ compared to another, or a different version of the installed packages.
 When this happens the risk is to have a cluster serving requests with two
 different versions of the same software.
 
+Ideally all the machines in a cluster should have the same package
+configuration and receive updates at the same time. The idea is to start
+serving the requests with a new version of the software all at the same
+time. 
+
 \subsection{Configuration Drifts}
 
-Configuration Drift happens when the configuration of servers becomes more
-and more different as times goes on. Machine updates, manual updates,
+A Configuration Drift happens when the configuration of servers becomes
+more and more different as times goes on. Machine updates, manual updates,
 local patches can compromise the configuration of a running system and
 make it differ from what it should be. Tools like Puppet make sure than
 a machine is created with a given configuration but during its lifecycle,
