@@ -10,10 +10,29 @@ user can modify to customize his experience.
 This folder, after his initialization, contains four files:
 
 \begin{itemize}
-  \item \textit{check.pp} - Contains the Puppet manifest of the machine that we want to test
-  \item \textit{run\_tests.sh} - A scripts to trigger tests inside the machine
-  \item \textit{run\_tests\_external.sh} - A script to trigger tests outside the machine
+  \item \textit{check.pp}
+
+This file is a Puppet manifest. The module maintainer specifies here how
+the machine to be tested needs to be. Since the aim is to test a single
+module, this manifest should include the module itself with some basic
+parameters.
+
+Using this technique Jenkins can easily create machine customized on the
+user needs.
+
+  \item \textit{run\_tests.sh}
+
+This bash script specifies which
+
+  \item \textit{run\_tests\_external.sh} - A script to trigger tests
+  outside the machine
+
+
+
   \item \textit{config.sh} - Contains some variables to customize the testing
+
+
+
 \end{itemize}
 
 
