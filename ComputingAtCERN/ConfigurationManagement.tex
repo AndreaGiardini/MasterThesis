@@ -6,8 +6,8 @@ if other alternatives were available. With the adoption of a virtualized
 infrastructure, it was going to be important to scale configuration
 management to the expected number of machines. It also remains the case
 that OpenStack is a complex set of projects which require care in their
-configuration. CERN chose a solution that would allow them to take 
-advantage of configuration code developed outside the organisation to 
+configuration. CERN choose a solution that would allow them to take
+advantage of configuration code developed outside the organisation to
 configure large numbers of machines, as well as OpenStack components.
 
 \subsection{Puppet}
@@ -19,10 +19,10 @@ own declarative language. It supports Unix-like and Windows machines.
 The user describes the status of the machine and his resources in a file
 called "Puppet manifest", using Puppet's declarative language or Ruby DSL.
 Before applying the catalog to the machine it must be compiled using the
-system's informations: Facter retrieves from the server all the
-informations needed by Puppet to compile the catalog. Puppet compiles the
-catalog using the information provided by Facter to create
-a system-specific manifest that will be applied against the target system.
+system's information: Facter retrieves from the server all the information
+needed by Puppet to compile the catalog. Puppet compiles the catalog using
+the information provided by Facter to create a system-specific manifest
+that will be applied against the target system.
 
 Puppet describes the status of the system using a custom declarative
 language which can be applied directly on the system or distributed to the
@@ -39,7 +39,7 @@ reports and manage machine's settings.
 
 From Foreman the user is able to create and manage new machines assigning
 them to a specified hostgroup/environment. When Puppet runs on a hosts it
-queries Foreman's ENC to ask informations about the machine and configures
+queries Foreman's ENC to ask information about the machine and configures
 it accordingly, compiling the Puppet code stored in Git.
 
 \subsection{Git}

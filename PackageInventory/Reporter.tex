@@ -4,7 +4,7 @@ Packageinventory Reporter is the first element that we are going to
 analyze. It reports the package status to a central ElasticSearch
 instance, creating a browsable metrics store.
 
-Everytime it runs, it checks if the list of packages has been updated
+Every time it runs, it checks if the list of packages has been updated
 since the last run and, if the answer is positive, it sends the lists of
 updates to ElasticSearch using Flume. It includes a Yum plugin to make the
 updates available as soon as possible: whenever yum is executed,
@@ -28,7 +28,7 @@ understand how Yum works to accomplish our mission.
 
 \subsection{RpmDb}
 
-RpmDb is a database, used by Yum, containing all the informations and
+RpmDb is a database, used by Yum, containing all the information and
 metadata about the packages that are installed on the system. All the
 RPM-based distribution have a global RpmDb, listing the packages of the
 whole system.
