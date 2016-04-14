@@ -1,1 +1,51 @@
 \section{Packaging with Koji}
+
+At CERN we Koji to build and ship packages to repositories and,
+ultimately, to all the severs. Koji is a tool used by the official Fedora
+Project \cite{FedoraProject} for packaging software and organize the
+packages in different repositories.
+
+It is based on the concept of chroot environments: every package is build
+in a new, clean environment in order to avoid possible contaminations or
+ship unnecessary files.
+
+Koji represents a main component of our infrastructure since it is
+responsible for building the software before shipping it to all the
+machines. A user is able to define a spec file which is a configuration
+file that Koji uses to build the package.
+
+In the spec file we define all the instructions to build our package
+correctly: the package name, version, release, architecture, installation
+instructions, etc.
+
+Our spec file is able to generate two different packages from the same
+repository, this allowed us to build at the same time the reporter and the
+cli for PackageInventory and deploy them together. Inside the spec file we
+specify all the files that are necessary to execute PackageInventory
+correctly.
+
+Specifying dependencies between packages (in our case, python libraries)
+or configuration files is extremely easy. Moreover is fundamental to
+specify configuration files inside the spec file, due to the fact that
+they don't need to be replaced in case of a package upgrade.
+
+Developers can build their packages using Koji and then assign them to the
+appropriate repositories. Koji takes care of building the package
+correctly, following the specifications of the spec file, for different
+architectures.
+
+The developer is allowed to build the package using Koji as many time as
+he wants before actually publishing it to the final repository. This is
+very useful when we would like to test a build: we can trigger a scratch
+build on Koji, download the resulting package and test it in our test
+environment. In this way we can be sure that our software has been
+packaged correctly before deploying it in the production servers.
+
+Once the package is ready to be deployed it has to follow the usual
+Configuration Change Procedure (CRM). The package is deployed for the
+first week in a QA repository; all the QA machines point to this
+repository and they will receive the update at the next yum update. After
+one week the package can be moved to the stable repository and then be
+deployed to all the machines.
+
+%TODO - Add code examples
