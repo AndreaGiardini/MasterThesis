@@ -5,9 +5,9 @@ customizable for every Puppet module. In order to do this a new folder has
 been introduced in \textit{code/manifests/tests}.
 
 This folder contains all the tests and the configuration files that the
-user can modify to customize his experience.
+users can modify to customize their experience.
 
-This folder, after his initialization, contains four files:
+This folder, after his initialization, contains four different files:
 
 \begin{itemize}
   \item \textit{check.pp}
@@ -22,17 +22,91 @@ user needs.
 
   \item \textit{run\_tests.sh}
 
-This bash script specifies which
+This bash script specifies a set of commands to launch inside the machine
+that has been built in order to verify if the module is working correctly.
+For example, in case of the apache module, if the service is running and
+if it binds correctly. In general, this script is used to trigger a set of
+command inside the machine that has been created using puppet manifest in
+check.pp.
 
-  \item \textit{run\_tests\_external.sh} - A script to trigger tests
-  outside the machine
+  \item \textit{run\_tests\_external.sh}
+  
+The Jenkins host launches this script directly, its aim is to run some
+tests on our target machine from outside. If we take the apache module for
+example, we can scan the host to check if apache is correctly serving
+pages.
 
-
-
-  \item \textit{config.sh} - Contains some variables to customize the testing
-
-
+  \item \textit{config.sh}
+  
+This is purely a configuration file, it is used by the users to customize
+the tests. Its parameters are discussed in the following sections.
 
 \end{itemize}
+
+The \textit{config.sh} file is populated with some default variables to
+let the user get started immediately. Every setting is commented and in
+the file. The available settings are:
+
+\begin{itemize}
+
+  \item \textit{RUN\_CC7 / RUN\_SLC6 / RUN\_SLC5}
+
+At the time of writing, three different operating systems are officially
+supported by IT: Scientific Linux five, Scientific Linux six and CentOs
+seven. Using these three variables we can specify on which operating
+systems we want the test to run. These variables accept only a boolean
+value (yes or no).
+
+If the value for a certain operating system is set to true, then Jenkins
+builds a machine equipped with that OS and runs all the tests on it. This
+comes very handy if our module needs to support some systems and not
+others: we can avoid to test the module for it.
+
+  \item \texit{PUPPET\_RUNS}
+
+This parameters it's an integer, and it specifies how many puppet runs
+Jenkins has to wait before launching the tests (both internal and
+external). The default value has been set to two, since it is usually
+a reasonable number of runs to complete the configuration.
+
+However, we decided to leave the final choice to the users. Some modules,
+like AFS, need more than one run to be configured properly; the service
+manager might consider to increase this number in order to obtain an
+effective test.
+
+It is also important to consider that an higher number of puppet runs will
+make the testing process longer but more accurate and consistent. A lower
+number will make the testing faster but, on the other hand, might give
+inaccurate results.
+
+  \item \textit{VM\_MODE}
+
+Probably the most important parameter listed here: it allows the users to
+specify how they want the machine to be built. Two options are available
+: \textit{env\_change} and \textit{rebuild}.
+
+Using the first option, \textit{env\_change}, Jenkins takes a machine from
+a pre-build pool of already existing machines, it changes the environment
+to a custom one that includes the change, and then triggers a series of
+puppet runs. The second option, \textit{rebuild}, rebuilds completely the
+machine in a brand new environment, reinstalling everything.
+
+Even in this case, the final choice is made by the user: even if the
+approach used by changing environment without rebuilding it is considered
+safe and fast, it might not fit all the user needs. Obviously changing the
+environment without rebuilding makes the operation faster but, on the
+other hand, the machines that are used have been pre-built, so they are
+not literally clean. Rebuilding a whole machine takes longer but offers
+a complete testing for the module.
+
+This way of defining the building techniques has been created we have seen
+in the past some changes that were completely harmless when applied to an
+already existing machine, but were breaking all the new installations. At
+the same time not all the modules needs this extra computing, so the
+environment change might result a good solution in those cases.
+
+\end{itemize}
+
+
 
 
