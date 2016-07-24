@@ -1,4 +1,88 @@
 \section{Results}
 
-\subsection{Deployment size}
-\subsection{Performance Analysis}
+In this last section we will analyse the results of the deployment of
+PackageInventory in the CERN Datacentre and how it has been useful in some
+interventions. At the end of the chapter we left some room for possible
+developments of the tools, current limits and future ideas to implement.
+
+\subsection{Real life practical usage}
+
+After the deployment of PackageInventory in several number of servers we
+used it extensively to detect configuration problems. In the following
+sections we describe a set of incidents in which PackageInventory helped
+the team to find the problem and deploy a solution in a timely manner.
+
+  \subsubsection{Libuser upgrade}
+
+  Red Hat announced the presence of two critical vulnerabilities
+  (CVE-2015-3245 \cite{cve-2015-3245} and CVE-2015-3246
+  \cite{cve-2015-3246}) in the \textit{libuser} package. These
+  vulnerabilities would allow a logged user to perform a local privilege
+  escalation to the root user. Since CERN has several cluster that allow
+  remote users to log in and perform operations it was necessary to act
+  immediately to patch these serious vulnerabilities.
+
+  Since the official version of \textit{libuser} was vulnerable, all the
+  machines of our clusters could have been potentially compromised. The
+  new updated package has been released in a timely manner in the CERN
+  repositories and the machines started to upgrade. The following day all
+  the machines should have been upgraded (since Yum update happens every
+  night) but, thanks to PackageInventory, we noticed that around two
+  hundreds fifty servers did not apply the upgrade as supposed.
+
+  While investigating the issue we noticed that Puppet was failing to
+  apply correctly the manifest to those machines due to a misconfiguration
+  in their manifest. Due to that, those servers were using old snapshots
+  repositories not containing the updated package. Apparently those
+  servers were not receiving upgrades since a long time but nobody noticed
+  them until this problem appeared.
+
+  Since the investigation found the problem that was causing the
+  misconfiguration we fixed the Puppet manifest and the servers upgraded
+  their packages as foreseen. Thanks to PackageInventory we made sure that
+  all the machines were upgraded to the latest servers of \textit{libuser}
+  and we recovered over two hundreds servers that were drifting from the
+  correct configuration.
+
+  \subsubsection{Batch jobs performing differently on different nodes}
+
+  The batch cluster, the bigger one in the CERN datacentre, performs
+  hundreds of jobs per day submitted by physicists all over the world. It
+  happened in some occasions that the same job was performing differently
+  on two different servers or succeeding in one machine and failing in
+  another.
+
+  Errors of this type were difficult to spot and they are not supposed to
+  happen in a cluster where all the servers should be configured in the
+  same way. In this case PackageInventory helped to spot different
+  configurations between two servers that were causing the issue.
+
+  It happened several times that libraries were installed on all the hosts
+  but with different versions, generating different outputs depending on
+  the server processing the job.
+
+  \subsubsection{LSF upgrade}
+
+  The scheduling of jobs in the batch cluster is done using a software
+  provided by IBM called LSF \cite{ibm-lsf}. It provides intelligent
+  scheduling of jobs across big clusters, optimizing the resources.
+  Moreover it provides different types of queue for jobs of different
+  length.
+
+  The upgrade of such a big cluster is not easy to perform and requires
+  a set of precise actions to be taken in order to complete the upgrade
+  with the minimum downtime. In particular, whenever we had to perform an
+  upgrade of LSF we had to make sure that, after the upgrade, the machine
+  was rebooted in order to use the new updated software.
+
+  Since it was not easy to keep track which machines rebooted and which
+  did not it happened that some machines updated without rebooting,
+  creating errors during jobs processing. For this reason we added an
+  extra flag to PackageInventory to query if a server has been rebooted or
+  not after the installation of a package.
+
+\subsection{Future Developments}
+
+PackageInventory has definitely some potential
+
+

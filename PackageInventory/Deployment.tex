@@ -1,1 +1,51 @@
 \section{Deployment}
+
+Once we finished the first stage of development of PackageInventory we
+decided to try it on some QA machines to spot some bugs before moving it
+to the production environment. This operation was indeed very useful and
+it gave us an opportunity to see how PackageInventory was able to scale
+with an high number of machines.
+
+We started in the beginning with a small number of machines, around twenty
+servers part of the Lxplus QA cluster. During a couple of weeks we
+continued fixing bugs and improving the Reporter and the Cli following the
+guidelines of the final users. When we started to be confident about the
+software that we built, we decided then to ship it in the production
+Lxplus cluster with over two hundred machines.
+
+This process has been repeated multiple times, every time we increased the
+size of the deployment to see how PackageInventory was scaling and if the
+ElasticSearch cluster was able to handle the load.
+
+By the end of my contract at CERN, PackageInventory has been deployed in
+several clusters of servers, including the Batch Cluster (the bigger
+cluster at CERN) with more that two thousands machines. In total, the
+number of hosts with PackageInventory installed are more than fifty five
+hundreds of servers.
+
+During this procedure of scaling and deployment we had of course to fine
+tune the PackageInventory and the ElasticSearch cluster. We would like to
+highlight in particular one incident than we had when we tried to deploy
+PackageInventory on a large number of server at the same time (more than
+one thousand machines installed and reported together). As we said
+previously our software reports every time the difference in the packages
+of an host compared to the previous run. During the first run however,
+PackageInventory reports all the packages installed to the ElasticSearch
+server, generating quite a large report. We can definitely say that, since
+all the other reports are incremental, the first report of every host is
+the heaviest one to process by the ElasticSearch cluster.
+
+When we deployed PackageInventory to a large number of nodes we realized
+that our ElasticSearch cluster was not handling the load properly, making
+the cluster crash. On one hand we notices that it was not a problem of
+resources, but more of a wrong configuration of ElasticSearch's
+parameters. After some investigations we increased the number of open
+files and sockets for the cluster and it started then to process all the
+metrics correctly.
+
+It is important to notice that, since we used Flume to guarantee
+redundancy, no metrics have been lost. In fact Flume noticed immediately
+that the cluster was not available and queued the metrics locally waiting
+for the cluster to be online again.
+
+

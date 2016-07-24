@@ -2,26 +2,49 @@
 
 A Cli is provided to query the status of packages and hosts from the
 user's machines. It uses PuppetDB and the Elasticsearch cluster to return
-the results to the user.
+the results to the user. A Kibana dashboard is provided as well to
+constantly show the incoming number of reports and the activity of Package
+Inventory.
 
 \subsection{Functions}
 
-\subsubsection{Compare two or more hosts or machines}
+\begin{itemize}
+  \item \textbf{Compare two or more hosts or machines}
 
-PackageInventory allows us to compare two or more machines. We are able to 
-query PuppetDB to get a list of hosts or we can specify the host names. For 
-example, if we want to compare all the hosts on a specific hostgroup:
+  PackageInventory allows us to compare two or more machines. We are able to 
+  query PuppetDB to get a list of hosts or we can specify the host names. For 
+  example, if we want to compare all the hosts on a specific hostgroup:
+  
+  \begin{lstlisting}[frame=single]
+  \$ pkginv -H \'bi/batch/gridworker/aishare/share\' -e production compare
+  
+  Processing hosts with:
+  
+       - Hostgroup: bi/batch/gridworker/aishare/share
+       - Environment: production
+  \end{lstlisting}
 
-\begin{lstlisting}[frame=single]
-\$ pkginv -H \'bi/batch/gridworker/aishare/share\' -e production compare
-
-Processing hosts with:
-
-     - Hostgroup: bi/batch/gridworker/aishare/share
-     - Environment: production
-\end{lstlisting}
-
-
+  \item \textbf{Package List}
+  \item \textbf{Package History}
+  \item \textbf{Package Status}
+\end{itemize}
 
 \subsection{Querying ElasticSearch}
+
+The query language of ElasticSearch is substantially different from the
+one we used to have with relational databases like MySQL\@. In fact
+ElasticSearch does not have the concept of tables, keys or triggers,
+instead it provides databases with different mappings. This means that
+when a database is created is necessary to provide a description of the
+metrics that we want to store in it.
+
+Defining a correct mapping is extremely important when we are dealing with
+ElasticSearch since the data will be stored and optimized for the type of
+mapping that we defined. Changing the mapping of a database afterwards is
+possible but, depending on the amount of data we already have, might be
+extremely time-consuming since the database needs to re-index all the
+metrics.
+
+
+
 \subsection{Optimizations for large-scale queries}

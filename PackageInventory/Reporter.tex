@@ -1,41 +1,54 @@
 \section{Reporter}
 
 Packageinventory Reporter is the first element that we are going to
-analyze. It reports the package status to a central ElasticSearch
-instance, creating a browsable metrics store.
+analyze. It reports the status of the packages of a server to a central
+ElasticSearch instance, creating a browsable metrics store.
 
-Every time it runs, it checks if the list of packages has been updated
-since the last run and, if the answer is positive, it sends the lists of
-updates to ElasticSearch using Flume. It includes a Yum plugin to make the
-updates available as soon as possible: whenever yum is executed,
-packageinventory is executed consequentially.
+The reporter is installed on every machine that we want to monitor and,
+every time it runs, it checks if the list of packages has been updated
+since the last run. If a new package has been installed or removed since
+the last time, it sends a lists of updates to ElasticSearch using Flume.
+It includes a Yum plugin to make the updates available as soon as
+possible: whenever Yum is executed to modify the package configuration,
+PackageInventory is executed consequentially.
 
-It is possible to configure the reporter specifying some paramenter using
+It is possible to configure the reporter specifying some parameters using
 a configuration file stored in \textit{/etc/packageinventory.conf}. This
-file allows us to set the locations of all the logfiles, specify the
-ElasticSearch hostname and the index.
+file allows us to set the locations of all the log files, specify the
+ElasticSearch hostname and the index. We decided to make the reporter
+customizable in order to have the possibility in the future to organize
+and store the metrics in different clusters.
 
-\subsection{Yum}
+In order to better understand how to report the packages correctly we had
+to study how the package manager of CentOS works and learn how to interact
+with it. In particular we analysed two main components: 
 
-Yum is the default package-management utility using the RPM package
-manager. It automatically handles updates and dependency management. Yum
-is based on software repositories which can be accessed remotely or
-locally.
+\begin{itemize}
+  \item \textbf{Yum}
 
-It is installed by default in all the linux distributions used at CERN
-like RHEL, Scientific linux and CentOs. It is consequentially important to
-understand how Yum works to accomplish our mission.
+  Yum is the default package-management utility using the RPM package
+  manager. It automatically handles updates and dependency management. Yum
+  is based on software repositories which can be accessed remotely or
+  locally.
+  
+  It is installed by default in all the linux distributions used at CERN
+  like RHEL, Scientific linux and CentOs. In the latest distribution
+  releases it has been replaced by a new package manager called DNF. It is
+  consequentially important to understand how Yum works to accomplish our
+  mission.
 
-\subsection{RpmDb}
+  \item \textbf{RpmDb}
 
-RpmDb is a database, used by Yum, containing all the information and
-metadata about the packages that are installed on the system. All the
-RPM-based distribution have a global RpmDb, listing the packages of the
-whole system.
+  RpmDb is a database, used by Yum, containing all the information and
+  metadata about the packages that are installed on the system. All the
+  RPM-based distribution have a global RpmDb, listing the packages of the
+  whole system.
+  
+  It includes several functions to access, read and write it in an atomic
+  way: since it is a database we should prevent simultaneous writes using
+  a locking mechanism. It uses Berkeley DB as a database.
 
-It includes several functions to access, read and write it in an atomic
-way: since it is a database we should prevent simultaneous writes using
-a locking mechanism. It uses Berkeley DB (BDB) as a database.
+\end{itemize}
 
 \subsection{Functions}
 
@@ -46,32 +59,107 @@ list contained in this file and it compares it with the list of packages
 currently installed in the system. In this way PackageInventory is able to
 easily detect which packages changed and how.
 
-Every time it runs:
+A simple configuration file:
+
+\begin{lstlisting}[frame=single]
+[PackageInventory]
+LogFile: /var/log/rpmlistinventory.log
+FlumeFile: /var/log/flume-pkginv.log
+Tag: [PkgInventory]
+ElServer: myelcluster.cern.ch
+ElIndex: myelindex
+HostName: myhost
+\end{lstlisting}
 
 \begin{itemize}
-    \item Checks the configuration file, making sure that none of the options
-            is missing.
-    \item Loads the package list of the previous run (\textit{LogFile}
-            if present).
+  \item \textbf{LogFile}
+  
+  Specifies a log file containing the list of packages that has been
+  detected in the last run on PackageInventory. The list is comprehensive
+  of package name, version, epoch, architecture and a timestamp reporting
+  the date of installation.
+  
+  \item \textbf{FlumeFile}
+
+  This options contains the name of the file that Flume has to process and
+  to send to ElasticSearch. It contains the list of modifications that
+  needs to be stored in the database; Flume monitors this file for
+  changes.
+
+  \item \textbf{Tag}
+
+  This element has been added in the past for testing purpose and could be
+  removed in a future version of PackageInventory. It was used to
+  differentiate the metrics submitted by our software from the others
+  stored in the same cluster.
+
+  \item \textbf{ElServer}
+
+  Defines the hostname of the ElasticSearch server we want to send our
+  metrics to since, as we said previously, we might want to send the data
+  to different clusters.
+
+  \item \textbf{ElIndex}
+
+  Specifies the name of the ElasticSearch index.
+
+  \item \textbf{HostName}
+
+  Defines the hostname of the server to monitor.
+
+\end{itemize}
+
+Every time PackageInventory runs on a machine it checks that all these
+parameters are specified correctly and then it reports the packages
+installed using the following logic:
+
+\begin{itemize}
+    \item Loads the package list of the previous run (\textit{LogFile}).
     \item Queries RpmDb to get the list of packages that are currently
             installed.
     \item Detects if any package has been removed, installed or upgraded.
-    \item The list of modified packages is logged to a second logfile
+    \item The list of modified packages is logged to a second log file
             (\textit{FlumeFile}), which is then used by Flume to communicate
             to ElasticSearch.
-    \item The list of current packages is written in \textit{Logfile}
+    \item The list of current packages is written in \textit{LogFile}
 \end{itemize}
 
 This whole process is triggered, using a plugin called pkgreporter, every
 time Yum runs. In this way the metric store receives live updates from all
-the hosts in realtime.
+the hosts in real time. 
 
 \subsection{Report changes with Flume}
 
-The logfile called \textit{FlumeFile} is then used by Flume to communicate
-the changes to the ElasticSearch cluster using a \textit{Flume TailSource}
-on the file generated by PackageInventory. With an interceptor Flume
-parses the file line by line generating the corresponding metrics.
+The log file called \textit{FlumeFile} is then used by Flume to
+communicate the changes to the ElasticSearch cluster using a \textit{Flume
+TailSource}. With an interceptor Flume parses the file line by line
+generating the corresponding metrics.
 
 A caching mechanism is included in Flume: if the communication with the
-cluster is not working no data is lost in case of downtime.
+cluster is not working no data is lost in case of downtime. Flume in fact
+will store the metrics locally until the ElasticSearch cluster becomes
+available again.
+
+\subsection{Installation and configuration with Puppet}
+
+To automate the installation of PackageInventory in multiple machines and
+to integrate it with Puppet, we coded a Puppet module and we made it
+available in the software repository.
+
+In this way the installation and configuration of PackageInventory is
+fully automated using Puppet. The final user has simply to add the
+following code in the Puppet manifest of his host to let it start to
+report packages:
+
+\begin{lstlisting}[frame=single]
+class {'pkginventory':
+    el_host     => 'pkginv.cern.ch',
+    el_index    => 'logs',
+    el_cluster  => 'Package Inventory',
+}
+\end{lstlisting}
+
+When the manifest will be applied it will install the correct packages for
+the execution of PackageInventory and its dependencies, set the
+configuration file accordingly, install the Yum plugin and create a new
+Flume TailSource.

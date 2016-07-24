@@ -8,11 +8,9 @@ package drifting.
 In particular outdated machines are always difficult to spot, and often
 happens that a set of machines are not aligned to the configuration due to
 local problems. This may obviously lead to different and unexpected
-behaviours.
-
-Moreover this situation may introduce security issues. Every time a new
-vulnerabily is release we want to make sure that all the systems applied
-the patch correctly.
+behaviours. Moreover this situation may introduce security issues. Every
+time a new vulnerability is released we want to make sure that all the
+systems applied the patch correctly.
 
 For this reason, in collaboration with the PES team, I developed
 PackageInventory: a set of tools to query the status of packages across
@@ -27,3 +25,8 @@ multiple hosts. It has three main elements:
 The first two elements have been developed from scratch while the
 ElasticSearch server is used by the configuration team also to run other
 services.
+
+The aim of PackageInventory is to provide an easy way to spot differences
+in servers configuration. Whenever a server behaves differently from the
+others we can compare his configuration with the healthy machines of the
+cluster and see if there is any difference in the set of packages.
