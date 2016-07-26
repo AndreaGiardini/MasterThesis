@@ -5,6 +5,11 @@ PackageInventory in the CERN Datacentre and how it has been useful in some
 interventions. At the end of the chapter we left some room for possible
 developments of the tools, current limits and future ideas to implement.
 
+In general we had quite good performance when comparing packages across
+big clusters with PackageInventory. In the worst case, to compare all the
+machines part of a cluster of more than two thousands servers was matter
+of a couple of minutes.
+
 \subsection{Real life practical usage}
 
 After the deployment of PackageInventory in several number of servers we
@@ -83,6 +88,37 @@ the team to find the problem and deploy a solution in a timely manner.
 
 \subsection{Future Developments}
 
-PackageInventory has definitely some potential
+PackageInventory has definitely some potential spotting misalignments and
+wrong server configurations but it is of course far from being complete
+solution. In particular we would like to improve:
+
+\begin{itemize}  
+
+  \item \textbf{Communication between Flume and the ElasticSearch cluster}
+
+  Right now Flume sends the metrics to the ElasticSearch cluster using
+  ElasticSearchSink \cite{elasticSearchSink} when instead it would be
+  better to use a different kind of transport like, for example, AvroSink
+  \cite{avroSink}. This would avoid the dependency of the ElasticSearch
+  libraries and improve the reliability of the service adding two
+  a secondary buffers for metrics on the client and on the cluster.
+
+  \item \textbf{Integration with the alarming system}
+
+  Another idea that could be useful for our purpose is to integrate
+  PackageInventory with the current alarming system in order to trigger
+  alarms on misconfigured servers. For example, PackageInventory could run
+  periodically, comparing servers that are part of the same cluster. As
+  soon as it detects an anomaly it could create an alarm for the servers
+  that went out of sync.
+
+  \item \textbf{Improvement of the Cli}
+
+  We implemented in the Cli just the main functions and tools. There is
+  definitely space for improvement and add more functionalities in order
+  to automate most common procedures. A library to interact with
+  PackageInventory might come useful as well in the future.
+
+\end{itemize}
 
 
