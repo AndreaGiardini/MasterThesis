@@ -1,9 +1,10 @@
 \section{Infrastructure Overview}
 
 Jenkins is one of the most popular Continuous Integration tools in the
-open-source environment: it is used by companies to achieve different goals,
-due to his highly-customizable nature. Moreover it is officially supported by
-the configuration team so it looks like a good system to base our CI.
+open-source environment: it is used by companies to achieve different
+goals, due to its highly-customizable nature. Moreover it is officially
+supported by the configuration team so it looks like a good system to base
+our CI on.
 
 The idea is to keep Jenkins as light as possible: we will try to avoid to
 create heavy jobs, that are difficult to debug in case of problems. Instead we
@@ -24,6 +25,19 @@ The user is able to specify the parameters and the tests for his job inside the
 same Git repository containing the puppet module, as it is described in the
 section \textit{Customizable Testing}.
 
+\subsection{Jenkins cluster}
+
+The Jenkins cluster is made by a single master and four slave machines. All
+those servers share an AFS folder between them to keep some common files like,
+for example, the list of common settings and some temporary files for each job.
+
+Using this configuration allows us to dynamically scale the cluster in case of
+problem without having to restart Jenkins. If the cluster starts to be
+overloaded we can build a new slave automatically, attach the network share and
+let it join the cluster in a timely manner. In fact, since our work flow is
+split in different sub-jobs it is highly possible that sub-jobs that are part
+of the same macro work flow are executed on different slaves.
+
 \subsection{Jobs description}
 
 In this section we will describe all the jobs involved in the processing of
@@ -42,15 +56,21 @@ This jobs accepts these parameters:
 
 When the job is triggered it creates a dynamic environment that will be
 used to test the module. The \textit{MERGETO} variable represents the
-default branch and the \textit{BRANCH} variable is used as override of the
-\textit{MODULE}. The custom environment is created using a tool called
-\textit{ai-create-environment} and it is pushed to the
-\textit{it-puppet-environments} repository. After pushing to the
-repository, the script queries Foreman to make sure that the environment
-has been created and that it is available before proceeding. Once the
-environment is available the job finishes, returning the name of the
-custom environment. Those environments have a name that concatenates
-\textit{aici}, the name of the module and a random UUID.
+default branch used in the environment file and the \textit{BRANCH}
+variable is used as override of the \textit{MODULE}. The custom
+environment is created using a tool called \textit{ai-create-environment}
+and it is pushed to the \textit{it-puppet-environments} repository. After
+pushing to the repository, the script queries Foreman periodically to make
+sure that the environment has been created and that it is available before
+proceeding. Once the environment is available the job finishes, returning
+the name of the custom environment. Those environments have a name that
+concatenates \textit{aici}, the name of the module and a random UUID
+(e.s.aici-apache-u2r478c5).
+
+This job is simple and aims to create a custom, private environment where
+the CI could test the changes committed to \textit{BRANCH}. Creating
+a custom environment is a mandatory step to be able to understand how the
+change affects the final machine.
 
 \subsubsection{Create-Verify - Builds a machine and tests it}
 
@@ -65,7 +85,7 @@ This job accepts these parameters:
 This is a MultiConfiguration job, it means that every time this job is
 triggered it will run multiple times with different parameters. In our
 case the \textit{ENVIRONMENT} and the \textit{MODULE} variables are passed
-to job, while \textit{OS} can assume three different values:
+to the job, while \textit{OS} can assume three different values:
 \textit{SLC5}, \textit{SLC6} and \textit{CC7}. The aim is to test our code
 on the different architectures: the ones supported by the Computer
 Center.
@@ -74,9 +94,9 @@ This job builds a virtual machine of the operating system specified in the
 variable \textit{OS} and runs the tests. In order to speed-up the building
 process, it has been agreed to keep three separate pools of machines ready
 to be used, one for each operating system. Each pool contains a set of
-machines ready to be used for the tests, they are built in advance to make
-the testing process faster and avoid errors during the creation of the
-machine.
+machines ready to be used for the tests, they are built in advance, with
+an empty manifest file, to make the testing process faster and avoid
+errors during the spawning of the machines.
 
 When the job is triggered:
 
@@ -88,8 +108,28 @@ When the job is triggered:
 \end{itemize}
 
 This job can be customized by the module maintainer using the
-configuration file described in the following section. The job is
-successful only if all the tests specified are successful.
+configuration file described in the following section and it is successful
+only if all the tests specified are successful. A sub-hostgroup of the
+hostgroup \texit{it-puppet-hostgroup-testing} is created, including only
+the module that we want to test, for example:
+
+\begin{lstlisting}[language=bash, frame=single]
+class hg_testing::apache { 
+  include apache::tests::check
+}
+
+\end{lstlisting}
+
+Using this technique it is possible to configure a clean machine with
+nothing more than the base modules (that are installed by default) and the
+module that we want to test. Since we change both hostgroup and
+environment, the machine that we are building will be configured with the
+module we are testing and the change that we committed in the custom
+branch.
+
+Moreover, We will see later that, using the configuration files, it is
+possible to specify on which Operating Systems the user wants to run its
+tests.
 
 \subsubsection{Build-Spare - Fills the pools of spare machines}
 
@@ -104,6 +144,24 @@ checks the status of each pool and creates the corresponding machines if
 it is not full. It is necessary to run this job to create new machines for
 the tests, since after each testing the machine is destroyed.
 
+The \textit{OS} variable, like the previous job, has three different
+values representing the Operating Systems supported at CERN. Whenever this
+job is triggered, three jobs are started, one for each possible value of
+\textit{OS}. Of course it is possible to add more operating systems to the
+support list simply adding a new value to the list.
+
+While other jobs can have more than one instance at the same time (for
+example, two destroy-vm) this job is meant to run sequentially since we do
+not want to create one machine at the time at make sure that they are
+correctly spawned and built. For this reason, even if this job is
+triggered every time a machine is picked up for testing, there will always
+be at maximum one build-spare job running.
+
+This job is able to re-trigger itself automatically if the pools are not
+full. If the maximum size of the pool is five, but the number of machines
+currently present in the pool is three, the job will re-instantiate itself
+three times in order to fill the pool.
+
 \subsubsection{Destroy-Vm - Destroys the specified virtual machine}
 
 This job accepts these parameters:
@@ -113,7 +171,10 @@ This job accepts these parameters:
 \end{itemize}
 
 Provided a list of machines to be deleted, this job removes all of them
-from the system.
+from the system. This job is triggered at the end of the testing phase,
+once all the results of the test are available and successful. If the
+tests are not successful the server is not destroyed in order to have the
+possibility of inspecting the faulty machine and see what happened.
 
 \subsubsection{Delete-Environment - Removes the specified environment}
 
@@ -123,4 +184,56 @@ This job accepts these parameters:
   \item ENVIRONMENT - Environment to be destroyed
 \end{itemize}
 
-Given the environment to be deleted, it deletes it from the system.
+Given the environment to be deleted, it deletes it from the system. In
+fact, since the environments are basically mono-use, once the change has
+been tested, there is no need to keep them.
+
+\subsection{Integration with GitLab and Jira}
+
+As described in the previous sections, it is important to keep the status
+of the repository, ticket and configuration in sync. This means that the
+CRM tickets that have been opened to start a new configuration change need
+to be closed accordingly to the status of the CI.
+
+Moreover, since CERN is migrating its Git infrastructure from gitolite to
+GitLab its fundamental to find a way to integrate this component in the
+work flow.
+
+\subsection{AiDoctor}
+
+Aidoctor is another component of the infrastructure that we need to take in
+consideration when talking about the CRM process. It is nothing more than
+a series of scripts that aim to automate some tasks that used to be done
+manually in the past. In particular its duties are:
+
+\begin{itemize}
+
+  \item Send email for configuration changes
+
+  Every time a new change is submitted to a module and it is merged in the QA
+  branch all the service managers that use the specified module receive an
+  email stating that a change is ongoing. In this way a service manager knows
+  that it is necessary to monitor closely the QA servers for possible
+  misbehaviours.
+
+  \send Weekly CRM recap
+
+  Since the Configuration Management team meets once a week with the others
+  teams it is necessary to provide a list of the changes that are in QA and the
+  changes that went in production during last week. Other service managers and
+  then able to ask questions or clarifications directly to the team about
+  configuration changes.
+
+  \item Update ticket status and trigger Jenkins
+
+  In some cases, when webhooks are not available, Aidoctor takes care of
+  monitoring the status of tickets in Jira and updates them accordingly to
+  their status. In particular this script is responsible for triggering
+  a Jenkins build when the CRM ticket is opened and, if the configuration
+  change passes the QA period, trigger a new build to move the change to
+  production.
+
+\end{itemize}
+
+The authorization for Aidoctor works both with Kerberos tickets, that are
+periodically renewed, or cookies.

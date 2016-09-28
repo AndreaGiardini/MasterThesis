@@ -1,3 +1,74 @@
 \section{Workflow re-engineering}
 
+Reorganizing the work flow has been the most time-consuming activity in
+this part of the project, especially since in our case automation and
+integration are the keys. In order to avoid to change the work flow during
+the process of building the CI we spent a large amount of time trying to
+modularize and split every jobs in all his components.
 
+The use cases that we identified were mainly two:
+
+\being{itemize}
+
+  \item Testing CRM tickets
+
+  As explained in the previous sections, every time a new change in the
+  configuration manifests is submitted, the CI needs to test that a build
+  with that change is not failing. Moreover some tests are provided in
+  order to identify issues.
+  
+  \item Daily testing of main modules
+
+  For the most used module an additional test needs to be run every
+  morning to make sure that all the changes currently in QA are not
+  compromising the builds. For this, we need to simply build a machine
+  every morning, using the \textit{qa} branch of the module and make sure
+  that it builds correctly without Puppet errors.
+  
+\end{itemize}
+
+Splitting those two jobs in different sub-jobs is definitely the best idea
+in order to modularize and organize the work flows. In particular we can
+see how the second job is smaller than the first one and some of the steps
+are quite similar.
+
+\subsection{Testing configuration changes}
+
+We will describe in this sections how the first use case works and what
+the user needs to do in order to trigger it.
+
+\subsubsection{Adding the tests}
+
+Since, as explained before, one of the keys of our project needs to be
+automation we decided to create a Jenkins job called
+\textit{setup-base-tests} in order to add sample tests to the user's
+module. This jobs configure the user module with some sample tests and
+adds to Jenkins a new job dedicated to that specific module.
+
+For the final user setting up the tests becomes as simple as opening
+a normal CRM ticket: the user opens a ticket with Jira type \texit{Add
+test templates} and specifies the module name. The Configuration Team then
+reviews the request and, if the user is authorized to use the CI service,
+moves the ticket from \textit{Pending} to \textit{Approved}. This
+operation triggers a Jira webhook that starts a Jenkins job called
+\textit{setup-base-tests}.
+
+This job scans Jira for tickets with type \textit{Add test templates} and
+status \textit{Approved} and gets the module name from them. Then, it
+clones the corresponding git repository of the module and, in a new branch
+called \textit{add-tests} adds a folder containing all the test samples.
+If all the operations are completed successfully, it creates two merge
+requests on Gitlab: one from \textit{add-tests} to \textit{qa} and one to
+\textit{master}. These requests need to be approved by the service manager
+responsible for the module.
+
+Following this, a new Jenkins jobs with the name of the module is created
+(that will be triggered when a new CRM ticket is opened) and, if
+everything goes well, the original Jira ticket is closed with status
+\textit{Completed}. 
+
+At this point the user can customize the tests and the Puppet manifests
+that are present inside the module's repository merging the test samples
+inside the repository and then editing them accordingly 
+
+\subsubsection{Proposing a configuration change}

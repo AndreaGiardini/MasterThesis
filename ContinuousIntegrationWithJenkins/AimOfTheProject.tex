@@ -1,14 +1,16 @@
 \section{Aim of the project}
 
 The CRM process described in the previous sections works well for our
-needs but it has one major flaw: it is not automated and it is easy to do
-mistakes. In particular merging different branches and keeping the Jira
-ticket in sync with the status of the deployment updating the ticket
-accordingly are usually source of problems. In the past we have seen
-merges between wrong branches, or outdated tickets which are not following
-the status of the repository anymore.
+needs but it has one major flaw: it is not automated and it is easy to
+make mistakes. In particular merging different branches and keeping the
+Jira ticket in sync with the status of the deployment and updating the
+ticket accordingly are usually source of problems. In the past we have
+seen merges between wrong branches, or outdated tickets which are not
+following the status of the repository. This leads obviously to confusion
+in the organization of the deploy of new configurations since the process
+is mostly manual.
 
-Automating the CRM process also with automated tests would be a great
+Automating the CRM process and adding automated tests would be a great
 improvement for the release of new features. The aim is to move all the
 operations that were done manually before to an automated task, taking
 care of all the operations.
