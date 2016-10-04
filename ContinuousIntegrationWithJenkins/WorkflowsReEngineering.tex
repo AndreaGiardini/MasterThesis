@@ -53,6 +53,10 @@ moves the ticket from \textit{Pending} to \textit{Approved}. This
 operation triggers a Jira webhook that starts a Jenkins job called
 \textit{setup-base-tests}.
 
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ContinuousIntegrationWithJenkins/images/add_test_templates.jpg}
+\end{figure}
+
 This job scans Jira for tickets with type \textit{Add test templates} and
 status \textit{Approved} and gets the module name from them. Then, it
 clones the corresponding git repository of the module and, in a new branch
@@ -72,3 +76,62 @@ that are present inside the module's repository merging the test samples
 inside the repository and then editing them accordingly 
 
 \subsubsection{Proposing a configuration change}
+
+The procedure to propose a configuration change has not changed much but,
+with added automation, users are less prone to make mistakes due to
+repeating long procedures.
+
+Once the user tested locally its module's change and wants to propose it
+to the public all it has to do is: open a new ticket in Jira. Opening
+a ticket requires multiple information that need to be provided by the
+user: title, description, the module involved, the branch containing the
+change and type equal to "Configuration Change". Since the use of the CI
+is optional we added also a tick box to select if the user wants the
+procedure to be handled by Jenkins or not.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ContinuousIntegrationWithJenkins/images/add_crm_change.jpg}
+\end{figure}
+
+When the user opens the ticket, the procedure is started, from now on the
+whole work flow is automated and does not need any user interaction
+(except, obviously, in case of tests failures).
+
+Aidoctor, as described in the previous sections contains a script that
+monitors the Jira service for new tickets. When the user creates a new
+ticket this script forges a merge request on Gitlab using the ticket's
+title and description, from the specified branch to the QA branch. The
+link of the merge request is then posted in Jira to let the user have the
+possibility to keep track of the work flow.
+
+Jenkins monitors the Gitlab instance for new merge requests assigned to
+the \textit{Jenkins CI} user, in fact we don't want our CI to take care of
+all the merge requests. Whenever a new merge request is opened and the
+assigner corresponds to the user associated with Jenkins a new build is
+triggered. This means as well that users can test their changes using the
+Continuous Integration infrastructure even without opening a CRM, but
+simply assigning the merge request to Jenkins.
+
+At this point Jenkins starts building the job called
+\textit{it-puppet-module-modulename} with the parameters obtained from the
+merge request. This job, that has been created in the previous sections
+while adding the sample tests, consists in a set of sub-jobs:
+
+\begin{enumerate}
+
+  \item create-env
+
+  Using as default QA. Overrides the module taken into consideration with
+  the branch involved in the merge request.
+
+  \item create-verify
+
+  \item destroy-vm
+
+  \item destroy-env
+
+\end{enumerate}
+
+
+
+
