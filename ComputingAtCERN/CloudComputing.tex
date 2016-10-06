@@ -10,31 +10,44 @@ involving downtimes and problems for final users.
 In 2012 CERN started to migrate its physical infrastructure to
 a virtualization-based one: most of the machines are now virtualized using
 OpenStack and KVM. During the last years CERN became a big contributor in
-the open-source environment due to his active collaboration with the
+the open-source environment due to its active collaboration with the
 development team of those two projects.
 
 \subsection{OpenStack}
 
-OpenStack is a free and open-source cloud-computing software platform.
-It's composed by a set of different projects working together using
-RESTFul APIs: each project has a single function ( e.s. storage,
-computing, networking, etc. ) and, through a single endpoint, the user is
-able to instantiate virtual machines coordinating all of them.
+OpenStack \cite{OpenStackWebsite} is a free and open-source
+cloud-computing software platform. It is composed by a set of different
+projects working together using RESTFul APIs: each project has a single
+function ( e.s. storage, computing, networking, etc. ) and, through
+a single endpoint, the user is able to instantiate virtual machines
+coordinating all of them.
 
 Users are able to instantiate, delete, resize and edit virtual machines in
 real-time: this makes the development cycle faster and shortens the
 testing time.
 
-% TODO talk about tenants and cells, deployment in different datacenters
-% based on cells
+OpenStack splits the physical servers in different \textit{cells} that are
+used to identify machine with different characteristics, for example their
+location (Meyrin or Wigner), their age of the equipment or the type of
+power line they are connected to (critical or standard). Each team at CERN
+has a defined quota, which is used in order to prevent misuse of the
+resources: users can instantiate only a defined number of virtual machines
+for each cell. Using this mechanism the cloud team is able to keep control
+of the resources and quickly identify problems in the allocation of
+resources. The use of cells has been proved to be very interesting and
+efficient, especially to guarantee service redundancy. The most popular
+use case consists in allocating resources in different locations to
+guarantee redundancy in case of network or power failures.
 
 \subsection{KVM}
 
-KVM (Kernel-based Virtual Machine) is a virtualization infrastructure for
-the Linux kernel that turns it into a hypervisor. It requires a processor
-with hardware virtualization extension and it supports a wide range of
-operating systems.
+KVM (Kernel-based Virtual Machine) \cite{KVMWebsite} is a virtualization
+infrastructure for the Linux kernel that turns it into a hypervisor. It
+requires a processor with hardware virtualization extension and it
+supports a wide range of operating systems.
 
 Using KVM it is possible to run multiple virtual machines on the same host
 running an unmodified version of Linux or Windows. The kernel exposes to
 each virtual machines a complete set of virtualized hardware.
+
+% TODO add some more details

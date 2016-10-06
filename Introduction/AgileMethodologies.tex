@@ -1,9 +1,10 @@
 \section{Agile Methodologies}
 
-Agile software development got popular due to his different and modern way
-to see software as an incremental process. It helps development teams to
-define what to do step by step, revolutionizing the traditional approach
-that instead used to follow a sequential process.
+Agile software development \cite{AgileSoftwareManifesto} got popular due
+to its different and modern way to see software as an incremental process.
+It helps development teams to define what to do step by step,
+revolutionizing the traditional approach that instead used to follow
+a sequential process.
 
 The idea behind Agile is to introduce little modifications to the code
 that a company writes, adding an appropriate test suite, to make sure that
@@ -51,28 +52,42 @@ programmers collaborate with the responsible of the infrastructure and
 vice versa.
 
 The need of this figure comes from the deep link between the software
-deployed and the architecture underneath.
+deployed and the architecture underneath. In the past the communications
+between the software developers and the system administrators used to be
+less frequent and quite sporadic since the applications were mostly simple
+and they did not need a customized environment to run. However, in the
+last years, we have a seen a multitude of frameworks, application servers
+and new programming languages that forced developers and system
+administrators to work close together in order to provide a reliable
+service and the highest uptime.
 
-\subsection{The Idea}
+A DevOps promotes a set of changes and improvements in order to automate
+software deployment and development in order to minimize the human error.
+The aim of the figure of DevOps is to get rid of large manual software
+deployment like we used to see in the past, and start a new philosophy of
+small frequent changes. The final objective is to improve deployment
+frequency, lower the failure rates and the time between fixes. From the
+company point of view this can lead to deploy new features with a shorter
+time to market and improve customer's satisfaction.
 
 \subsection{Continuous integration}
 
 Continuous Integration is the practise, in software engineering, to merge
 the developers work into the main project as soon as the task assigned is
 completed. The aim of this approach is to prevent possible integration
-problems: doing small changes often makes easy to track down problems and
-avoid errors when merging to the mainline.
+problems: doing small changes makes easy to track down problems and avoid
+errors when merging to the mainline.
 
 This method is used most of the time in combination with automated unit tests:
 after modifying the code the developer runs the unit tests to check that
-his change has not compromised somebody else functionality. Due to the
+its change has not compromised somebody else functionality. Due to the
 role of unit tests in this technique, it is fundamental to write tests for
 every new function in order to cover all the use cases and detect
 anomalies before deployment.
 
-Later were also introduced build servers to run unit tests after every commit
-or merge request; in some cases build servers can also run static code analysis
-and style checkers.
+Build servers have been introduced to run unit tests after every commit or
+merge request; in some cases build servers can also run static code
+analysis and style checkers.
 
 \subsection{Continuous delivery}
 
@@ -96,6 +111,7 @@ wait to go live.
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Introduction/Continuous_Delivery_Continuous_Deployment.jpg}
+\caption{Continuous delivery and continuous deployment pipelines}
 \end{figure}
 
 The infrastructure requirements for continuous deployment are higher than
