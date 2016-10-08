@@ -1,1 +1,22 @@
 \section{Current Status}
+
+Before deploying Package Inventory and the continuous integration platform
+to production we ran extensive tests in order to prevent every possible
+error to come up once shipped. This process has been proved to be
+efficient and gave us good results. In particular, for Package Inventory,
+we started deploying the software in small sets of machines at the same
+time and tested the results for weeks. It is obviously difficult to
+predict all the possible problems, especially at this scale: in fact, most
+of the issues we re related to the scalability of the whole process.
+
+The deployment of the continuous integration platform has been planned
+together with the migration of the Git backend from gitolite to Gitlab.
+Since the gitolite service was basically end of life it has been decided
+not to support it and to focus on the Gitlab platform. Some test
+repositories and test tickets have been created in order not to interfere
+with the production repositories and platforms.
+
+As of today, both Package Inventory and the continuous integration
+platform are available for service managers and users. Documentation and
+guides have been written in order to invite users to test both services
+and provide feedbacks and suggestions to the configuration team.

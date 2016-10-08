@@ -28,7 +28,9 @@ hosts.
 
 In the last years Elasticsearch has become more and more popular in the
 opensource world becoming in 2015 the second most popular search engine
-after Apache Solr.
+after Apache Solr. As of today, Elasticsearch is largely used for
+different purpose since it has been proved to be efficient in different
+context, from monitoring to data analysis.
 
 \subsection{Kibana}
 
@@ -44,14 +46,23 @@ escalated. Finding the causes of the incidents got easier as well, since
 using graphs plotting different metrics it is easier to correlate
 different aspects of the same cluster.
 
+Moreover, Kibana has been used to give an overview of the status of the IT
+services to users: its extremely simple user interface allows users to
+create custom dashboards in matters of minutes. A user or a service
+manager can create dashboards customized on the services that they are
+running and plot detailed graphs of all the metrics regarding a particular
+cluster.
+
 \subsection{Flume}
 
 Flume is a distributed and reliable service for collecting and aggregating
 large amounts of data. It processes and organizes the metrics sent by
 lemon before sending them to Elasticsearch. Moreover it provides an
 additional layer of redundancy: if the central Elasticsearch instance is
-not available or under maintenance, Flume can store metrics up to 24
-hours, in order not to lose data in case of downtime.
+not available or under maintenance, Flume can temporary store metrics in
+order not to lose data in case of downtime.
 
 Flume is also capable of reprocessing the log entries to make them
-compatible with the defined metric schema.
+compatible with the defined metric schema. The idea is to take logs from
+different applications and services and rewrite them in a unique format
+before storing them in a database.
