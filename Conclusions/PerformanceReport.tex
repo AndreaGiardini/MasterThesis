@@ -1,1 +1,35 @@
 \section{Performance Report}
+
+Both projects have been accepted by the users with enthusiasm and, during
+the whole period at CERN, we continued to provide support, fixing bugs and
+introducing new features on user request. In particular Package Inventory
+has shown his usefulness in multiple occasions.
+
+Since the first days after its deployment we had the opportunity to see
+Package Inventory in action trying to deal multiple critical
+vulnerabilities have been released online and needed to be patched. In
+this scenario the tool that was previously used to compare packages and
+hosts was not able to determine correctly the status of the system.
+Marionette Collective ( or MCollective ) has been used for several years
+at CERN in order to automate cluster of server an execute the same
+operation over sets of machines. Unfortunately it fails whenever it needs
+to handle with high number of machines with high load ( which is the most
+common user case at CERN ). In the past multiple fixes have been applied
+to make MCollective work even in this scenario but, even if some changes
+made it more stable, it continued to be an unreliable solution for big
+clusters.
+
+For this reason we started building Package Inventory: to have the
+possibility to process offline the package reports instead of, like
+MCollective, running big queries live. This approach has been proved to be
+the winning one: collecting the data in a database and processing them
+offline has been proved to be a more reliable and faster approach.
+
+As we can imagine Package Inventory sends a big amount of data ( list of
+all the packages ) only during the first execution. In the following
+executions just the difference with the previous run is sent, without
+overloading the server. Moreover since the updates happen mostly
+overnight, there is no necessity of live querying the machines, when we
+could have a indexed database to handle all the data.
+
+%TODO ci is slow cause people are lazy

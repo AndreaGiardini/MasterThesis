@@ -7,14 +7,27 @@ efficient and gave us good results. In particular, for Package Inventory,
 we started deploying the software in small sets of machines at the same
 time and tested the results for weeks. It is obviously difficult to
 predict all the possible problems, especially at this scale: in fact, most
-of the issues we re related to the scalability of the whole process.
+of the issues were related to the scalability of the whole process,
+details are explained in the following section.
 
 The deployment of the continuous integration platform has been planned
-together with the migration of the Git backend from gitolite to Gitlab.
-Since the gitolite service was basically end of life it has been decided
-not to support it and to focus on the Gitlab platform. Some test
+together with the migration of the Git backend from gitolite to Gitlab and
+required a strict collaboration with the team responsible of Git. Since
+the gitolite service was basically end of life it has been decided not to
+take it in account and to focus on the Gitlab platform. Some test
 repositories and test tickets have been created in order not to interfere
-with the production repositories and platforms.
+with the production repositories and platforms. Once the platform was
+considered stable we started giving access to the CI to a small set of
+users, with detailed instructions on how to use it. We spent some weeks
+letting the users test the platform and collecting their opinion regarding
+the usability of it and suggestions to improve it. This testing procedure
+allowed the team to understand and find issues that were not clear to the
+developers, especially regarding the intuitiveness of the platform. We
+repeated this experiment multiple times with different groups of users,
+implementing every time the suggestions of the previous group until we
+were satisfied with the results and the feedbacks. Since it was possible
+to use the Continuous Integration platform only with Gitlab the test on
+the platform have been done in the same time than the tests on Gitlab.
 
 As of today, both Package Inventory and the continuous integration
 platform are available for service managers and users. Documentation and
