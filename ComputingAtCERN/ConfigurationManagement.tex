@@ -10,19 +10,21 @@ configuration. CERN choose a solution that would allow them to take
 advantage of configuration code developed outside the organisation to
 configure large numbers of machines, as well as OpenStack components.
 
-\subsection{Puppet}
+\subsection{Configuration}
+
+\subsubsection{Puppet}
 
 Puppet is an open-source configuration management utility that allows
 service managers to describe the configuration of their machines using its
 own declarative language. It supports Unix-like and Windows machines.
 
 The user describes the status of the machine and his resources in a file
-called "Puppet manifest", using Puppet's declarative language or Ruby DSL.
-Before applying the catalog to the machine it must be compiled using the
-system's information: Facter retrieves from the server all the information
-needed by Puppet to compile the catalog. Puppet compiles the catalog using
-the information provided by Facter to create a system-specific manifest
-that will be applied against the target system.
+called \textit{Puppet manifest}, using Puppet's declarative language or
+Ruby DSL. Before applying the catalog to the machine it must be compiled
+using the system's information: Facter retrieves from the server all the
+information needed by Puppet to compile the catalog. Puppet compiles the
+catalog using the information provided by Facter to create
+a system-specific manifest that will be applied against the target system.
 
 Puppet describes the status of the system using a custom declarative
 language which can be applied directly on the system or distributed to the
@@ -31,7 +33,7 @@ configuration without the need to write system-specific commands, since
 the description they provide using the Puppet manifest is operating system
 independent.
 
-\subsection{Foreman}
+\subsubsection{Foreman}
 
 Foreman is a tool to manage the lifecycle and the provisioning of
 machines. It provides an easy to use web interface to browse Puppet
@@ -42,7 +44,9 @@ them to a specified hostgroup/environment. When Puppet runs on a hosts it
 queries Foreman's ENC to ask information about the machine and configures
 it accordingly, compiling the Puppet code stored in Git.
 
-\subsection{Git}
+\subsection{Other tools}
+
+\subsubsection{Git}
 
 Git is an open-source revision control system with support for distributed
 non-linear workflows. Every Git working directory is a complete repository
@@ -52,7 +56,7 @@ In the latest years his popularity grew dramatically, mostly due to his
 extreme elasticity, compatibility with existing protocols and support for
 non-linear development.
 
-\subsection{Jenkins}
+\subsubsection{Jenkins}
 
 Jenkins is an open-source continuous integration tool written in Java,
 it's a server-based system running in a servlet container. It's
@@ -62,7 +66,7 @@ available plugins made its popularity grow year by year.
 It is currently used by several open-source project to run unit and
 functional tests on code written by contributors.
 
-\subsection{Koji}
+\subsubsection{Koji}
 
 Koji is an RPM-based build system; it provides a flexible, secure and
 reproducible way to build software. In combination with Git it provides
@@ -72,7 +76,7 @@ When a developer is ready to release a new version of his software he can
 use Koji to build and tag it to the correct repository. In this way at the
 next distro-sync all the machines will receive the updates.
 
-\subsection{Jens}
+\subsubsection{Jens}
 
 Jens is a python-toolkit developed at CERN to generate puppet environments
 dynamically, based on some input metadata. It is used to give service
@@ -81,7 +85,7 @@ dealing with shared modules.
 
 % TODO add how it works and what it parses
 
-\subsection{Rundeck}
+\subsubsection{Rundeck}
 
 Rundeck automates operations and repetitive actions: it allows users to
 define a workflow and a series of actions to do. Those workflows can be
@@ -96,7 +100,7 @@ instruct Rundeck to react to different kind of problems. We can specify
 some actions to roll-back a change, send a notification, or simply retry
 the job after an interval, depending on the use-case. 
 
-\subsection{MCollective}
+\subsubsection{MCollective}
 
 MCollective is a framework for server orchestration: it allows user to run
 actions on a multitude of hosts. It is used extensively when it is
@@ -108,7 +112,7 @@ It is well integrated with Puppet and Foreman, allowing us to trigger
 actions on specified hostgroups/environments directly from the command
 line just specifying the parameters of the servers we want to query.
 
-\subsection{Roger}
+\subsubsection{Roger}
 
 Roger manages two important pieces of machine state. Whether you want
 alarms switched on (or, more accurately, whether you want alarms to be
@@ -116,7 +120,7 @@ masked), and what the current state of the machine is. Optionally you can
 then use those state transitions to take actions, such as to remove
 a machine from a load balancer.
 
-\subsection{TBag}
+\subsubsection{TBag}
 
 Due to the fact that service managers share Puppet modules and code, we
 had to find a solution to provide secrets to hosts (like password,

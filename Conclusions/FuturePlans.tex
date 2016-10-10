@@ -11,6 +11,41 @@ not yet implemented:
 
 \begin{itemize}
 
+  \item Scheduled checks with reporting on large clusters
+
+  Since the monitoring action of Package Inventory needs to be done
+  periodically it would be a good to integrate it with the current
+  alarming system to provide notifications in case of errors. Periodical
+  scans might identify problems before the users.
+
+  \item Extend the cli interface
+
+  The current Cli provides only some basic functionalities and can be
+  extended to deliver a better experience for the user. As said in the
+  previous sections, to deliver a better experience we need to let the
+  user experiment with the current one and find out which operations are
+  more common or more difficult to accomplish.
+
+  \item Write libraries for different programming languages
+
+  Package Inventory has been optimized for being used with the Cli but
+  that is not the only way we want to interact with it: in fact it might
+  be useful to build libraries to integrate it with the most common
+  languages.
+
+  \item Replace Flume with a more lightweight solution
+
+  The idea of replacing Flume with a lighter alternative has been
+  evaluated several times since Flume is Java-based and tends to be quite
+  heavy on the machine when the number of logs increases. The candidate
+  for substitution is LogStash but no timeline has been defined yet.
+
+\end{itemize}
+
+For CI
+
+\begin{itemize}
+
   \item 
 
 \end{itemize}
