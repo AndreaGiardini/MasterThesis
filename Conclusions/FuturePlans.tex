@@ -38,14 +38,50 @@ not yet implemented:
   The idea of replacing Flume with a lighter alternative has been
   evaluated several times since Flume is Java-based and tends to be quite
   heavy on the machine when the number of logs increases. The candidate
-  for substitution is LogStash but no timeline has been defined yet.
+  for substitution is Logstash but no timeline for replacement has been
+  defined yet.
 
 \end{itemize}
 
-For CI
+The Continuous Integration platform has a big margin for development and
+also to improve stability. Unfortunately since the contract at CERN was
+ending we were not able to make the whole procedure failure-proof even if
+most of the issues were solved. More than that, we also wrote some
+features to be implemented in the future:
 
 \begin{itemize}
 
-  \item 
+  \item Automate deployment of packages
+
+  In the previous sections, for the sake of brevity, we intentionally did
+  not describe the procedure that an RPM package has to make to end in
+  production. The iter is quite similar to a CRM: the new package gets
+  tested, passes a week in the QA repository and, after that, it gets
+  moved to the production repository.
+
+  This procedure is, as well, quite manual and prone to human mistakes and
+  there has been some movement to automate it as well. The idea is to let
+  the Continuous Integration platform support also packages in the future,
+  letting the users away from such repetitive tasks.
+
+  \item Tests for hostgroups
+
+  In addition to tests for modules we also have the necessity to introduce
+  tests for hostgroups to make sure that our configuration for a set of
+  servers is working correctly. This means introducing new tests
+  guaranteeing that the combination of modules that our servers uses are
+  working well together and that the virtual machine is behaving
+  correctly.
+
+  \item Module dependencies
+
+  Puppet modules have their dependencies and, of course, when we modify
+  a module we want to be sure that all the modules that are depending on
+  that do not have issues with the change. To accomplish this we had the
+  idea of specifying an additional field in the configuration file of the
+  module where we could write down all the modules that depend on the one
+  we are editing. In this way we could instruct Jenkins to trigger the
+  tests not only on the module that is subject to the change but also all
+  its dependencies.
 
 \end{itemize}
