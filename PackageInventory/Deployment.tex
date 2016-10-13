@@ -20,20 +20,21 @@ ElasticSearch cluster was able to handle the load.
 By the end of my contract at CERN, PackageInventory has been deployed in
 several clusters of servers, including the Batch Cluster (the bigger
 cluster at CERN) with more that two thousands machines. In total, the
-number of hosts with PackageInventory installed are more than fifty five
-hundreds of servers.
+number of hosts with PackageInventory installed are more than
+\textbf{fifty five hundreds of servers}.
 
 During this procedure of scaling and deployment we had of course to fine
-tune the PackageInventory and the ElasticSearch cluster. We would like to
-highlight in particular one incident than we had when we tried to deploy
-PackageInventory on a large number of server at the same time (more than
-one thousand machines installed and reported together). As we said
-previously our software reports every time the difference in the packages
-of an host compared to the previous run. During the first run however,
-PackageInventory reports all the packages installed to the ElasticSearch
-server, generating quite a large report. We can definitely say that, since
-all the other reports are incremental, the first report of every host is
-the heaviest one to process by the ElasticSearch cluster.
+tune the PackageInventory software and module, and the ElasticSearch
+cluster. We would like to highlight in particular one incident than we had
+when we tried to deploy PackageInventory on a large number of server at
+the same time (more than one thousand machines installed and reported
+together). As we said previously our software reports every time the
+difference in the packages of an host compared to the previous run. During
+the first run however, PackageInventory reports all the packages installed
+to the ElasticSearch server, generating quite a large report. We can
+definitely say that, since all the other reports are incremental, the
+first report of every host is the heaviest one to process by the
+ElasticSearch cluster.
 
 When we deployed PackageInventory to a large number of nodes we realized
 that our ElasticSearch cluster was not handling the load properly, making

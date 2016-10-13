@@ -35,9 +35,10 @@ using them as a part of the query.
 
   In this case PackageInventory will get the list of the packages
   installed in all the servers that are part of the
-  \textit{bi/batch/gridworker/aishare/share} hostgroup. After that, it
-  will compare those lists, highlighting the differences and grouping
-  machines with different packages lists in different groups.
+  \textit{bi/batch/gridworker/aishare/share} hostgroup and the
+  \textit{production} environment. After that, it will compare those
+  lists, highlighting the differences and grouping machines with different
+  packages lists in different groups.
 
   An example of the output is reported below:
 
@@ -209,7 +210,10 @@ was crashing the cluster.
 We approached the problem splitting the query in several sub-queries in
 which we consider just a portion of the hosts at the same time.
 PackageInventory is not configured to split the queries if the cluster to
-compare includes more than twenty five hosts. If the cluster contains more
+compare includes less than twenty five hosts. If the cluster contains more
 hosts than the limit then PackageInventory automatically splits the
 queries to compare only twenty five hosts at the same time and runs
-multiple queries to retrieve all the metrics that it needs.
+multiple queries to retrieve all the metrics that it needs. Using this
+technique the database is not hammered with big queries but with a set of
+smaller queries. The user's computer takes than takes the results and
+process them internally, offloading the database as soon as possible.

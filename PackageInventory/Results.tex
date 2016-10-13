@@ -7,118 +7,79 @@ developments of the tools, current limits and future ideas to implement.
 
 In general we had quite good performance when comparing packages across
 big clusters with PackageInventory. In the worst case, to compare all the
-machines part of a cluster of more than two thousands servers was matter
-of a couple of minutes.
-
-\subsection{Real life practical usage}
+machines part of a cluster of more than two thousands servers was a matter of
+a couple of minutes.
 
 After the deployment of PackageInventory in several number of servers we
 used it extensively to detect configuration problems. In the following
 sections we describe a set of incidents in which PackageInventory helped
 the team to find the problem and deploy a solution in a timely manner.
 
-  \subsubsection{Libuser upgrade}
+\subsubsection{Libuser upgrade}
 
-  Red Hat announced the presence of two critical vulnerabilities
-  (CVE-2015-3245 \cite{cve-2015-3245} and CVE-2015-3246
-  \cite{cve-2015-3246}) in the \textit{libuser} package. These
-  vulnerabilities would allow a logged user to perform a local privilege
-  escalation to the root user. Since CERN has several cluster that allow
-  remote users to log in and perform operations it was necessary to act
-  immediately to patch these serious vulnerabilities.
+Red Hat announced the presence of two critical vulnerabilities
+(CVE-2015-3245 \cite{cve-2015-3245} and CVE-2015-3246
+\cite{cve-2015-3246}) in the \textit{libuser} package. These
+vulnerabilities would allow a logged user to perform a local privilege
+escalation to the root user. Since CERN has several cluster that allow
+remote users to log in and perform operations it was necessary to act
+immediately to patch these serious vulnerabilities.
 
-  Since the official version of \textit{libuser} was vulnerable, all the
-  machines of our clusters could have been potentially compromised. The
-  new updated package has been released in a timely manner in the CERN
-  repositories and the machines started to upgrade. The following day all
-  the machines should have been upgraded (since Yum update happens every
-  night) but, thanks to PackageInventory, we noticed that around two
-  hundreds fifty servers did not apply the upgrade as supposed.
+Since the official version of \textit{libuser} was vulnerable, all the
+machines of our clusters could have been potentially compromised. The
+new updated package has been released in a timely manner in the CERN
+repositories and the machines started to upgrade. The following day all
+the machines should have been upgraded (since Yum update happens every
+night) but, thanks to PackageInventory, we noticed that around two
+hundreds fifty servers did not apply the upgrade as supposed.
 
-  While investigating the issue we noticed that Puppet was failing to
-  apply correctly the manifest to those machines due to a misconfiguration
-  in their manifest. Due to that, those servers were using old snapshots
-  repositories not containing the updated package. Apparently those
-  servers were not receiving upgrades since a long time but nobody noticed
-  them until this problem appeared.
+While investigating the issue we noticed that Puppet was failing to
+apply correctly the manifest to those machines due to a misconfiguration
+in their manifest. Due to that, those servers were using old snapshots
+repositories not containing the updated package. Apparently those
+servers were not receiving upgrades since a long time but nobody noticed them
+until this problem appeared and PackageInventory identified it.
 
-  Since the investigation found the problem that was causing the
-  misconfiguration we fixed the Puppet manifest and the servers upgraded
-  their packages as foreseen. Thanks to PackageInventory we made sure that
-  all the machines were upgraded to the latest servers of \textit{libuser}
-  and we recovered over two hundreds servers that were drifting from the
-  correct configuration.
+Since the investigation found the problem that was causing the
+misconfiguration we fixed the Puppet manifest and the servers upgraded
+their packages as foreseen. Thanks to PackageInventory we made sure that
+all the machines were upgraded to the latest servers of \textit{libuser} and
+we recovered over \textbf{two hundred servers} that were drifting from the
+correct configuration.
 
-  \subsubsection{Batch jobs performing differently on different nodes}
+\subsubsection{Batch jobs performing differently on different nodes}
 
-  The batch cluster, the bigger one in the CERN datacentre, performs
-  hundreds of jobs per day submitted by physicists all over the world. It
-  happened in some occasions that the same job was performing differently
-  on two different servers or succeeding in one machine and failing in
-  another.
+The batch cluster, the bigger one in the CERN datacentre, performs
+hundreds of jobs per day submitted by physicists all over the world. It
+happened in some occasions that the same job was performing differently
+on two different servers or succeeding in one machine and failing in
+another.
 
-  Errors of this type were difficult to spot and they are not supposed to
-  happen in a cluster where all the servers should be configured in the
-  same way. In this case PackageInventory helped to spot different
-  configurations between two servers that were causing the issue.
+Errors of this type were difficult to analyse and they are not supposed to
+happen in a cluster where all the servers should be configured in the same
+way. In this case PackageInventory helped to spot different configurations
+between two servers that were causing the issue.
 
-  It happened several times that libraries were installed on all the hosts
-  but with different versions, generating different outputs depending on
-  the server processing the job.
+It happened several times that libraries were installed on all the hosts but
+with different versions, generating different outputs and giving different
+performances depending on the server processing the job.
 
-  \subsubsection{LSF upgrade}
+\subsubsection{LSF upgrade}
 
-  The scheduling of jobs in the batch cluster is done using a software
-  provided by IBM called LSF \cite{ibm-lsf}. It provides intelligent
-  scheduling of jobs across big clusters, optimizing the resources.
-  Moreover it provides different types of queue for jobs of different
-  length.
+The scheduling of jobs in the batch cluster is done using a software
+provided by IBM called LSF \cite{ibm-lsf}. It provides intelligent
+scheduling of jobs across big clusters, optimizing the resources.
+Moreover it provides different types of queue for jobs of different
+length.
 
-  The upgrade of such a big cluster is not easy to perform and requires
-  a set of precise actions to be taken in order to complete the upgrade
-  with the minimum downtime. In particular, whenever we had to perform an
-  upgrade of LSF we had to make sure that, after the upgrade, the machine
-  was rebooted in order to use the new updated software.
+The upgrade of such a big cluster is not easy to perform and requires
+a set of precise actions to be taken in order to complete the upgrade
+with the minimum downtime. In particular, whenever we had to perform an
+upgrade of LSF we had to make sure that, after the upgrade, the machine
+was rebooted in order to use the new updated software.
 
-  Since it was not easy to keep track which machines rebooted and which
-  did not it happened that some machines updated without rebooting,
-  creating errors during jobs processing. For this reason we added an
-  extra flag to PackageInventory to query if a server has been rebooted or
-  not after the installation of a package.
-
-\subsection{Future Developments}
-
-PackageInventory has definitely some potential spotting misalignments and
-wrong server configurations but it is of course far from being complete
-solution. In particular we would like to improve:
-
-\begin{itemize}  
-
-  \item \textbf{Communication between Flume and the ElasticSearch cluster}
-
-  Right now Flume sends the metrics to the ElasticSearch cluster using
-  ElasticSearchSink \cite{elasticSearchSink} when instead it would be
-  better to use a different kind of transport like, for example, AvroSink
-  \cite{avroSink}. This would avoid the dependency of the ElasticSearch
-  libraries and improve the reliability of the service adding two
-  a secondary buffers for metrics on the client and on the cluster.
-
-  \item \textbf{Integration with the alarming system}
-
-  Another idea that could be useful for our purpose is to integrate
-  PackageInventory with the current alarming system in order to trigger
-  alarms on misconfigured servers. For example, PackageInventory could run
-  periodically, comparing servers that are part of the same cluster. As
-  soon as it detects an anomaly it could create an alarm for the servers
-  that went out of sync.
-
-  \item \textbf{Improvement of the Cli}
-
-  We implemented in the Cli just the main functions and tools. There is
-  definitely space for improvement and add more functionalities in order
-  to automate most common procedures. A library to interact with
-  PackageInventory might come useful as well in the future.
-
-\end{itemize}
-
-
+Since it was not easy to keep track which machines rebooted and which
+did not it happened that some machines updated without rebooting,
+creating errors during jobs processing. For this reason we added an
+extra flag to PackageInventory to query if a server has been rebooted or
+not after the installation of a package.

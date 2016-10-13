@@ -11,14 +11,23 @@ not yet implemented:
 
 \begin{itemize}
 
-  \item Scheduled checks with reporting on large clusters
+  \item \textbf{Communication between Flume and the ElasticSearch cluster}
+
+  Right now Flume sends the metrics to the ElasticSearch cluster using
+  ElasticSearchSink \cite{elasticSearchSink} when instead it would be
+  better to use a different kind of transport like, for example, AvroSink
+  \cite{avroSink}. This would avoid the dependency of the ElasticSearch
+  libraries and improve the reliability of the service adding two
+  a secondary buffers for metrics on the client and on the cluster.
+
+  \item \textbf{Scheduled checks with reporting on large clusters}
 
   Since the monitoring action of Package Inventory needs to be done
   periodically it would be a good to integrate it with the current
   alarming system to provide notifications in case of errors. Periodical
   scans might identify problems before the users.
 
-  \item Extend the cli interface
+  \item \textbf{Extend the cli interface}
 
   The current Cli provides only some basic functionalities and can be
   extended to deliver a better experience for the user. As said in the
@@ -26,14 +35,14 @@ not yet implemented:
   user experiment with the current one and find out which operations are
   more common or more difficult to accomplish.
 
-  \item Write libraries for different programming languages
+  \item \textbf{Write libraries for different programming languages}
 
   Package Inventory has been optimized for being used with the Cli but
   that is not the only way we want to interact with it: in fact it might
   be useful to build libraries to integrate it with the most common
   languages.
 
-  \item Replace Flume with a more lightweight solution
+  \item \textbf{Replace Flume with a more lightweight solution}
 
   The idea of replacing Flume with a lighter alternative has been
   evaluated several times since Flume is Java-based and tends to be quite
@@ -51,7 +60,7 @@ features to be implemented in the future:
 
 \begin{itemize}
 
-  \item Automate deployment of packages
+  \item \textbf{Automate deployment of packages}
 
   In the previous sections, for the sake of brevity, we intentionally did
   not describe the procedure that an RPM package has to make to end in
@@ -64,7 +73,7 @@ features to be implemented in the future:
   the Continuous Integration platform support also packages in the future,
   letting the users away from such repetitive tasks.
 
-  \item Tests for hostgroups
+  \item \textbf{Tests for hostgroups}
 
   In addition to tests for modules we also have the necessity to introduce
   tests for hostgroups to make sure that our configuration for a set of
@@ -73,7 +82,7 @@ features to be implemented in the future:
   working well together and that the virtual machine is behaving
   correctly.
 
-  \item Module dependencies
+  \item \textbf{Module dependencies}
 
   Puppet modules have their dependencies and, of course, when we modify
   a module we want to be sure that all the modules that are depending on
