@@ -1,52 +1,54 @@
 \section{Reporter}
 
-Packageinventory Reporter is the first element that we are going to
+PackageInventory Reporter is the first element that we are going to
 analyze. It reports the status of the packages of a server to a central
 ElasticSearch instance, creating a browsable metrics store.
 
 The reporter is installed on every machine that we want to monitor and,
 every time it runs, it checks if the list of packages has been updated
 since the last run. If a new package has been installed or removed since
-the last time, it sends a lists of updates to ElasticSearch using Flume.
-It includes a Yum plugin to make the updates available as soon as
-possible: whenever Yum is executed to modify the package configuration,
+the last run, it sends a lists of updates to ElasticSearch using Flume. It
+includes a Yum plugin to make the updates available as soon as possible:
+whenever Yum is executed to modify the package configuration,
 PackageInventory is executed consequentially.
 
 It is possible to configure the reporter specifying some parameters using
-a configuration file stored in \textit{/etc/packageinventory.conf}. This
+the configuration file stored in \textit{/etc/packageinventory.conf}. This
 file allows us to set the locations of all the log files, specify the
 ElasticSearch hostname and the index. We decided to make the reporter
 customizable in order to have the possibility in the future to organize
 and store the metrics in different clusters.
 
-In order to better understand how to report the packages correctly we had
-to study how the package manager of CentOS works and learn how to interact
-with it. In particular we analysed two main components: 
+Before starting to code we had to do some investigation in order to better
+understand how to report the packages correctly and which tools to use. We
+had to study how the package manager of CentOS works and learn how to
+interact with it using our software. In particular we analysed two
+components: 
 
 \begin{itemize}
   \item \textbf{Yum}
 
-  Yum is the default package-management utility using the RPM package
-  manager. It automatically handles updates and dependency management. Yum
-  is based on software repositories which can be accessed remotely or
-  locally.
+  Yum \cite{YumWebsite} is the default package-management utility using
+  the RPM package manager. It automatically handles updates and dependency
+  management. Yum is based on software repositories which can be accessed
+  remotely or locally.
   
-  It is installed by default in all the linux distributions used at CERN
-  like RHEL, Scientific linux and CentOs. In the latest distribution
-  releases it has been replaced by a new package manager called DNF. It is
+  It is installed by default in all the Linux distributions used at CERN
+  like RHEL, Scientific Linux and CentOs. In the latest distribution it
+  has been replaced by a new package manager called DNF. It is
   consequentially important to understand how Yum works to accomplish our
   mission.
 
   \item \textbf{RpmDb}
 
-  RpmDb is a database, used by Yum, containing all the information and
-  metadata about the packages that are installed on the system. All the
-  RPM-based distribution have a global RpmDb, listing the packages of the
-  whole system.
+  RpmDb \cite{RpmDbWebsite} is a database, used by Yum, containing all the
+  information and metadata about the packages that are installed on the
+  system. All the RPM-based distribution have a global RpmDb, listing the
+  packages of the whole system.
   
   It includes several functions to access, read and write it in an atomic
   way: since it is a database we should prevent simultaneous writes using
-  a locking mechanism. It uses Berkeley DB as a database.
+  a locking mechanism. It uses Berkeley DB.
 
 \end{itemize}
 
@@ -54,13 +56,16 @@ with it. In particular we analysed two main components:
 
 When PackageInventory runs it stores the list of all the RPMs currently
 installed in the system in a logfile at
-\textit{/var/log/rpmlistinventory.conf}. During every run it loads the
-list contained in this file and it compares it with the list of packages
+\textit{/var/log/rpmlistinventory.log}. During every run it loads the list
+contained in this file and it compares it with the list of packages
 currently installed in the system. In this way PackageInventory is able to
 easily detect which packages changed and how.
 
 A simple configuration file:
 
+% TODO move all the code frames to minted
+
+%\begin{minted}
 \begin{lstlisting}[frame=single]
 [PackageInventory]
 LogFile: /var/log/rpmlistinventory.log
@@ -70,6 +75,9 @@ ElServer: myelcluster.cern.ch
 ElIndex: myelindex
 HostName: myhost
 \end{lstlisting}
+%\end{minted}
+
+We will describe here the different paramenters of the configuration file:
 
 \begin{itemize}
   \item \textbf{LogFile}
@@ -124,11 +132,11 @@ installed using the following logic:
     \item The list of current packages is written in \textit{LogFile}
 \end{itemize}
 
-This whole process is triggered, using a plugin called pkgreporter, every
-time Yum runs. In this way the metric store receives live updates from all
-the hosts in real time. 
+This whole process is triggered, using a plugin that we wrote called
+\textit{pkgreporter}, every time Yum runs. In this way the metric store
+receives live updates from all the hosts in real time.
 
-\subsection{Report changes with Flume}
+\subsubsection{Report changes with Flume}
 
 The log file called \textit{FlumeFile} is then used by Flume to
 communicate the changes to the ElasticSearch cluster using a \textit{Flume
@@ -144,7 +152,7 @@ available again.
 
 To automate the installation of PackageInventory in multiple machines and
 to integrate it with Puppet, we coded a Puppet module and we made it
-available in the software repository.
+available in the software repository of CERN.
 
 In this way the installation and configuration of PackageInventory is
 fully automated using Puppet. The final user has simply to add the

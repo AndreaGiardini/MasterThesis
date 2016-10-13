@@ -6,6 +6,12 @@ the results to the user. A Kibana dashboard is provided as well to
 constantly show the incoming number of reports and the activity of Package
 Inventory.
 
+In particular the PuppetDb integration has been proved to be very
+effective and useful since the final user is not forced to specify the
+hostnames of all the servers. The Cli automatically looks up the specified
+hostgroup, getting dynamically all the servers that are part of it and
+using them as a part of the query.
+
 \subsection{Functions}
 
 \begin{itemize}
@@ -17,7 +23,7 @@ Inventory.
   a specific hostgroup:
   
   \begin{lstlisting}[frame=single]
-  \$ pkginv -H 'bi/batch/gridworker/aishare/share'
+  pkginv -H 'bi/batch/gridworker/aishare/share'
             -e production
             compare
   

@@ -1,7 +1,7 @@
 \section{Current Infrastructure}
 
-In this section we will describe the current infrastructure maintained by
-the Configuration Team.
+In this section we will describe the current computing infrastructure
+maintained by the Configuration Team.
 
 \subsection{Puppet Masters}
 
@@ -13,7 +13,7 @@ the Configuration Team.
 \end{figure}
 
 The image outlines the current puppet master infrastructure. As we can see
-there are two different clusters (also called Pools) taking care of
+there are two different clusters (also called pools) taking care of
 compiling puppet manifests. Every pool has two load balancers spreading
 the load equally between all the servers in the pool: the requests are
 always forwarded to the less loaded server of the pool. Every pool has
@@ -30,7 +30,9 @@ whole lifecycle.
 
 The servers read the puppet code from two different NFS shares, one for
 each pool. The NFS share is populated by Jens as we will see it in the
-next sections.
+next sections. This helps to balance the load across two different pools,
+avoiding to overload one of them. In case of failures of one pool, the
+machines can fallback on the healthy one in case of emergency. 
 
 \subsection{Foreman}
 

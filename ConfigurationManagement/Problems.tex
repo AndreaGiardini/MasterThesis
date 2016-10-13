@@ -5,19 +5,38 @@
 The current Puppet setup is not a traditional one since at CERN there are
 several service managers maintaining different infrastructures but using
 the same modules. Since most of the modules are shared across multiple
-services we need to make sure that every change to those modules doesn't
+services we need to make sure that every change to those modules does not
 affect others people using the same code.
+
+Even if, as we said previously, the whole procedure is well tested and
+usually allows different teams to detect problems before deployment, there
+have been some issues in the past. In fact such a large number of git
+repositories might become difficult to handle by hand: merging the wrong
+branch, pushing to a different remote and other problems of this kind
+happened in the past, mostly due to human error or inexperienced users.
 
 \subsection{Deployment interval}
 
+As stated in the previous sections, Puppet runs periodically in all the
+servers with different interval depending on the result of the latest
+report: if the latest report did not apply any change the interval is
+increased and vice versa. This let most of the user test their code
+triggering the Puppet agent from the cli, without waiting for the batch
+run.
 
+This means that when a change is merge to production it might need
+sometime to be deployed in all the servers involved in the change.
+Triggering the agent using the cli on multiple machine at the same time
+might lead to an overload of the interactive cluster and it is definitely
+not advised by the Configuration Team.
 
 \subsection{Configuration and package drifts}
 
-Managing such a large number of machines has his drawbacks in terms of
+Dealing with such a large number of machines has his drawbacks in terms of
 management. Even with the use of Puppet, MCollective and other tools to
-manage large number of machines it is not easy to keep track of the status
-of all of them.
+manage machines in large scale environments it is not easy to keep track
+of the status of all of them and it happens often that failures go
+undetected.
 
 It happens in fact that some machines are found in a state they are not
 supposed to be, usually because there are other failures that prevent
@@ -26,4 +45,3 @@ the time, require manual intervention.
 
 What is difficult to do is spot those machines among all the others due to
 the large number.
-

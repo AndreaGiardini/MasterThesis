@@ -4,7 +4,23 @@ Since the deployment of the Puppet infrastructure it was clear that
 a precise and well defined strategy for code changes was needed. Shared
 modules are used my multiple service managers for different type of use
 cases and every time a module needs to be changed we need to be sure that
-it won't break any service.
+it will not break any service. It has to be said that the way CERN is
+using Puppet is not the way it has been designed: modules are not supposed
+to involve so many people but just the responsible for the Puppet
+infrastructure. This makes the change process a bit slower but, on the
+other hand, it allows the computing center to have a unified library of
+code for Puppet module. In particular, in the last years, this idea of
+infrastructure showed its limits and its advantages. Starting from the
+advantages, if every team takes care of also maintaining the module of the
+service it is responsible of the users will be sure to have it configured
+in the optimal way. On the other side, upgrading the modules becomes
+a challenging operation since all the teams need to sync for a module
+update and need to make sure that the change is not breaking any of their
+services.
+
+After years of testing and improving the procedure we can definitely say
+that right now the whole process is well tested and works quite well for
+our use case.
 
 The Configuration change process is also intended to provide more throughput of
 changes. As described by the configuration team \cite{benAgile} Puppet fits
@@ -18,37 +34,43 @@ We defined a common procedure to modify shared modules:
 
 The first thing to do is clone the module repository, create a custom
 branch and apply the changes that we would like to include in production.
-In this way the change can be reviewed and tested before being merged to
-qa or master.
+In this way the change can be reviewed and tested, before being merged to
+qa or master, using custom environments and a custom virtual machine.
 
 \item Build a test machine using a custom environment
 
-Create a custom environment including the custom branch just created and spawn
-a new machine; check puppet reports for error and make sure that the change is
-doing what you expect.
+Create a custom environment using all the modules as their latest change
+and including the custom branch just created with an override clause as
+seen in the previous sections. Spawn a new machine; check puppet reports
+for error and make sure that the committed change is doing what we expect.
 
 \item Open a CRM (Config Release Management) ticket
 
 Jira is used to keep track of all the module changes and to announce that
-change to all the service managers using that module. A new ticket includes the
-reason for that change and the custom branch that contains it: Jenkins uses
-those paramenters to trigger a series of automated tests
+change to all the service managers using that module. A new ticket
+includes the reason for that change and the custom branch that contains
+it. It is very important to fill the ticket with as many details as
+possible ( eventually including a link to the commit of the change ) in
+order to let the others understand the aim of the change itself. If
+another service manager encounters problems with the change it needs to be
+able to understand which change is causing his service to crash.
 
 \item Change is merged to QA
 
-After Jenkins runs all the tests, if all of them are successful, it
-automatically merges the custom branch into qa, deploying the change in all the
-testing machines. At this point service managers have one week to test the
-change in their qa machines and make sure that everything is ok.
+The custom branch into qa and the change is deployed automatically the
+change in all the testing machines. At this point service managers have
+one week to test the change in their qa machines and make sure that
+everything is working as expected.
 
-If the change breaks their systems they can block it using Jira and ask the
-user to fix the problem before deploying it or the ticket will be rejected.
+If the change breaks their systems they can block the pipeline using Jira
+and ask the user to fix the problem before deploying it or the ticket will
+be rejected.
 
 \item Change is merged to master
 
-If after one week there are no complaints the change is merged from the custom
-branch to master and it's deployed in all the production machines; the CRM
-ticket is closed.
+If after one week there are no complaints the change is merged from the
+custom branch to master and it is deployed in all the production machines;
+the CRM ticket is closed.
 
 \end{itemize}
 

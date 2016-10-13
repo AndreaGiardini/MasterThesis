@@ -6,28 +6,50 @@ Environments.
 
 It is important to keep in mind that all those components are stored in
 separate Git repositories in order to keep track of code changes and make
-the configuration change process easy and trackable.
+the configuration change process easy and trackable. Using a versioning
+control software makes all the changes trackable and, at the same time,
+makes easy to roll back in case of errors or problems. Moreover, two or
+more user can work on the same code in parallel to solve different issues
+at the same time, improving the time to delivery.
 
 Every repository has at least two branches: master and qa. The code in
 'master' will target all the machines in production, while the code in
 'qa' will target all the QA machines, that are used to test the code
-changes before merging them into production.
+changes before merging them into production. Users can test their changes
+in custom branches and merge them later, following the procedure that we
+will see later, when they feel their change is ready for deployment.
 
 \subsection{Modules}
 
 Puppet modules are used to configure a single service/software on a server
 and they can be reused across different hostgroups. Manifests can be seen
-as re-usable puppet code, they are sort of libraries in the puppet world.
-Each installation can be customized in the puppet manifest using tunable
-parameters.
+as re-usable puppet code, they are a sort of libraries in the puppet
+world. Each installation can be customized in the puppet manifest using
+tunable parameters.
 
-% TODO expand with base modules, Github import and plugin sync
+There are different types of modules in the CERN database, the most
+important ones are the so called \textit{base modules}. These modules are
+used in all the servers that are deployed using Puppet and the procedure
+to change them includes additional checks since a problem might lead to
+a large scale failure.
+
+Most of the modules are downloaded from a public modules store called
+\textit{PuppetForge} where users can upload their modules, share them with
+the community and receive improvements on their code. Most of these
+modules are hosted on Github and the team tries to keep them in sync with
+the local copy that is stored at CERN. It happens often that a module can
+not be imported out of the box into the CERN repositories since they need
+a particular set of configuration. Of course the team are trying to give
+back their contributions improving the code back to the community but that
+is not always an easy task to accomplish.
+
+% TODO plugin sync ?
 
 \subsection{Hostgroups}
 
-At CERN we define hostgroups a group of servers that are part of the same
+At CERN we define hostgroup a group of servers that are part of the same
 service. They contain the Puppet code to configure and run a set of
-machines, using modules to configure the software. Usually a group of
+machines, using modules to configure the services. Usually a group of
 nodes has the same hostgroup if:
 
 \begin{itemize}
@@ -40,10 +62,10 @@ nodes has the same hostgroup if:
 
 \end{itemize}
 
-It is also possible to define sub-hostgroups, to divide the
-functionalities of the nodes within the service. Since the hostgroup
-structure is hierarchical a node in a sub-hostgroup inherits the settings
-from all this parents. For example: 
+It is also possible to define sub-hostgroups, to split the functionalities
+of the nodes within the service. Since the hostgroup structure is
+hierarchical a node in a sub-hostgroup inherits the settings from all this
+parents. For example: 
 
 \begin{table}[H]
     \begin{center}
@@ -61,10 +83,13 @@ from all this parents. For example:
     \end{center}
 \end{table}
 
+In this way service managers can organize their service in a better way,
+creating smaller clusters within the same hostgroup.
+
 \subsection{Environments}
 
 Environments are collections of modules and hostgroups at different
-development levels, based on their git history; they are defined in YAML
+development levels, based on their Git history; they are defined in YAML
 files living in a Git repository. Jens uses those files to create the
 custom environments that are served to the puppet masters.
 
