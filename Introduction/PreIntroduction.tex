@@ -8,9 +8,8 @@ use of virtualization. Moreover, just a few years after virtualization
 became popular, all the attention shifted on container platforms like
 Docker.
 
-The point is that people working in Information Technology need, more than
-ever, to stay updated on what the market and the community proposes. They
-need to constantly evolve and improve their infrastructure with an high
+The point is that people working in Information Technology need, now more than
+ever, to stay constantly updated on what the market and the community proposes. They need to constantly evolve and improve their infrastructure with an high
 frequency.
 
 Consequentially, even the way servers are managed and how applications are
@@ -31,7 +30,22 @@ inevitable end very difficult to predict, especially when the scale of the
 infrastructure grows.
 
 The new mentality changes its focus: since failures are unavoidable it is
-useless to prevent them, instead we should instruct our software to deal
-with failures while keeping the service running. This mentality guided
-software developers and engineers into coding more reliable software, that
-knows that its resources might not be stable and how to cope with that.
+useless to put all the effort trying to prevent them, instead we should
+instruct our software to deal with failures while keeping the service
+running. This mentality guided software developers and engineers into
+coding more reliable software, that knows that its resources might not be
+stable. The result of this mentality shift brought us reliable software on
+reliable hardware.
+
+This work of thesis will analyse how this mentality shift changed the
+classical infrastructure that we used to have. Furthermore we will
+describe and study experimentally how CERN uses this new approach to build
+new services which now offer an higher uptime and improved stability.
+Focusing on the CERN data centre, we will study the improvements made and
+also the problems that this new approach can lead to. We will focus then
+on the problem of configuration drifts, trying to find a solution to
+address this issue. The thesis describes the approach taken in order to
+detect and reduce the number of drifts with the development of two tools.
+Finally we will report some conclusion on how those softwares have been
+used to address some problems verified.
+
