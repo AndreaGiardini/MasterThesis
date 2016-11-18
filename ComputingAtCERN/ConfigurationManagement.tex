@@ -14,17 +14,19 @@ configure large numbers of machines, as well as OpenStack components.
 
 \subsubsection{Puppet}
 
-Puppet is an open-source configuration management utility that allows
-service managers to describe the configuration of their machines using its
-own declarative language. It supports Unix-like and Windows machines.
+Puppet \cite{PuppetWebsite} is an open-source configuration management
+utility that allows service managers to describe the configuration of
+their machines using its own declarative language. It supports Unix-like
+and Windows machines.
 
 The user describes the status of the machine and his resources in a file
 called \textit{Puppet manifest}, using Puppet's declarative language or
 Ruby DSL. Before applying the catalog to the machine it must be compiled
-using the system's information: Facter retrieves from the server all the
-information needed by Puppet to compile the catalog. Puppet compiles the
-catalog using the information provided by Facter to create
-a system-specific manifest that will be applied against the target system.
+using the system's information: Facter \cite{FacterWebsite} retrieves from
+the server all the information needed by Puppet to compile the catalog.
+Puppet compiles the catalog using the information provided by Facter to
+create a system-specific manifest that will be applied against the target
+system.
 
 Puppet describes the status of the system using a custom declarative
 language which can be applied directly on the system or distributed to the
@@ -35,9 +37,9 @@ independent.
 
 \subsubsection{Foreman}
 
-Foreman is a tool to manage the lifecycle and the provisioning of
-machines. It provides an easy to use web interface to browse Puppet
-reports and manage machine's settings.
+Foreman \cite{ForemanWebsite} is a tool to manage the lifecycle and the
+provisioning of machines. It provides an easy to use web interface to
+browse Puppet reports and manage machine's settings.
 
 From Foreman the user is able to create and manage new machines assigning
 them to a specified hostgroup/environment. When Puppet runs on a hosts it
@@ -130,6 +132,5 @@ repositories, it is not secure to store secrets in there.
 To solve this problem we developed TBag (Trusted Bag) a service that
 allows users to define secrets at host/hostgroup level. The secrets can be
 retrieved only by the specified host using a custom class in the puppet
-manifest. 
+manifest.
 
-% TODO write how users can define secrets
