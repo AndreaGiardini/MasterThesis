@@ -17,16 +17,16 @@ configure large numbers of machines, as well as OpenStack components.
 Puppet \cite{PuppetWebsite} is an open-source configuration management
 utility that allows service managers to describe the configuration of
 their machines using its own declarative language. It supports Unix-like
-and Windows machines.
+and Windows servers.
 
 The user describes the status of the machine and his resources in a file
 called \textit{Puppet manifest}, using Puppet's declarative language or
 Ruby DSL. Before applying the catalog to the machine it must be compiled
 using the system's information: Facter \cite{FacterWebsite} retrieves from
-the server all the information needed by Puppet to compile the catalog.
-Puppet compiles the catalog using the information provided by Facter to
-create a system-specific manifest that will be applied against the target
-system.
+the server all the information needed by Puppet to compile the
+catalog.Using the informations provided by Facter, Puppet compiles the
+catalog to create a system-specific manifest that will be applied against
+the target system.
 
 Puppet describes the status of the system using a custom declarative
 language which can be applied directly on the system or distributed to the
@@ -43,94 +43,53 @@ browse Puppet reports and manage machine's settings.
 
 From Foreman the user is able to create and manage new machines assigning
 them to a specified hostgroup/environment. When Puppet runs on a hosts it
-queries Foreman's ENC to ask information about the machine and configures
-it accordingly, compiling the Puppet code stored in Git.
+queries Foreman's ENC (External Node Classifier) \cite{WhatIsENC} to ask
+informations about the machine and configures it accordingly, compiling
+the Puppet code stored in Git. In this case Foreman, given the hostname of
+a server, returns a list of informations of the machine.
 
 \subsection{Other tools}
 
-\subsubsection{Git}
+The two tools described previously are just a small part of an extremely
+complex infrastructure that includes a large set of tools. In this section
+we will briefly describe the most important ones.
 
-Git is an open-source revision control system with support for distributed
-non-linear workflows. Every Git working directory is a complete repository
-with full history, independent of the network access.
+Finding a way to organize and classify code is one of the most important
+aspects when we are dealing with a big organization like CERN. This is why
+every collaborative repository is managed using Git. \textbf{Git}
+\cite{GitWebsite} is an open-source revision control system with support
+for distributed non-linear workflows. Every Git working directory is
+a complete repository with full history, independent of the network
+access. In the latest years his popularity grew dramatically, mostly due
+to his extreme elasticity, compatibility with existing protocols and
+support for non-linear development.
 
-In the latest years his popularity grew dramatically, mostly due to his
-extreme elasticity, compatibility with existing protocols and support for
-non-linear development.
+Since the code organization is stored in Git we need a build server to run
+the automated test and tasks that are typical of an Agile environment.
+This heavy task is lifted by \textbf{Jenkins}, an open-source continuous
+integration tool written in Java. It is a server-based system running in
+a servlet container. It is integrated with most of the revision control
+systems and the multitude of available plugins made its popularity grow
+year by year. It is currently used by several open-source project to run
+unit and functional tests on code written by contributors.
 
-\subsubsection{Jenkins}
+Git and Jenkins can help us to write and test software but when it comes
+to deployment we need necessarily to use Koji to package and distribute
+our software. \textbf{Koji} is an RPM-based build system; it provides
+a flexible, secure and reproducible way to build software. In combination
+with Git it provides a fast way to package and distribute software across
+the servers. When a developer is ready to release a new version of his
+software he can use Koji to build and tag it to the correct repository. In
+this way at the next distro-sync all the machines will receive the
+updates.
 
-Jenkins is an open-source continuous integration tool written in Java,
-it's a server-based system running in a servlet container. It's
-integration with most of the revision control systems and the multitude of
-available plugins made its popularity grow year by year.
-
-It is currently used by several open-source project to run unit and
-functional tests on code written by contributors.
-
-\subsubsection{Koji}
-
-Koji is an RPM-based build system; it provides a flexible, secure and
-reproducible way to build software. In combination with Git it provides
-a fast way to package and distribute software across the servers.
-
-When a developer is ready to release a new version of his software he can
-use Koji to build and tag it to the correct repository. In this way at the
-next distro-sync all the machines will receive the updates.
-
-\subsubsection{Jens}
-
-Jens is a python-toolkit developed at CERN to generate puppet environments
-dynamically, based on some input metadata. It is used to give service
-managers the elasticity they need to configure their services while
-dealing with shared modules.
-
-% TODO add how it works and what it parses
-
-\subsubsection{Rundeck}
-
-Rundeck automates operations and repetitive actions: it allows users to
-define a workflow and a series of actions to do. Those workflows can be
-scheduled or triggered by actions. In particular Rundeck became more and
-more popular in the DevOps ecosystem due to the possibility to easily
-integrate him with other components and software, making easy for final
-users to define autonomously new workflows and procedures.
-
-Tracking failures and reacting to them is one of the best features of
-Rundeck: it is possible to define behaviours in case of job failures and
-instruct Rundeck to react to different kind of problems. We can specify
-some actions to roll-back a change, send a notification, or simply retry
-the job after an interval, depending on the use-case. 
-
-\subsubsection{MCollective}
-
-MCollective is a framework for server orchestration: it allows user to run
-actions on a multitude of hosts. It is used extensively when it is
-necessary to deal with several machines at the same time: trigger
-a command on multiple servers, get the status of a package or a service
-across a cluster, etc..
-
+The last step to manage servers efficiently is being able to run commands
+on a set of machines. This task is performed by \textbf{MCollective},
+a framework for server orchestration: it allows user to run actions on
+a multitude of hosts. It is used extensively when it is necessary to deal
+with several machines at the same time: trigger a command on multiple
+servers, get the status of a package or a service across a cluster, etc.
 It is well integrated with Puppet and Foreman, allowing us to trigger
 actions on specified hostgroups/environments directly from the command
 line just specifying the parameters of the servers we want to query.
-
-\subsubsection{Roger}
-
-Roger manages two important pieces of machine state. Whether you want
-alarms switched on (or, more accurately, whether you want alarms to be
-masked), and what the current state of the machine is. Optionally you can
-then use those state transitions to take actions, such as to remove
-a machine from a load balancer.
-
-\subsubsection{TBag}
-
-Due to the fact that service managers share Puppet modules and code, we
-had to find a solution to provide secrets to hosts (like password,
-certificates and keytab files): since many people have access to the
-repositories, it is not secure to store secrets in there.
-
-To solve this problem we developed TBag (Trusted Bag) a service that
-allows users to define secrets at host/hostgroup level. The secrets can be
-retrieved only by the specified host using a custom class in the puppet
-manifest.
 
