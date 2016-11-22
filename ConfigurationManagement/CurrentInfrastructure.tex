@@ -1,11 +1,11 @@
 \section{Current Infrastructure}
 
-In this section we will describe the current computing infrastructure
-maintained by the Configuration Team.
+In this section we will describe in detail the current computing
+infrastructure maintained by the Configuration Team. We split this section
+in different subsections to analyse one by one clusters that have
+different features.
 
 \subsection{Puppet Masters}
-
-% UPDATE numbers and split batch from interactive
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ConfigurationManagement/Infrastructure_pm.jpg}
@@ -19,8 +19,8 @@ the load equally between all the servers in the pool: the requests are
 always forwarded to the less loaded server of the pool. Every pool has
 approximately 40 machines with four cores and eight GigaBytes of memory.
 
-Each pool is split in two clusters: the interactive cluster and the batch
-cluster. The interactive cluster is smaller (usually around three
+Each pool is split in two sub-clusters: the interactive cluster and the
+batch cluster. The interactive cluster is smaller (usually around three
 machines) and takes care of all the Puppet runs triggered using the
 command line; most of the testing runs are compiled with this one. The
 batch cluster instead compiles all the runs that are triggered in the
@@ -29,10 +29,11 @@ it is assigned randomly to one of the two pools and stays there for the
 whole lifecycle.
 
 The servers read the puppet code from two different NFS shares, one for
-each pool. The NFS share is populated by Jens as we will see it in the
-next sections. This helps to balance the load across two different pools,
-avoiding to overload one of them. In case of failures of one pool, the
-machines can fallback on the healthy one in case of emergency. 
+each pool. The NFS share is populated by Jens \cite{JensWebsite} as we
+will see in the next sections. This helps to balance the load across two
+different pools, avoiding to overload one of them. In case of failures of
+one pool, the machines can fallback on the healthy one in case of
+emergency. 
 
 \subsection{Foreman}
 
@@ -41,10 +42,10 @@ managers an overview of their servers using a web interface. It contains
 the correspondences between a server and its hostgroup/environment, it
 allows to browse Puppet reports and also manage physical machines.
 
-As we can see from the image Foreman is split in four different services,
+As we can see from the image, Foreman is split in four different services,
 all using the same database instance; all the traffic is redirected to the
 correct service using load balancers. Depending on the port, the balancers
-redirect the traffic to the correct servers.
+redirect the traffic to the correct server.
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ConfigurationManagement/Infrastructure_judy.jpg}

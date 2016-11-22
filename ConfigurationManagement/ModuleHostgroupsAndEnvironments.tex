@@ -12,38 +12,38 @@ makes easy to roll back in case of errors or problems. Moreover, two or
 more user can work on the same code in parallel to solve different issues
 at the same time, improving the time to delivery.
 
-Every repository has at least two branches: master and qa. The code in
-'master' will target all the machines in production, while the code in
-'qa' will target all the QA machines, that are used to test the code
-changes before merging them into production. Users can test their changes
-in custom branches and merge them later, following the procedure that we
-will see later, when they feel their change is ready for deployment.
+Every repository has at least two branches: \textbf{master} and
+\textbf{qa}. The code in 'master' will target all the machines in
+production, while the code in 'qa' will target all the QA machines, that
+are used to test the code changes before merging them into production.
+Users can test their changes in custom branches and merge them later,
+following the procedure that we will see later, when they feel their
+change is ready for deployment.
 
 \subsection{Modules}
 
 Puppet modules are used to configure a single service/software on a server
-and they can be reused across different hostgroups. Manifests can be seen
-as re-usable puppet code, they are a sort of libraries in the puppet
-world. Each installation can be customized in the puppet manifest using
-tunable parameters.
+and they can be reused across different hostgroups. Modules can be seen as
+re-usable puppet code, they are a sort of libraries in the puppet world.
+Each installation can be customized in the puppet manifest using tunable
+parameters.
 
 There are different types of modules in the CERN database, the most
 important ones are the so called \textit{base modules}. These modules are
 used in all the servers that are deployed using Puppet and the procedure
 to change them includes additional checks since a problem might lead to
-a large scale failure.
+a large scale failure. A change in the base modules affects nearly every
+server in the data centre.
 
 Most of the modules are downloaded from a public modules store called
-\textit{PuppetForge} where users can upload their modules, share them with
-the community and receive improvements on their code. Most of these
-modules are hosted on Github and the team tries to keep them in sync with
-the local copy that is stored at CERN. It happens often that a module can
-not be imported out of the box into the CERN repositories since they need
-a particular set of configuration. Of course the team are trying to give
-back their contributions improving the code back to the community but that
-is not always an easy task to accomplish.
-
-% TODO plugin sync ?
+\textit{PuppetForge} where users can upload their modules, share them with the
+community and receive improvements on their code. Most of these public modules
+are hosted on Github and the team tries to keep them in sync with the local
+copy that is stored at CERN. It happens often that a module can not be imported
+out of the box into the CERN repositories since they need a particular set of
+configuration. The team is also trying to give back their contributions
+improving the code back to the community but that is not always an easy task to
+accomplish.
 
 \subsection{Hostgroups}
 
