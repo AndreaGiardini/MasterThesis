@@ -21,14 +21,14 @@ As stated in the previous sections, Puppet runs periodically in all the
 servers with different interval depending on the result of the latest
 report: if the latest report did not apply any change the interval is
 increased and vice versa. This let most of the user test their code
-triggering the Puppet agent from the cli, without waiting for the batch
+triggering the Puppet agent from the CLI, without waiting for the batch
 run.
 
-This means that when a change is merge to production it might need
-sometime to be deployed in all the servers involved in the change.
-Triggering the agent using the cli on multiple machine at the same time
-might lead to an overload of the interactive cluster and it is definitely
-not advised by the Configuration Team.
+This means that when a change is merge to production it might need some
+hours to be deployed in all the servers involved in the change. Triggering
+the agent using the CLI on multiple machine at the same time might lead to
+an overload of the interactive cluster and it is definitely not advised
+by the Configuration Team.
 
 \subsection{Configuration and package drifts}
 

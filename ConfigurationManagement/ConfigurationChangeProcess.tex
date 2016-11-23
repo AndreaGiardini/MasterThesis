@@ -8,15 +8,15 @@ it will not break any service. It has to be said that the way CERN is
 using Puppet is not the way it has been designed: modules are not supposed
 to involve so many people but just the responsible for the Puppet
 infrastructure. This makes the change process a bit slower but, on the
-other hand, it allows the computing center to have a unified library of
-code for Puppet module. In particular, in the last years, this idea of
+other hand, it allows the computing centre to have a unified library of
+code for Puppet modules. In particular, in the last years, this idea of
 infrastructure showed its limits and its advantages. Starting from the
 advantages, if every team takes care of also maintaining the module of the
-service it is responsible of the users will be sure to have it configured
+service it is responsible of, the users will be sure to have it configured
 in the optimal way. On the other side, upgrading the modules becomes
 a challenging operation since all the teams need to sync for a module
-update and need to make sure that the change is not breaking any of their
-services.
+update and need to make sure that the change is not breaking any of
+their services.
 
 After years of testing and improving the procedure we can definitely say
 that right now the whole process is well tested and works quite well for
@@ -35,7 +35,7 @@ We defined a common procedure to modify shared modules:
 The first thing to do is clone the module repository, create a custom
 branch and apply the changes that we would like to include in production.
 In this way the change can be reviewed and tested, before being merged to
-qa or master, using custom environments and a custom virtual machine.
+qa or master, using custom environments and a virtual machine.
 
 \item Build a test machine using a custom environment
 
@@ -46,21 +46,21 @@ for error and make sure that the committed change is doing what we expect.
 
 \item Open a CRM (Config Release Management) ticket
 
-Jira is used to keep track of all the module changes and to announce that
-change to all the service managers using that module. A new ticket
-includes the reason for that change and the custom branch that contains
-it. It is very important to fill the ticket with as many details as
-possible ( eventually including a link to the commit of the change ) in
-order to let the others understand the aim of the change itself. If
-another service manager encounters problems with the change it needs to be
-able to understand which change is causing his service to crash.
+Jira \cite{JiraWebsite} is used to keep track of all the module changes and to
+announce them to all the service managers using a module. A new ticket includes
+the reason for that change and the custom branch that contains it. It is very
+important to fill the ticket with as many details as possible (eventually
+including a link to the commit of the change) in order to let the others
+understand the aim of the change itself. If another service manager encounters
+problems with the change it needs to be able to understand which change is
+causing its service to crash.
 
 \item Change is merged to QA
 
-The custom branch into qa and the change is deployed automatically the
-change in all the testing machines. At this point service managers have
-one week to test the change in their qa machines and make sure that
-everything is working as expected.
+The custom branch is merged into qa and the change is deployed automatically in
+all the testing machines. At this point service managers have one week to test
+the change in their qa machines and make sure that everything is working as
+expected.
 
 If the change breaks their systems they can block the pipeline using Jira
 and ask the user to fix the problem before deploying it or the ticket will

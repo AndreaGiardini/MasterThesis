@@ -2,7 +2,7 @@
 
 In this section we are going to explain what is a Puppet run: how Puppet
 determines how to configure a machine following the service manages
-instructions. It is foundamental to remember that all the machines in the
+instructions. It is fundamental to remember that all the machines in the
 system have their hostgroup and environment registered in Foreman: this
 allows Puppet to understand which configuration they should have.
 
@@ -12,6 +12,9 @@ The diagram below summarises the main interactions of a Puppet run:
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ConfigurationManagement/PuppetRun/PuppetRun.png}
 \caption{Puppet run interactions}
 \end{figure}
+
+These are the main interactions of a Puppet Run. In order to clarify how
+this process happens we provide a description of each phase:
 
 \begin{enumerate}
 
@@ -34,9 +37,9 @@ desired configuration.
 
 This process is repeated automatically several time a day to ensure that
 the server configuration stays the same all the time. Moreover a Puppet
-run can be triggered manually using the agent's cli ( mostly used for
-testing ).
+run can be triggered manually using the agent's cli (mostly used for
+testing).
 
-At the end of the run a report, collecting all the changes applied, is
-sent to Foreman and to PuppetDb. The users are able to visualize what
-changed in their machines and when.
+At the end of the run, a report collecting all the changes applied is sent
+to Foreman and to PuppetDb. The users are able to visualize what changed
+in their machines and when.

@@ -24,8 +24,8 @@ using them as a part of the query.
   
   \begin{lstlisting}[frame=single]
   pkginv -H 'bi/batch/gridworker/aishare/share'
-            -e production
-            compare
+         -e production
+         compare
   
   Processing hosts with:
   
@@ -40,7 +40,7 @@ using them as a part of the query.
   lists, highlighting the differences and grouping machines with different
   packages lists in different groups.
 
-  An example of the output is reported below:
+  An example of the output is reported below: \newline{}
 
   \begin{lstlisting}[frame=single]
   +------------+------------+------------+
@@ -67,12 +67,12 @@ using them as a part of the query.
   drifting). Since PackageInventory found more than two groups of hosts
   the difference between all these groups are not displayed or the output
   would be too verbose. If we want to get the differences between those
-  groups we can use the Cli to output the differences between two single
-  servers:
+  groups we can use the CLI to output the differences between two single
+  servers: \newline{}
 
   \begin{lstlisting}[frame=single]
   
-  \$ pkginv -m 'b6b3d71dfa b6b1576a51' compare
+  pkginv -m 'b6b3d71dfa b6b1576a51' compare
 
   +--------------------+-------+------------+-------------+
   |       Package      | Field | b6b3d71dfa |  b6b1576a51 |
@@ -90,23 +90,22 @@ using them as a part of the query.
   \end{lstlisting}
 
   In this example we picked two servers that were part of the group zero
-  (the correct configuration) and group one (drifting group). As we can
-  see from the previous output there are four packages (\textit{httpd,
-  httpd-tools, gridsite, mod\_ssl}) that are installed in the hosts of
-  group zero and not in group one. Moreover the CASTOR \cite{castor}
-  libraries are installed with different versions.
+  and group one. As we can see from the previous output there are four
+  packages (\textit{httpd, httpd-tools, gridsite, mod\_ssl}) that are
+  installed in the hosts of group zero and not in group one. Moreover the
+  CASTOR \cite{castor} libraries are installed with different versions.
 
   \item \textbf{Package List}
 
-  Some basic function have been implemented as well to, for example,
-  retrieve the list of the packages currently installed in a server:
+  Some basic function have been implemented as well. For example, retrieve
+  the list of the packages currently installed in a server: \newline{}
 
   \begin{lstlisting}[frame=single]
   pkginv -m 'b6b3d71dfa' list
   \end{lstlisting}
   
-  Or get all the informations for a specific package in a selected
-  server:
+  Or get all the informations for a specific package in a selected server:
+  \newline{}
   
   \begin{lstlisting}[frame=single]
   pkginv -m 'b6b3d71dfa' status -p 'sssd-client'
@@ -114,7 +113,7 @@ using them as a part of the query.
  
   Eventually we can also compare the installed versions of a package on
   several hosts. This is used especially when we suspect that a specific
-  package is creating problems in the hostgroup.
+  package is creating problems in the hostgroup. \newline{}
   
   \begin{lstlisting}[frame=single]
   pkginv -H 'bi/batch/gridworker/aishare/share'
@@ -138,11 +137,12 @@ using them as a part of the query.
 
   In the following example we can see how PackageInventory prints the
   history of the \textit{nss} package in the \textit{b6b3d71dfa} server:
+  \newline{}
 
-  \begin{lstlisting}[frame=single,basicstyle=\tiny]
-
+  \begin{lstlisting}[frame=single,basicstyle=\footnotesize\ttfamily]
+  
   pkginv -m 'b6b3d71dfa' history -p 'nss'
-
+  
   +---------+---------+--------------+------------+---------------------+
   | Package | Version |    Epoch     |   Action   |      Timestamp      |
   +---------+---------+--------------+------------+---------------------+

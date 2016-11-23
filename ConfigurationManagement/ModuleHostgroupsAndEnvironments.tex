@@ -65,7 +65,7 @@ nodes has the same hostgroup if:
 It is also possible to define sub-hostgroups, to split the functionalities
 of the nodes within the service. Since the hostgroup structure is
 hierarchical a node in a sub-hostgroup inherits the settings from all this
-parents. For example: 
+parents. For example: \newline{} 
 
 \begin{table}[H]
     \begin{center}
@@ -73,11 +73,11 @@ parents. For example:
         \hline
         \textbf{Hostgroup} & \textbf{Purpose} \\
         \hline
-        webstuff & is the top-level hostgroup for the WebStuff service \\
+        web & is the top-level hostgroup for the Web service \\
         \hline
-        webstuff/production & is the hostgrup containing the nodes of the production instance \\
+        web/prod & is the hostgrup containing the nodes of the production instance \\
         \hline
-        webstuff/production/balance & are the Apache balancer nodes in front of the production service \\
+        web/prod/balance & are the Apache balancer nodes in front of the production service \\
         \hline
     \end{tabular}
     \end{center}
@@ -90,15 +90,15 @@ creating smaller clusters within the same hostgroup.
 
 Environments are collections of modules and hostgroups at different
 development levels, based on their Git history; they are defined in YAML
-files living in a Git repository. Jens uses those files to create the
-custom environments that are served to the puppet masters.
+\cite{YAMLWebsite} files living in a Git repository. Jens uses those files
+to create the custom environments that are served to the puppet masters.
 
 There are two golden environments:
 
 \begin{itemize}
-    \item 'production' - modules and hostgroup are cloned from the master branch of
+    \item \textbf{production} - modules and hostgroup are cloned from the master branch of
 their git repositories
-    \item 'qa' - modules and hostgroups are cloned from the qa branch of their git
+    \item \textbf{qa} - modules and hostgroups are cloned from the qa branch of their git
 repositories
 \end{itemize}
 
@@ -109,31 +109,33 @@ specify a different branch from the default one.
 There are two different types of environments:
 
 \begin{itemize} 
-    \item Dynamic environments - Service managers can specify a default branch for
-hostgroup and modules (usually master or qa) and override others. For
-example:
+    \item Dynamic environments
+
+Service managers can specify a default branch for hostgroup and modules
+(usually master or qa) and override others. For example:
 
 \begin{lstlisting}[language=bash, frame=single]
 default: qa
-notifications: bob@cern.ch
+notifications: john.doe@cern.ch
 overrides:
     modules:
         sssd: ai456
 \end{lstlisting}
 
-    \item Static environments (Snapshots) - These environments are completely static,
-every module and hostgroup points to a specific git commit: the
-configuration won't be updated without a manual intervention on the
-environment file. For example:
+    \item Static environments (Snapshots) 
+    
+These environments are completely static, every module and hostgroup
+points to a specific git commit: the configuration won't be updated
+without a manual intervention on the environment file. For example:
 
 \begin{lstlisting}[language=bash, frame=single]
-notifications: bob@example.org
+notifications: john.doe@example.org
 overrides:
     common:
-        hieradata: commit/fb96070c9c77cc442ac60ba273768f547d376c17
-        site: commit/fb96070c9c77cc442ac60ba273768f547d376c17
+        hieradata: commit/fb96070c9c77cc442ac60ba27
+        site: commit/fb96070c9c77cc442ac60ba27
     hostgroups:
-        adcmon: commit/8bf3ca9fe39a6f354dfc70377205ed806d6ae540
+        adcmon: commit/8bf3ca9fe39a6f354dfc70377
     [...]
 \end{lstlisting}
 \end{itemize}

@@ -15,7 +15,7 @@ PackageInventory is executed consequentially.
 It is possible to configure the reporter specifying some parameters using
 the configuration file stored in \textit{/etc/packageinventory.conf}. This
 file allows us to set the locations of all the log files, specify the
-ElasticSearch hostname and the index. We decided to make the reporter
+ElasticSearch hostname and index. We decided to make the reporter
 customizable in order to have the possibility in the future to organize
 and store the metrics in different clusters.
 
@@ -34,10 +34,8 @@ components:
   remotely or locally.
   
   It is installed by default in all the Linux distributions used at CERN
-  like RHEL, Scientific Linux and CentOs. In the latest distribution it
-  has been replaced by a new package manager called DNF. It is
-  consequentially important to understand how Yum works to accomplish our
-  mission.
+  like RHEL, Scientific Linux and CentOs. It is consequentially important
+  to understand how Yum works to accomplish our mission.
 
   \item \textbf{RpmDb}
 
