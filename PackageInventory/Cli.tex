@@ -143,13 +143,13 @@ using them as a part of the query.
   
   pkginv -m 'b6b3d71dfa' history -p 'nss'
   
-  +---------+---------+--------------+------------+---------------------+
-  | Package | Version |    Epoch     |   Action   |      Timestamp      |
-  +---------+---------+--------------+------------+---------------------+
-  |   nss   |  3.19.1 | 3.el6_6.cern |  Installed | 2015-07-03T16:28:27 |
-  |   nss   |  3.19.1 | 4.el6_6.cern |  Upgraded  | 2015-07-03T16:30:01 |
-  |   nss   |  3.19.1 | 4.el6_6.cern |   Removed  | 2015-07-03T16:31:05 |
-  +---------+---------+--------------+------------+---------------------+
+  +---------+---------+---------+-----------+---------------------+
+  | Package | Version |  Epoch  |  Action   |      Timestamp      |
+  +---------+---------+---------+-----------+---------------------+
+  |   nss   |  3.19.1 | 3.el6_6 | Installed | 2015-07-03T16:28:27 |
+  |   nss   |  3.19.1 | 4.el6_6 | Upgraded  | 2015-07-03T16:30:01 |
+  |   nss   |  3.19.1 | 4.el6_6 |  Removed  | 2015-07-03T16:31:05 |
+  +---------+---------+---------+-----------+---------------------+
   \end{lstlisting}
 
   The history of a package is tracked since the installation of
@@ -164,14 +164,15 @@ using them as a part of the query.
   the installation or upgrade of the package (particularly useful with
   LSF).
  
-  \begin{lstlisting}[frame=single,basicstyle=\tiny]
-  pkginv --check-reboot -m 'b6b3d71dfa' status -p 'CERN-CC-LSF-glibc2.3-config-batch
+  \begin{lstlisting}[frame=single,basicstyle=\footnotesize\ttfamily]
+  pkginv --check-reboot -m 'b6b3d71dfa' status
+         -p 'LSF-glibc2.3-config-batch'
 
-  +-----------------------------------+---------+--------+-------------+
-  |              Package              | Version | Epoch  | Hasrebooted |
-  +-----------------------------------+---------+--------+-------------+
-  | CERN-CC-LSF-glibc2.3-config-batch |  7.0.6  | 80.el6 |    False    |
-  +-----------------------------------+---------+--------+-------------+
+  +---------------------------+---------+--------+-------------+
+  |          Package          | Version | Epoch  | Hasrebooted |
+  +---------------------------+---------+--------+-------------+
+  | LSF-glibc2.3-config-batch |  7.0.6  | 80.el6 |    Falsei   |
+  +---------------------------+---------+--------+-------------+
   \end{lstlisting} 
 
 \end{itemize}
@@ -194,26 +195,26 @@ metrics.
 
 \subsection{Optimizations for large-scale queries}
 
-ElasticSearch is supposed to scale well even with big time consuming
+ElasticSearch is supposed to scale well even with large time consuming
 queries. However, since our cluster is relatively small and the amount of
 data aggregated by PackageInventory can be quite large in some cases, we
 had to find a way to optimize our queries.
 
 The most time consuming query is the one that is used to compare a cluster
 of servers, since it requires to aggregate on multiple fields. The initial
-idea was to run a unique big query to retrieve the packages list from all
+idea was to run a unique big query to retrieve the package list from all
 the hosts to be compared at the same time. This method ended up to be
 impossible to use due to the size of the clusters that we have in the
-datacentre: aggregating packages of thousands of hosts in a unique query
+data centre: aggregating packages of thousands of hosts in a unique query
 was crashing the cluster.
 
 We approached the problem splitting the query in several sub-queries in
 which we consider just a portion of the hosts at the same time.
 PackageInventory is not configured to split the queries if the cluster to
 compare includes less than twenty five hosts. If the cluster contains more
-hosts than the limit then PackageInventory automatically splits the
-queries to compare only twenty five hosts at the same time and runs
-multiple queries to retrieve all the metrics that it needs. Using this
-technique the database is not hammered with big queries but with a set of
-smaller queries. The user's computer takes than takes the results and
-process them internally, offloading the database as soon as possible.
+hosts than the limit then PackageInventory automatically splits the query
+to compare only twenty five hosts at the same time and runs multiple
+queries to retrieve all the metrics that it needs. Using this technique
+the database is not hammered with large queries but with a set of smaller
+queries. The user's computer takes than results and process them
+internally, offloading the database as soon as possible.

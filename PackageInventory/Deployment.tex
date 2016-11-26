@@ -46,7 +46,5 @@ metrics correctly.
 
 It is important to notice that, since we used Flume to guarantee
 redundancy, no metrics have been lost. In fact Flume noticed immediately
-that the cluster was not available and queued the metrics locally waiting
+that the cluster was not available and queued the metrics locally, waiting
 for the cluster to be online again.
-
-% TODO talk about load split between ES and host

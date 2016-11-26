@@ -1,7 +1,7 @@
 \section{Results}
 
 In this last section we will analyse the results of the deployment of
-PackageInventory in the CERN Datacentre and how it has been useful in some
+PackageInventory in the CERN data centre and how it has been useful in some
 interventions. At the end of the chapter we left some room for possible
 developments of the tools, current limits and future ideas to implement.
 
@@ -10,14 +10,14 @@ big clusters with PackageInventory. In the worst case, to compare all the
 machines part of a cluster of more than two thousands servers was a matter of
 a couple of minutes.
 
-After the deployment of PackageInventory in several number of servers we
-used it extensively to detect configuration problems. In the following
-sections we describe a set of incidents in which PackageInventory helped
-the team to find the problem and deploy a solution in a timely manner.
+After the deployment of PackageInventory in several servers we used it
+extensively to detect configuration problems. In the following sections we
+describe a set of incidents in which PackageInventory helped the team to
+find the problem and deploy a solution in a timely manner.
 
 \subsubsection{Libuser upgrade}
 
-Red Hat announced the presence of two critical vulnerabilities
+In 2015, Red Hat announced the presence of two critical vulnerabilities
 (CVE-2015-3245 \cite{cve-2015-3245} and CVE-2015-3246
 \cite{cve-2015-3246}) in the \textit{libuser} package. These
 vulnerabilities would allow a logged user to perform a local privilege
@@ -33,27 +33,26 @@ the machines should have been upgraded (since Yum update happens every
 night) but, thanks to PackageInventory, we noticed that around two
 hundreds fifty servers did not apply the upgrade as supposed.
 
-While investigating the issue we noticed that Puppet was failing to
-apply correctly the manifest to those machines due to a misconfiguration
-in their manifest. Due to that, those servers were using old snapshots
-repositories not containing the updated package. Apparently those
-servers were not receiving upgrades since a long time but nobody noticed them
-until this problem appeared and PackageInventory identified it.
+While investigating the issue we noticed that Puppet was failing to apply
+correctly the catalog to those machines due to a misconfiguration in their
+manifest. Due to that, those servers were using old snapshots repositories
+not containing the updated package. Apparently those servers were not
+receiving upgrades since a long time but nobody noticed them until this
+problem appeared and PackageInventory identified it.
 
 Since the investigation found the problem that was causing the
-misconfiguration we fixed the Puppet manifest and the servers upgraded
+misconfiguration, we fixed the Puppet manifest and the servers upgraded
 their packages as foreseen. Thanks to PackageInventory we made sure that
-all the machines were upgraded to the latest servers of \textit{libuser} and
-we recovered over \textbf{two hundred servers} that were drifting from the
-correct configuration.
+all the machines were upgraded to the latest servers of \textit{libuser}
+and we recovered over \textbf{two hundred servers} that were drifting
+from the correct configuration.
 
 \subsubsection{Batch jobs performing differently on different nodes}
 
-The batch cluster, the bigger one in the CERN datacentre, performs
+The batch cluster, the bigger one in the CERN data centre, performs
 hundreds of jobs per day submitted by physicists all over the world. It
-happened in some occasions that the same job was performing differently
-on two different servers or succeeding in one machine and failing in
-another.
+happened in some occasions that the same job was performing differently on
+two different servers or succeeding in one machine and failing in another.
 
 Errors of this type were difficult to analyse and they are not supposed to
 happen in a cluster where all the servers should be configured in the same

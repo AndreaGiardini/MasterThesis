@@ -17,7 +17,7 @@ identify issues.
 Since, as explained before, one of the keys of our project needs to be
 automation we decided to create a Jenkins job called
 \textit{setup-base-tests} in order to add sample tests to the user's
-module. This jobs configure the user module with some sample tests and
+module. This job configures the user module with some sample tests and
 adds to Jenkins a new job dedicated to that specific module.
 
 For the final user setting up the tests becomes as simple as opening
@@ -49,7 +49,7 @@ everything goes well, the original Jira ticket is closed with status
 
 At this point the user can customize the tests and the Puppet manifests
 that are present inside the module's repository merging the test samples
-inside the repository and then editing them accordingly 
+inside the repository and then editing them accordingly. 
 
 \subsection{Proposing a configuration change}
 
@@ -82,11 +82,11 @@ link of the merge request is then posted in Jira to let the user have the
 possibility to keep track of the work flow.
 
 Jenkins monitors the Gitlab instance for new merge requests assigned to
-the \textit{Jenkins CI} user, in fact we don't want our CI to take care of
-all the merge requests. Whenever a new merge request is opened and the
+the \textit{Jenkins CI} user, in fact we do not want our CI to take care
+of all the merge requests. Whenever a new merge request is opened and the
 assigner corresponds to the user associated with Jenkins a new build is
-triggered. This means as well that users can test their changes using the
-Continuous Integration infrastructure even without opening a CRM, but
+triggered. This means as well that users can test their changes using
+the Continuous Integration infrastructure even without opening a CRM, but
 simply assigning the merge request to Jenkins.
 
 At this point Jenkins starts building the job called

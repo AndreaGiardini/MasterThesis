@@ -26,7 +26,7 @@ PackageInventory correctly.
 Specifying dependencies between packages (in our case, python libraries)
 or configuration files is extremely easy. Moreover is fundamental to
 specify configuration files inside the \textit{spec file}, due to the fact
-that they don't need to be replaced in case of a package upgrade.
+that they do not need to be replaced in case of a package upgrade.
 
 Developers can build their packages using Koji and then assign them to the
 appropriate repositories. Koji takes care of building the package
@@ -34,10 +34,10 @@ correctly, following the specifications of the \textit{spec file}, for
 different architectures.
 
 The developer is allowed to build the package using Koji as many time as
-he wants before actually publishing it to the final repository. This is
-very useful when we would like to test a build: we can trigger a scratch
-build on Koji, download the resulting package and test it in our test
-environment. In this way we can be sure that our software has been
+it wants before actually publishing the package to the final repository.
+This is very useful when we would like to test a build: we can trigger
+a scratch build on Koji, download the resulting package and test it in our
+test environment. In this way we can be sure that our software has been
 packaged correctly before deploying it in the production servers.
 
 Once the package is ready to be deployed it has to follow the usual

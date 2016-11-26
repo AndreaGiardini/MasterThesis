@@ -17,7 +17,7 @@ the machine to be tested needs to be. Since the aim is to test a single
 module, this manifest should include the module itself with some basic
 parameters.
 
-Using this technique Jenkins can easily create machine customized on the
+Using this technique Jenkins can easily create machine customized to the
 user needs.
 
   \item \textit{run\_tests.sh}
@@ -54,7 +54,7 @@ the file. The available settings are:
 At the time of writing, three different operating systems are officially
 supported by IT: Scientific Linux five, Scientific Linux six and CentOs
 seven. Using these three variables we can specify on which operating
-systems we want the test to run. These variables accept only a boolean
+systems we want the tests to run. These variables accept only a boolean
 value (yes or no).
 
 If the value for a certain operating system is set to true, then Jenkins
@@ -64,7 +64,7 @@ others: we can avoid to test the module for it.
 
   \item \textit{PUPPET\_RUNS}
 
-This parameters it's an integer, and it specifies how many puppet runs
+This parameters is an integer, and it specifies how many puppet runs
 Jenkins has to wait before launching the tests (both internal and
 external). The default value has been set to two, since it is usually
 a reasonable number of runs to complete the configuration.
@@ -103,6 +103,6 @@ This way of defining the building techniques has been created we have seen
 in the past some changes that were completely harmless when applied to an
 already existing machine, but were breaking all the new installations. At
 the same time not all the modules needs this extra computing, so the
-environment change might result a good solution in those cases.
+environment change might be a good solution in those cases.
 
 \end{itemize}

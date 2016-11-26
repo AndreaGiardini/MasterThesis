@@ -64,11 +64,11 @@ pushing to the repository, the script queries Foreman periodically to make
 sure that the environment has been created and that it is available before
 proceeding. Once the environment is available the job finishes, returning
 the name of the custom environment. Those environments have a name that
-concatenates \textit{aici}, the name of the module and a random UUID
-(e.s.aici-apache-u2r478c5).
+concatenates \textit{aici}, the name of the module and a random UUID (e.s.
+aici-apache-u2r478c5).
 
 This job is simple and aims to create a custom, private environment where
-the CI could test the changes committed to \textit{BRANCH}. Creating
+the CI can test the changes committed to \textit{BRANCH}. Creating
 a custom environment is a mandatory step to be able to understand how the
 change affects the final machine.
 
@@ -111,13 +111,12 @@ This job can be customized by the module maintainer using the
 configuration file described in the following section and it is successful
 only if all the tests specified are successful. A sub-hostgroup of the
 hostgroup \textit{it-puppet-hostgroup-testing} is created, including only
-the module that we want to test, for example:
+the module that we want to test, for example: \newline{}
 
 \begin{lstlisting}[language=bash, frame=single]
-class hg_testing::apache { 
-  include apache::tests::check
-}
-
+  class hg_testing::apache { 
+    include apache::tests::check
+  }
 \end{lstlisting}
 
 Using this technique it is possible to configure a clean machine with
@@ -127,9 +126,9 @@ environment, the machine that we are building will be configured with the
 module we are testing and the change that we committed in the custom
 branch.
 
-Moreover, We will see later that, using the configuration files, it is
+Moreover, as we will see later, using the configuration files, it is
 possible to specify on which Operating Systems the user wants to run its
-tests.
+tests on.
 
 \subsubsection{Build-Spare - Fills the pools of spare machines}
 
@@ -151,8 +150,8 @@ job is triggered, three jobs are started, one for each possible value of
 support list simply adding a new value to the list.
 
 While other jobs can have more than one instance at the same time (for
-example, two destroy-vm) this job is meant to run sequentially since we do
-not want to create one machine at the time at make sure that they are
+example, two destroy-vm) this job is meant to run sequentially since we
+want to create one machine at the time and make sure that they are
 correctly spawned and built. For this reason, even if this job is
 triggered every time a machine is picked up for testing, there will always
 be at maximum one build-spare job running.
@@ -160,7 +159,7 @@ be at maximum one build-spare job running.
 This job is able to re-trigger itself automatically if the pools are not
 full. If the maximum size of the pool is five, but the number of machines
 currently present in the pool is three, the job will re-instantiate itself
-three times in order to fill the pool.
+two times in order to fill the pool.
 
 \subsubsection{Destroy-Vm - Destroys the specified virtual machine}
 
@@ -219,10 +218,10 @@ manually in the past. In particular its duties are:
   \item Weekly CRM recap
 
   Since the Configuration Management team meets once a week with the others
-  teams it is necessary to provide a list of the changes that are in QA and the
-  changes that went in production during last week. Other service managers and
-  then able to ask questions or clarifications directly to the team about
-  configuration changes.
+  teams it is necessary to provide a list of the changes that are in QA
+  and the changes that went in production during last week. Other service
+  managers are then able to ask questions or clarifications directly to
+  the team about configuration changes.
 
   \item Update ticket status and trigger Jenkins
 
