@@ -20,7 +20,7 @@ using them as a part of the query.
   PackageInventory allows us to compare two or more servers. We are able
   to query PuppetDB to get a list of hosts or we can specify directly the
   hostnames. For example, if we want to compare all the hosts on
-  a specific hostgroup:
+  a specific hostgroup: \newline{}
   
   \begin{lstlisting}[frame=single]
   pkginv -H 'bi/batch/gridworker/aishare/share'
@@ -139,7 +139,7 @@ using them as a part of the query.
   history of the \textit{nss} package in the \textit{b6b3d71dfa} server:
   \newline{}
 
-  \begin{lstlisting}[frame=single,basicstyle=\footnotesize\ttfamily]
+  \begin{lstlisting}[frame=single,basicstyle=\footnotesize]
   
   pkginv -m 'b6b3d71dfa' history -p 'nss'
   
@@ -164,14 +164,15 @@ using them as a part of the query.
   the installation or upgrade of the package (particularly useful with
   LSF).
  
-  \begin{lstlisting}[frame=single,basicstyle=\footnotesize\ttfamily]
+  \begin{lstlisting}[frame=single,basicstyle=\footnotesize]
+  
   pkginv --check-reboot -m 'b6b3d71dfa' status
          -p 'LSF-glibc2.3-config-batch'
 
   +---------------------------+---------+--------+-------------+
   |          Package          | Version | Epoch  | Hasrebooted |
   +---------------------------+---------+--------+-------------+
-  | LSF-glibc2.3-config-batch |  7.0.6  | 80.el6 |    Falsei   |
+  | LSF-glibc2.3-config-batch |  7.0.6  | 80.el6 |    False    |
   +---------------------------+---------+--------+-------------+
   \end{lstlisting} 
 

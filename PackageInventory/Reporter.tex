@@ -65,13 +65,13 @@ A simple configuration file:
 
 %\begin{minted}
 \begin{lstlisting}[frame=single]
-[PackageInventory]
-LogFile: /var/log/rpmlistinventory.log
-FlumeFile: /var/log/flume-pkginv.log
-Tag: [PkgInventory]
-ElServer: myelcluster.cern.ch
-ElIndex: myelindex
-HostName: myhost
+  [PackageInventory]
+  LogFile: /var/log/rpmlistinventory.log
+  FlumeFile: /var/log/flume-pkginv.log
+  Tag: [PkgInventory]
+  ElServer: myelcluster.cern.ch
+  ElIndex: myelindex
+  HostName: myhost
 \end{lstlisting}
 %\end{minted}
 
@@ -155,14 +155,14 @@ available in the software repository of CERN.
 In this way the installation and configuration of PackageInventory is
 fully automated using Puppet. The final user has simply to add the
 following code in the Puppet manifest of his host to let it start to
-report packages:
+report packages: \newline{}
 
 \begin{lstlisting}[frame=single]
-class {'pkginventory':
-    el_host     => 'pkginv.cern.ch',
-    el_index    => 'logs',
-    el_cluster  => 'Package Inventory',
-}
+  class {'pkginventory':
+      el_host     => 'pkginv.cern.ch',
+      el_index    => 'logs',
+      el_cluster  => 'Package Inventory',
+  }
 \end{lstlisting}
 
 When the manifest will be applied it will install the correct packages for
