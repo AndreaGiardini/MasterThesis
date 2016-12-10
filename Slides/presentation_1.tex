@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{smartdiagram}
+\usepackage{minted}
 
 \usepackage{xcolor}
 \usepackage{graphicx}
@@ -212,16 +213,122 @@ an experimental approach at CERN}
 
 \begin{frame}
     \frametitle{Reporter}
+
+    Software installed on every server, integrated with Yum using a plugin.
+
+    \begin{itemize}
+        \item Reports to Elasticsearch every package change
+        \item Fault-tolerant
+        \item Real-time updates
+    \end{itemize}
+
+    Elasticsearch stores and indexes all the metrics to make them searchable.
+
+    \begin{center}
+        \vspace{10px}
+        \smartdiagramset{sequence item border color=black,
+            sequence item border size=1pt,
+            sequence item font size=\small\sffamily,
+            set color list={green!50,green!50,green!50}
+        }
+        \smartdiagram[sequence diagram]
+            {Change on package status,
+            Reporter collects the changes,
+            Sends new metrics to Elasticsearch}
+    \end{center}
 \end{frame}
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[fragile]
     \frametitle{Cli}
-    \begin{itemize}
-        \item Possibility to compare clusters of machines
-        \item Package history
-    \end{itemize}
+    \begin{minipage}[t]{0.95\textwidth}
+        \begin{columns}
+        \begin{column}{0.5\textwidth}
+            The Cli is used by the users to query the metrics that are
+            stored in the  Elasticsearch cluster.
+
+            \begin{itemize}
+                \item Possibility to compare clusters of machines
+                \item Package history
+                \item Package version across a set of servers
+            \end{itemize}
+
+            Optimized to scale for large queries:
+            Query time to compare over twenty hundreds hosts is two minutes.
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \linespread{1px}
+            \begin{minted}[fontsize=\footnotesize]{bash}
+pkginv -H bi/batch/gridworker/aishare
+       -e production
+       compare
+
+Processing hosts with:
+
+  - Hostgroup: bi/batch/gridworker/aishare
+  - Environment: production
+
++------------+------------+------------+
+|  Group 0   |  Group 1   |  Group 2   |
++------------+------------+------------+
+| b6b3d71dfa | b6b1576a51 | b60ba703db |
+| b636f67ca8 | b604a66b3b | b6e493a1b6 |
+| b62b21e394 | b6c6f66a36 |            |
+| b65573753a | b67d439ea5 |            |
+| b6a09855b8 |            |            |
+| b6a2bb83c8 |            |            |
+| b67af0481a |            |            |
+| b64f0f53c1 |            |            |
+| b69b92afd1 |            |            |
+| b67f818ae3 |            |            |
+| b67cc79825 |            |            |
+| b622b1cfdc |            |            |
++------------+------------+------------+
+            \end{minted}
+        \end{column}
+        \end{columns}
+    \end{minipage}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{Cli}
+    \begin{minipage}[t]{0.95\textwidth}
+
+        Now that we know which hosts are drifting we can get more details.
+
+        Packages can have:
+        \begin{itemize}
+            \item Different versions
+            \item Different status
+        \end{itemize}
+
+        Comparing two hosts gives us details about the installed packages.
+        \vspace{10px}
+    \end{minipage}
+    \vspace{\belowdisplayskip}
+    \begin{minipage}[t]{0.95\textwidth}
+        \centering
+        \linespread{1px}
+        \begin{minted}[fontsize=\footnotesize]{bash}
+               pkginv -m 'b6b3d71dfa b6b1576a51' compare
+
+               +--------------------+-------+------------+-------------+
+               |       Package      | Field | b6b3d71dfa |  b6b1576a51 |
+               +--------------------+-------+------------+-------------+
+               |       httpd        |       |  Present   | Not present |
+               |    httpd-tools     |       |  Present   | Not present |
+               |      gridsite      |       |  Present   | Not present |
+               |      mod_ssl       |       |  Present   | Not present |
+               |     castor-lib     | epoch |   8.slc6   |    9.slc6   |
+               | castor-rfio-client | epoch |   8.slc6   |    9.slc6   |
+               |  castor-ns-client  | epoch |   8.slc6   |    9.slc6   |
+               |    castor-devel    | epoch |   8.slc6   |    9.slc6   |
+               +--------------------+-------+------------+-------------+
+        \end{minted}
+    \end{minipage}
 \end{frame}
 
 %------------------------------------------------
@@ -243,8 +350,17 @@ an experimental approach at CERN}
 
 \begin{frame}
     \frametitle{Introduction}
+    Shipping changes to production used to be a manual procedure:
+    \begin{itemize}
+        \item Multiple actions involved
+        \item Human error
+    \end{itemize}
 
-    Automated way to ship configuration changes to production
+    The process could had to be automated:
+    \begin{itemize}
+        \item Less time wasted
+        \item More organization
+    \end{itemize}
 \end{frame}
 
 %------------------------------------------------
