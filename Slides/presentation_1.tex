@@ -1,6 +1,6 @@
 \documentclass[aspectratio=169]{beamer}
 
-\usetheme{metropolis}
+\usetheme[sectionpage=none]{metropolis}
 
 \beamertemplatenavigationsymbolsempty
 
@@ -110,7 +110,7 @@ an experimental approach at CERN}
 
 \subsection{Configuration management}
 \begin{frame}
-    \frametitle{Going Agile}
+    \frametitle{Cloud Computing}
     \begin{minipage}[t]{0.95\textwidth}
         \begin{columns}
             \begin{column}{0.8\textwidth}
@@ -159,31 +159,20 @@ an experimental approach at CERN}
 \end{frame}
 
 %------------------------------------------------
-
-\begin{frame}
-    \frametitle{Problems}
-    \begin{itemize}
-        \item Multiple service managers
-        \item Deployment interval
-        \item Configuration and package drifting
-    \end{itemize}
-\end{frame}
-
-%------------------------------------------------
 \section{Package Inventory}
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Introduction}
+    \frametitle{Package Drifts - Introduction}
     \vspace{10px}
     \begin{minipage}[t]{0.95\textwidth}
-        Configuration drifts started to be a problem:
+        Package drifts started to be a problem:
         \begin{itemize}
             \item Servers with outdated packages
             \item Difficult to spot
             \item Users forcing their servers not to update
         \end{itemize}
-        It is not easy to keep all the configuration in sync and guarantee security
+        It is not easy to keep all the packages in sync and guarantee security
     \end{minipage}
     \vspace{\belowdisplayskip}
     \begin{minipage}[t]{0.95\textwidth}
@@ -377,7 +366,6 @@ Processing hosts with:
                 \item Highly customizable
                 \item Active community
             \end{itemize}
-            blabla 
             \end{column}
             \begin{column}{0.5\textwidth}
                 \vspace{-10px}
@@ -509,11 +497,12 @@ Processing hosts with:
         Open merge request on Gitlab to QA,
         Run automated tests on Jenkins}
     \vspace{20px}
-    \smartdiagramset{set color list={orange!50,orange!50,green!50}}
+    \smartdiagramset{set color list={orange!50,orange!50,green!50,red!50}}
     \smartdiagram[sequence diagram]
         {Approve merge request on Gitlab,
         Open merge request on Gitlab to master,
-        Run automated tests on Jenkins}
+        Run automated tests on Jenkins,
+        Approve merge request on Gitlab}
 \end{frame}
 
 %------------------------------------------------
@@ -541,6 +530,14 @@ Processing hosts with:
 
 %------------------------------------------------
 
+\begin{frame}
+    \frametitle{Gitlab merge request}
+    \centering
+    \includegraphics[width=0.7\textwidth]{gitlab_merge_to_qa_final.jpg}
+\end{frame}
+
+%------------------------------------------------
+
 \subsection{Results}
 \begin{frame}
     \frametitle{Results}
@@ -563,6 +560,23 @@ Processing hosts with:
 
 \begin{frame}
     \frametitle{Conclusions}
+
+    \textbf{Package Inventory} and the \textbf{Continuous integration}
+    platform have been \textbf{successfully integrated in the
+    infrastructure at CERN}.
+
+    Package Inventory has been used to spot several inconsistency and it has
+    been used extensively to report several misconfigurations.
+
+    The Continuous integration platform has been used to automate the
+    deployment of changes to production. Unfortunately, writing meaningful
+    tests requires effort: obtaining a fully automated pipeline with complete
+    tests will require time.
 \end{frame}
 
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Questions}
+\end{frame}
 \end{document}
