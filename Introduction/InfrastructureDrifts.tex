@@ -1,5 +1,12 @@
 \section{Infrastructure Drifts}
 
+Since the approach to code and infrastructure changes significantly with the
+use of an Agile methodology, even the issues that are caused by it need to be
+studied. As the infrastructure grows, service managers tend to have less and
+less control on what actually happens in every single machine, since they rely
+on automation to control their services. This can lead in some cases to
+a phenomenon called Infrastructure Drifts.
+
 We call \textit{Infrastructure Drift} the tendency of one or more machines
 to have a different configuration compared with the majority of the
 cluster. This behaviour, if not detected, might lead to dangerous and
@@ -28,7 +35,7 @@ A Configuration Drift happens when the configuration of servers becomes
 more and more different as times goes on. Machine updates, manual updates
 and local patches can compromise the configuration of a running system and
 make it differ from what it should be. Tools like Puppet make sure than
-a machine is created with a given configuration but during its lifecycle,
+a machine is created with a given configuration, but during its lifecycle
 the server it will always tend to drift from the original configuration.
 
 Service managers usually try to prevent this behaviour using two different

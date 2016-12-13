@@ -12,8 +12,8 @@ different features.
 \caption{Puppet masters infrastructure}
 \end{figure}
 
-The image outlines the current puppet master infrastructure. As we can see
-there are two different clusters (also called pools) taking care of
+Figure 4.1 outlines the current puppet master infrastructure. As we can
+see there are two different clusters (also called pools) taking care of
 compiling puppet manifests. Every pool has two load balancers spreading
 the load equally between all the servers in the pool: the requests are
 always forwarded to the less loaded server of the pool. Every pool has
@@ -42,10 +42,10 @@ managers an overview of their servers using a web interface. It contains
 the correspondences between a server and its hostgroup/environment, it
 allows to browse Puppet reports and also manage physical machines.
 
-As we can see from the image, Foreman is split in four different services,
-all using the same database instance; all the traffic is redirected to the
-correct service using load balancers. Depending on the port, the balancers
-redirect the traffic to the correct server.
+As we can see from the figure 4.2, Foreman is split in four different
+services, all using the same database instance; all the traffic is
+redirected to the correct service using load balancers. Depending on the
+port, the balancers redirect the traffic to the correct server.
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ConfigurationManagement/Infrastructure_judy.jpg}
@@ -53,9 +53,12 @@ redirect the traffic to the correct server.
 \end{figure}
 
 The ENC service of Foreman gives to the Puppet masters the correspondence
-between a machine name and the hostgroup/environment it is assigned to.
-
-% TODO expand a bit
+between a machine name and the hostgroup/environment it is assigned to. The UI
+cluster provides the web interface that is used by the final users to check the
+status of their machines. The REPORT servers collect the reports that Puppet
+generates after each run with the details of what it configured or changed
+inside the server. The CRON server runs periodically some scripts needed by
+Foreman to run correctly.
 
 \subsection{Jens and PuppetDb}
 

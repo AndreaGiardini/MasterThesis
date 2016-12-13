@@ -1,22 +1,20 @@
 \section{Configuration Change Process}
 
 Since the deployment of the Puppet infrastructure it was clear that
-a precise and well defined strategy for code changes was needed. Shared
-modules are used my multiple service managers for different type of use
-cases and every time a module needs to be changed we need to be sure that
-it will not break any service. It has to be said that the way CERN is
-using Puppet is not the way it has been designed: modules are not supposed
-to involve so many people but just the responsible for the Puppet
-infrastructure. This makes the change process a bit slower but, on the
-other hand, it allows the computing centre to have a unified library of
-code for Puppet modules. In particular, in the last years, this idea of
-infrastructure showed its limits and its advantages. Starting from the
-advantages, if every team takes care of also maintaining the module of the
-service it is responsible of, the users will be sure to have it configured
-in the optimal way. On the other side, upgrading the modules becomes
-a challenging operation since all the teams need to sync for a module
-update and need to make sure that the change is not breaking any of
-their services.
+a precise and well defined strategy for code changes was needed. Shared modules
+are used by multiple service managers for different type of use cases and every
+time a module needs to be changed we need to be sure that it will not break any
+service. It has to be said that the way CERN is using Puppet is not the way it
+has been designed: modules are not supposed to involve so many people but just
+the responsible for the Puppet infrastructure. This makes the change process
+a bit slower but, on the other hand, it allows the computing centre to have
+a unified library of code for Puppet modules. In particular, in the last years,
+this idea of infrastructure showed its limits and its advantages. Starting from
+the advantages, if every team takes care of also maintaining the module of the
+service it is responsible of, the users will be sure to have it configured in
+the optimal way. On the other side, upgrading the modules becomes a challenging
+operation since all the teams need to sync for a module update and need to make
+sure that the change is not breaking any of their services.
 
 After years of testing and improving the procedure we can definitely say
 that right now the whole process is well tested and works quite well for
