@@ -62,8 +62,8 @@ an experimental approach at CERN}
                 \begin{itemize}
                     \item European Organization for Nuclear Research
                     \item Situated in the border between Switzerland and France
-                    \item 21 Member states
-                    \item Big challenges 
+                    \item 22 Member states
+                    \item Big challenges
                 \end{itemize}
             \end{column}
             \begin{column}{0.5\textwidth}
@@ -82,8 +82,8 @@ an experimental approach at CERN}
             \begin{column}{0.5\textwidth}
                 Two data centers:
                 \begin{itemize}
-                    \item Budapest
                     \item Geneva
+                    \item Budapest
                 \end{itemize}
                 Two dedicated links:
                 \begin{itemize}
@@ -118,8 +118,9 @@ an experimental approach at CERN}
                 \begin{itemize}
                     \item Agile approach was needed
                 \end{itemize}
-                Since a few years we started using Openstack to deploy virtual
-                machines for our users and Puppet to configure the services 
+                Since a few years we started using \textbf{Openstack} to
+                deploy virtual machines for our users and Puppet to
+                configure the services
             \end{column}
             \begin{column}{0.2\textwidth}
                 \includegraphics[width=0.9\textwidth]{openstack-logo512.png}
@@ -142,12 +143,12 @@ an experimental approach at CERN}
     \begin{minipage}[t]{0.95\textwidth}
         \begin{columns}
             \begin{column}{0.5\textwidth}
-                Puppet is an open-source configuration management tool.
+                \textbf{Puppet} is an open-source \textbf{configuration management tool}.
                 It is designed to manage the configuration of Unix-like and Microsoft Windows systems declaratively. \\
                 \begin{itemize}
                     \item Service configuration
                     \item Users/Groups management
-                    \item Automates repetitive taks
+                    \item Automates repetitive tasks
                 \end{itemize}
             \end{column}
             \begin{column}{0.5\textwidth}
@@ -163,10 +164,10 @@ an experimental approach at CERN}
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Package Drifts - Introduction}
+    \frametitle{Package Inventory - Introduction}
     \vspace{10px}
     \begin{minipage}[t]{0.95\textwidth}
-        Package drifts started to be a problem:
+        \textbf{Package drifts} started to be a problem:
         \begin{itemize}
             \item Servers with outdated packages
             \item Difficult to spot
@@ -186,22 +187,22 @@ an experimental approach at CERN}
 
 \subsection{Project Structure}
 \begin{frame}
-    \frametitle{Project Structure}
+    \frametitle{Package Inventory - Project Structure}
     The configuration team needed a tool to query packages over a large
     number of hosts in a timely manner.
 
-    Package Inventory is made by three components:
+    \textbf{Package Inventory} is made by three components:
     \begin{itemize}
         \item Reporter
-        \item Cli
         \item Elasticsearch Cluster
+        \item Cli (Command-line Interface)
     \end{itemize}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Reporter}
+    \frametitle{Package Inventory - Reporter}
 
     Software installed on every server, integrated with Yum using a plugin.
 
@@ -230,11 +231,11 @@ an experimental approach at CERN}
 %------------------------------------------------
 
 \begin{frame}[fragile]
-    \frametitle{Cli}
+    \frametitle{Package Inventory - Command-line Interface}
     \begin{minipage}[t]{0.95\textwidth}
         \begin{columns}
         \begin{column}{0.5\textwidth}
-            The Cli is used by the users to query the metrics that are
+            The \textbf{Cli} is used by the users to query the metrics that are
             stored in the  Elasticsearch cluster.
 
             \begin{itemize}
@@ -243,7 +244,7 @@ an experimental approach at CERN}
                 \item Package version across a set of servers
             \end{itemize}
 
-            Optimized to scale for large queries:
+            \textbf{Optimized to scale for large queries}:
             Query time to compare over twenty hundreds hosts is two minutes.
         \end{column}
         \begin{column}{0.5\textwidth}
@@ -283,7 +284,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}[fragile]
-    \frametitle{Cli}
+    \frametitle{Package Inventory - Command-line Interface}
     \begin{minipage}[t]{0.95\textwidth}
 
         Now that we know which hosts are drifting we can get more details.
@@ -324,7 +325,7 @@ Processing hosts with:
 
 \subsection{Results}
 \begin{frame}
-    \frametitle{Results}
+    \frametitle{Package Inventory - Results}
     \begin{itemize}
         \item Installed in more than \textbf{55 hundreds of servers}
         \item Spotted over \textbf{two hundreds of servers} out of sync
@@ -338,14 +339,14 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Introduction}
+    \frametitle{Continuous Integration - Introduction}
     Shipping changes to production used to be a manual procedure:
     \begin{itemize}
         \item Multiple actions involved
         \item Human error
     \end{itemize}
 
-    The process could had to be automated:
+    The process can be automated:
     \begin{itemize}
         \item Less time wasted
         \item More organization
@@ -356,11 +357,11 @@ Processing hosts with:
 
 \subsection{Project Structure}
 \begin{frame}
-    \frametitle{Project Structure}
+    \frametitle{Continuous Integration - Project Structure}
     \begin{minipage}[t]{0.95\textwidth}
         \begin{columns}
             \begin{column}{0.5\textwidth}
-            Implementation of a Continuous Integration platform using Jenkins
+            Implementation of a Continuous Integration platform using \textbf{Jenkins}
             \begin{itemize}
                 \item Open source software
                 \item Highly customizable
@@ -378,7 +379,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Manual CRM process}
+    \frametitle{Manual configuration change process}
     \smartdiagramset{sequence item border color=black,
         sequence item border size=1pt,
         sequence item font size=\small\sffamily,
@@ -398,7 +399,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Automated CRM Process}
+    \frametitle{Automated configuration change process}
     \smartdiagramset{sequence item border color=black,
         sequence item border size=1pt,
         sequence item font size=\small\sffamily,
@@ -419,7 +420,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Automated CRM Process}
+    \frametitle{Automated configuration change process}
     \smartdiagramset{sequence item border color=black,
         sequence item border size=1pt,
         sequence item font size=\small\sffamily,
@@ -441,7 +442,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Automated CRM Process}
+    \frametitle{Automated configuration change process}
     \smartdiagramset{sequence item border color=black,
         sequence item border size=1pt,
         sequence item font size=\small\sffamily,
@@ -463,7 +464,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Automated CRM Process}
+    \frametitle{Automated configuration change process}
     \smartdiagramset{sequence item border color=black,
         sequence item border size=1pt,
         sequence item font size=\small\sffamily,
@@ -485,7 +486,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Automated CRM Process}
+    \frametitle{Automated configuration change process}
     \smartdiagramset{sequence item border color=black,
         sequence item border size=1pt,
         sequence item font size=\small\sffamily,
@@ -508,7 +509,7 @@ Processing hosts with:
 %------------------------------------------------
 
 \begin{frame}
-    \frametitle{Automated CRM Process}
+    \frametitle{Automated configuration change process}
     \smartdiagramset{sequence item border color=black,
         sequence item border size=1pt,
         sequence item font size=\small\sffamily,
@@ -540,16 +541,16 @@ Processing hosts with:
 
 \subsection{Results}
 \begin{frame}
-    \frametitle{Results}
+    \frametitle{Continuous Integration - Results}
     \begin{itemize}
-        \item Extremely customizable infrastructure
+        \item \textbf{Extremely customizable infrastructure}
         \begin{itemize}
             \item Users can define their tests
             \item Service managers specify how the test server needs to be built
-            \item Tests can be re-triggered with a comment on JIRA or pushing new commits
+            \item Tests can be re-triggered with a comment on GitLab or pushing new commits
         \end{itemize}
+        \item \textbf{Procedure completely automated}
         \item Every service manager is responsible for its Puppet module
-        \item Procedure completely automated
         \item No need for users to learn how to use Jenkins
     \end{itemize}
 \end{frame}
@@ -568,7 +569,7 @@ Processing hosts with:
     Package Inventory has been used to spot several inconsistency and it has
     been used extensively to report several misconfigurations.
 
-    The Continuous integration platform has been used to automate the
+    The Continuous Integration platform has been used to automate the
     deployment of changes to production. Unfortunately, writing meaningful
     tests requires effort: obtaining a fully automated pipeline with complete
     tests will require time.
@@ -578,5 +579,9 @@ Processing hosts with:
 
 \begin{frame}
     \frametitle{Questions}
+
+\begin{center}
+\Huge Questions ?
+\end{center}
 \end{frame}
 \end{document}
